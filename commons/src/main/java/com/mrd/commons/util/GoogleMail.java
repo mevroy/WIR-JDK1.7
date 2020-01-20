@@ -52,7 +52,7 @@ public class GoogleMail {
             String message,
             String from) throws MessagingException {
         // Add a Security Provider
-        Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+        //Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
         boolean debug = debugMode;
 
         // Initialise the config.controller
