@@ -84,7 +84,7 @@
 		<jacksonMapper.version>1.9.2</jacksonMapper.version>
 		<jacksonCore.version>1.9.2</jacksonCore.version>
 		<libphonenumber.version>7.3.2</libphonenumber.version>
-		<pdfbox.version>2.0.2</pdfbox.version>
+		<pdfbox.version>2.0.15</pdfbox.version>
 		<boxable.version>1.4</boxable.version>
 		<mavenDependency.plugin.version>2.4</mavenDependency.plugin.version>
 		<maven.compiler.source>1.7</maven.compiler.source>
