@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.mrd.framework.data.BaseService;
+import com.mrd.yourwebproject.model.entity.GroupMember;
 import com.mrd.yourwebproject.model.entity.GroupWorkInstructionRecord;
 import com.mrd.yourwebproject.model.entity.User;
 
@@ -21,5 +22,6 @@ public interface GroupWorkInstructionRecordService extends BaseService<GroupWork
 	public List<GroupWorkInstructionRecord> findByGroupCode(String groupCode);
 	public ByteArrayOutputStream prefillPDF(GroupWorkInstructionRecord groupWorkInstructionRecord) throws IOException;
 	public ByteArrayOutputStream prefillPDFTest(GroupWorkInstructionRecord groupWorkInstructionRecord) throws IOException;
+	public List<GroupWorkInstructionRecord> findByGroupCodeAndGroupMemeber(String groupCode, GroupMember groupMember);
 
 }

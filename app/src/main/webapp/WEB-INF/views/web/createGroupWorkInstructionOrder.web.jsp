@@ -17,14 +17,14 @@
 			<div class="row">
 				<div class="col-lg-5">
 					<div class="form-group" id="clientIdCtl">
-						<label class="control-label" for="clientName">Client </label>
+						<label class="control-label" for="clientId">Client </label>
 
 						<div class="controls">
 							<div class="input-group">
 								<form:select path="groupClient.clientId" data-live-search="true"
-									cssClass="form-control" id="clientId"
+									cssClass="form-control selectpicker" id="clientId"
 									onchange="buildAddress(this.value, 'addressId'); buildContact(this.value, 'clientContactId');"
-									placeholder="Client Name" />
+									placeholder="Select Client" />
 								<div class="input-group-addon">
 									<span><a href="addClientData"><i
 											class="glyphicon glyphicon-plus"></i></a></span>
@@ -38,11 +38,17 @@
 							Address </label>
 
 						<div class="controls">
+						<div class="input-group">
 							<form:select path="groupAddress.addressId"
-								data-live-search="true" cssClass="form-control" id="addressId"
+								data-live-search="true" cssClass="form-control selectpicker" id="addressId"
 								placeholder="Site Address">
 								<option value="">Select One</option>
 							</form:select>
+															<div class="input-group-addon">
+									<span><a href="loadClientData?clientId=" onclick="addClientId(this);"><i
+											class="glyphicon glyphicon-plus"></i></a></span>
+								</div>
+						</div>	
 						</div>
 					</div>
 					<div class="form-group" id="clientContactIdCtl">
@@ -50,11 +56,17 @@
 							for="groupClientContact.clientContactId">Contact </label>
 
 						<div class="controls">
+						<div class="input-group">
 							<form:select path="groupClientContact.clientContactId"
-								data-live-search="true" cssClass="form-control"
+								data-live-search="true" cssClass="form-control selectpicker"
 								id="clientContactId" placeholder="Contact">
 								<option value="">Select One</option>
 							</form:select>
+							<div class="input-group-addon">
+									<span><a href="loadClientData?clientId=" onclick="addClientId(this);"><i
+											class="glyphicon glyphicon-plus"></i></a></span>
+								</div>
+						</div>
 						</div>
 					</div>
 					<!-- 		<div class="form-group" id="jobNumberCtl">
@@ -224,10 +236,27 @@
 						<div class="controls">
 							<form:textarea path="additionalRequirements"
 								cssClass="form-control" id="additionalRequirements"
-								placeholder="Additional Requirements" rows="5" />
+								placeholder="Additional Requirements" rows="3" />
 						</div>
 					</div>
+					<div class="form-group" id="serialNumberCtl">
+						<label class="control-label"
+							for="groupMember.serialNumber">Assigned To </label>
 
+						<div class="controls">
+						<div class="input-group">
+							<form:select path="groupMember.serialNumber"
+								data-live-search="true" cssClass="form-control selectpicker"
+								id="serialNumber" placeholder="User">
+								<option value="">Select One</option>
+							</form:select>
+							<div class="input-group-addon">
+									<span><a href="addGroupMemberGIES"><i
+											class="glyphicon glyphicon-plus"></i></a></span>
+								</div>
+						</div>
+						</div>
+					</div>
 				</div>
 
 			</div>
@@ -440,9 +469,9 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<form:hidden path="group.id" id="group.id" readonly="true" />
-					<input class="btn btn-primary btn-block btn-lg" type="submit"
-						value="SUBMIT" /> <a
-						href="${pageContext.request.contextPath}/${sessionScope.groupCode}/"
+					<input class="btn btn-primary btn-block btn-lg" type="submit" onclick="return $('#groupWorkInstructionRecord').valid();"
+						value="SUBMIT"/> <a
+						href="#" onclick="showAlert(''); return false;"
 						class="btn btn-default btn-block btn-lg">CANCEL</a>
 				</div>
 			</div>
@@ -453,18 +482,15 @@
 	</div>
 
 </div>
-
 <script type="text/javascript">
 	$(document).ready(
 			function() {
-				$("#groupMember").validate(
+				$("#groupWorkInstructionRecord").validate(
 						{
 							rules : {
-								firstName : {
-									required : true
-								},
-								lastName : {
-									required : false
+							
+								clientContactId : {
+									requiredCheck : true
 								},
 								primaryEmail : {
 									required : true,
@@ -486,16 +512,15 @@
 								paidMembershipAmount : {
 									number : true
 								},
-								memberCategoryCode : {
-									required : true
+								orderNumber : {
+									required : false
 								}
 							},
 							messages : {
 
 							},
 							errorPlacement : function(error, element) {
-								error.appendTo(element.parent("div").parent(
-										"div"));
+								error.appendTo(element.parent("div").parent("div"));
 							},
 							errorClass : "control-group has-error text-danger",
 							validClass : "control-group has-success",
@@ -526,13 +551,15 @@
 													validClass);
 								}
 							}
-						})
+						});
+
 
 			});
 
 	$(function() {
 		buildClients('clientId');
 		buildTestMethods('testMethod');
+		buildUsers('serialNumber');
 		//buildAcceptanceCriteria('acceptanceCriteria');
 		//buildTestMethodStandards('testStandard');
 		
@@ -548,4 +575,28 @@
 		hideById('moreDetails' + division);
 		division = division - 1;
 	}
+	
+	function showAlert(formId){
+		alert($('select#clientId').val());
+	}
+
+	function addClientId(element){
+	    $(element).attr('href', function() {
+	    	if($('select#clientId').val() === "0") {
+	    		return this.href="addClientData"
+	    	}
+	        return this.href + $('select#clientId').val();
+	    });
+	}
+	$.validator.addMethod("requiredCheck", function(value, element) {
+		var success = false;
+		var val = $('#clientContactId').val();
+		alert($('#clientContactId').val());
+		
+		if(typeof val!== 'undefined' && val !=='0')
+		{success = true;}
+		return success;
+	},  jQuery.validator.format("This is required")); 
+	
 </script>
+

@@ -73,7 +73,7 @@
 							<c:when
 								test="${sessionScope.user ne null || not empty sessionScope.user}">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome,
-									${user.userName}<b class="caret"></b>
+									${user.name}<b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu">
 									<li><a href="logoutUser">Logout</a></li>

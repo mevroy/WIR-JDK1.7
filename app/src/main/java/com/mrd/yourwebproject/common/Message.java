@@ -14,6 +14,7 @@ public class Message {
     public @Value("Registration failed due to errors.") String registerError;
     public @Value("<strong>Welcome back!</strong> You have successfully logged into your <Your-Web-Project> account.") String loginSuccess;
     public @Value("Login failed due to errors.") String loginError;
+    public @Value("You are not authorised to use this system") String loginBlocked;
     public @Value("Please click the link sent in an email to you for verifying your email id.") String resendEmail;
     public @Value("<strong>Congratulations!</strong> We have successfully verified your email id.") String emailCnfSuccess;
     public @Value("Username already taken") String userExists;

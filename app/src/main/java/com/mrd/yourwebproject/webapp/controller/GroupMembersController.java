@@ -85,6 +85,17 @@ public class GroupMembersController extends BaseWebAppController {
 		return "addGroupMember";
 	}
 
+	@RequestMapping(value = { "/addGroupMemberGIES" }, method = RequestMethod.GET)
+	public String addGroupMemberGIES(Locale locale, Model model,
+			@PathVariable String groupCode) {
+		GroupMember gm = new GroupMember();
+		gm.setGroupCode(groupCode);
+		gm.setAddress(new Address());
+		model.addAttribute("groupMember", gm);
+		return "addGroupMemberGIES";
+	}
+
+	
 	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN,
 			Role.SUPER_USER, Role.ANONYMOUS })
 	@RequestMapping(value = { "/loadGroupMember" }, method = RequestMethod.GET)
@@ -224,6 +235,16 @@ public class GroupMembersController extends BaseWebAppController {
 		return "viewGroupMembers";
 	}
 
+	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN
+			})
+	@RequestMapping(value = "/viewAllGroupMemberGIES", method = RequestMethod.GET)
+	public String viewAllGroupMemberGIES(Locale locale, Model model,
+			@PathVariable String groupCode) {
+		List<GroupMemberCategory> groupMemberCategories = groupMemberCategoryService
+				.findByGroupCode(groupCode);
+		model.addAttribute("groupMemberCategories", groupMemberCategories);
+		return "viewGroupMembersGIES";
+	}
 	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN,
 			Role.SUPER_USER })
 	@RequestMapping(value = "/loadScanGroupMember", method = RequestMethod.GET)
@@ -609,6 +630,18 @@ public class GroupMembersController extends BaseWebAppController {
 		return groupMembers;
 	}
 
+	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN })
+	@RequestMapping(value = "/json/viewAllActiveGroupMembers", method = RequestMethod.GET)
+	public @ResponseBody List<GroupMember> viewAllgroupMembersByGroupCodeJson(
+			Locale locale, Model model,
+			@PathVariable("groupCode") String groupCode
+			) {
+		logger.info("GroupCode in json:" + groupCode);
+		List<GroupMember> groupMembers = new ArrayList<GroupMember>();
+			groupMembers = groupMembersService.findByGroupCodeWithStatus(groupCode, false);
+		return groupMembers;
+	}
+	
 	@RequestMapping(value = "/json/viewUnInvitedGroupMembers/{groupEventCode}/{memberCategoryCode}", method = RequestMethod.GET)
 	public @ResponseBody List<GroupMember> viewUnInvitedGroupMembersByGroupEventCodeAndMemberCategoryCodeJson(
 			Locale locale, Model model,

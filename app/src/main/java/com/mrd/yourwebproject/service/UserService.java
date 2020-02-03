@@ -4,6 +4,8 @@ import com.mrd.framework.data.BaseService;
 import com.mrd.framework.exception.database.NotFoundException;
 import com.mrd.yourwebproject.model.entity.User;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -78,6 +80,7 @@ public interface UserService extends BaseService<User, Long> {
      */
     public User findByUsername(String username) throws NotFoundException;
     
+//    public List<User> findUsersByGroupCode(String groupCode);
     
     public User findByUsernameAndGroupCode(String username, String groupCode,boolean enableFilter) throws NotFoundException;
 }

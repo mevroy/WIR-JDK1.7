@@ -1,5 +1,7 @@
 package com.mrd.yourwebproject.model.repository;
 
+import java.util.List;
+
 import com.mrd.framework.data.BaseJpaRepository;
 import com.mrd.yourwebproject.model.entity.User;
 
@@ -29,4 +31,7 @@ public interface UserRepository extends BaseJpaRepository<User, Long> {
     public User findByUsername(String username);
     
     public User findByUsernameAndGroupCode(String username, String groupCode, boolean enableFilter);
+    
+  //  public List<User> findUsersByGroupCode(String groupCode);
+
 }

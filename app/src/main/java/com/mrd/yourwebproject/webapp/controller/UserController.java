@@ -150,14 +150,20 @@ public class UserController extends BaseWebAppController {
 					// Update the login count and other info
 					userService.loginUser(user, request);
 					// smsApiService.sendSmsNotification("0481370821", "Hello Mevan");
-
+                    user.setName(user.getUserName());
 					// Store the user in session
+                    boolean loginAllowed = true;
 					if (StringUtils.isNotBlank(user.getSerialNumber())) {
 						try {
 							GroupMember gm = groupMembersService.findById(user.getSerialNumber());
 							user.setName(gm.getFirstName() + " " + gm.getLastName());
+							loginAllowed = CommonUtils.isValidDates(gm.getMembershipStartDate(), gm.getMembershipEndDate()) ;
 						} catch (Exception e) {
 						}
+					}
+					if(!loginAllowed) {
+						addError(msg.loginBlocked, model);
+						return "login";
 					}
 					request.getSession(true).setAttribute(Key.user, user);
 					// The main links are removed so that pre-login links go away and the new set of

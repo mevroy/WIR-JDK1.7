@@ -1,176 +1,150 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<div class="row">
-<div class="span12">
-<div class="hero-unit">
-    <form:form commandName="registerUserForm" id="registerUserForm" action="registerUser" method="post" >
-        <fieldset>
-
-           
+<div class="jumbotron">
            <h2>Sign Up as a user!</h2>
-           <br/>
-            
+	<br />
+	<div class="span12">
+		<div class="row">
+    <form:form commandName="registerUserForm" id="registerUserForm" action="registerUser" method="post" >
+				<div class="col-lg-5">
+					<div class="form-group" id="usernameCtl">
+						<label class="control-label" for="username">User Name</label>
 
-            <div class="span5">
-                <div class="control-group" id="usernameCtl">
-                    <label class="control-label" for="username">Username</label>
+						<div class="controls">
+							<form:input path="username" cssClass="form-control"
+								id="username" placeholder="Enter User Name" />
+						</div>
+					</div>
+					<div class="form-group" id="passwordCtl">
+						<label class="control-label" for="password">Password</label>
 
-                    <div class="controls">
-                        
-                        <form:input path="username" id="username" cssClass="input-xlarge"/>
-                        
-                    </div>
-                </div>
+						<div class="controls">
+							<form:password path="password" cssClass="form-control" id="password"
+								placeholder="Enter Password" />
+						</div>
+					</div>
+					<div class="form-group" id="confirmCtl">
+						<label class="control-label" for="confirm">Confirm Password </label>
 
-                <div class="control-group" id="passwordCtl">
-                    <label class="control-label" for="password">Password</label>
+						<div class="controls">
+							<form:input path="confirm" cssClass="form-control"
+								id="confirm" placeholder="Confirm Password" />
+						</div>
+					</div>
+					</div>
+					<div class="col-lg-offset-2 col-lg-5">
+					<div class="form-group" id="emailCtl">
+						<label class="control-label" for="email">Email</label>
 
-                    <div class="controls">
-                       <form:password path="password" cssClass="input-xlarge" id="password"/>
-                    </div>
-                </div>
+						<div class="controls">
+							<div class="input-group">
+								<form:input path="email" cssClass="form-control"
+									id="email" placeholder="Enter Email" />
+								<div class="input-group-addon">
+									<span><i class="glyphicon glyphicon-envelope"></i></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group" id="mobileCtl">
+						<label class="control-label" for="mobile">Mobile No.</label>
 
-                <div class="control-group" id="confirmCtl">
-                    <label class="control-label" for="confirm">Confirm Password</label>
+						<div class="controls">
+							<div class="input-group">
+								<form:input path="mobile" cssClass="form-control"
+									id="mobile" placeholder="Enter Mobile Phone Number" />
+								<div class="input-group-addon">
+									<span><i class='glyphicon glyphicon-phone'></i></span>
+								</div>
+							</div>
+						</div>
+					</div>
 
-                    <div class="controls">
-                       <form:password path="confirm" cssClass="input-xlarge" id="confirm"/>
-                    </div>
-                </div>
 
-                <div class="control-group" id="emailCtl">
-                    <label class="control-label" for="email">Email</label>
+				</div>
 
-                    <div class="controls">
-                      <form:input path="email" cssClass="input-xlarge" id="email"/>
-                    </div>
-                </div>
+				
 
-                <div class="control-group" id="mobileCtl">
-                    <label class="control-label" for="mobile">Mobile</label>
-
-                    <div class="controls">
-                        <form:input path="mobile" cssClass="input-xlarge" id="mobile"/>
-                    </div>
-                </div>
-
-            </div>
-            <div class="span5">
-                <div class="control-group" id="companyNameCtl">
-                    <label class="control-label" for="companyName">Company</label>
-
-                    <div class="controls">
-                  <form:input path="companyName" cssClass="input-xlarge" id="companyName"/>
-                    </div>
-                </div>
-
-                <div class="control-group" id="streetAddressCtl">
-                    <label class="control-label" for="streetAddress">Street Address</label>
-
-                    <div class="controls">
-                   <form:input path="streetAddress" cssClass="input-xlarge" id="streetAddress"/>
-                    </div>
-                </div>
-
-                <div class="control-group" id="cityCtl">
-                    <label class="control-label" for="city">City</label>
-
-                    <div class="controls">
-                       <form:input path="city" cssClass="input-xlarge" id="city"/>
-                    </div>
-                </div>
-
-                <div class="control-group" id="stateCtl">
-                    <label class="control-label" for="state">State</label>
-
-                    <div class="controls">
-                     <form:input path="state" cssClass="input-xlarge" id="state"/>
-                    </div>
-                </div>
-
-                <div class="control-group" id="countryCtl">
-                    <label class="control-label" for="country">Country</label>
-
-                    <div class="controls">
-                        <form:input path="country" cssClass="input-xlarge" id="country"/>
-                    </div>
-                </div>
-
-                <div class="control-group" id="postalCodeCtl">
-                    <label class="control-label" for="postalCode">Postal Code</label>
-
-                    <div class="controls">
-                       <form:input path="postalCode" cssClass="input-xlarge" id="postalCode"/>
-                    </div>
-                </div>
-				<form:hidden path="serialNumber" id="serialNumber"/>
-                <input class="btn btn-primary btn-large" type="submit" value="Register"/>
-                <a href="${pageContext.request.contextPath}/" class="btn btn-large">Cancel</a>
-
-            </div>
-        </fieldset>
-    </form:form>
-    </div>
-    </div>
+				<div class="col-lg-12">
+					<form:hidden path="serialNumber" id="serialNumber"/>
+					<input class="btn btn-primary btn-block btn-lg" type="submit"
+						value="SUBMIT" /> <a
+						href="${pageContext.request.contextPath}/${sessionScope.groupCode}/"
+						class="btn btn-default btn-block btn-lg">CANCEL</a>
+				</div>
+			</form:form>
+		</div>
+	</div>
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        $("#registerUserForm").validate({
-            rules:{
-                username:{
-                    required:true,
-                    minlength:6,
-                    maxlength:15
-                },
-                password:{
-                    required:true,
-                    minlength:6
-                },
-                confirm:{
-                    equalTo:'#password'
-                },
-                email:{
-                    required:true,
-                    email:true,
-                    maxlength:35
-                },
-                mobile:{
-                    required:true,
-                    digits:true,
-                    maxlength:10
-                },
-                streetAddress:{
-                    required:true,
-                    maxlength:50
-                },
-                city:{
-                    required:true
-                },
-                postalCode:{
-                    required:true,
-                    digits:true
-                }
+	$(document).ready(
+			function() {
+							$("#registerUserForm").validate({
+					            rules:{
+					                username:{
+					                    required:true,
+					                    minlength:6,
+					                    maxlength:15
+					                },
+					                password:{
+					                    required:true,
+					                    minlength:6
+					                },
+					                confirm:{
+					                    equalTo:'#password'
+					                },
+					                email:{
+					                    required:true,
+					                    email:true,
+					                    maxlength:35
+					                },
+					                mobile:{
+					                    required:false,
+					                    digits:true,
+					                    maxlength:10
+					                }
 
-            },
-            errorClass:"control-group error",
-            validClass:"control-group success",
-            errorElement:"span",
-            highlight:function (element, errorClass, validClass) {
-                if (element.type === 'radio') {
-                    this.findByName(element.name).parent("div").parent("div").removeClass(validClass).addClass(errorClass);
-                } else {
-                    $(element).parent("div").parent("div").removeClass(validClass).addClass(errorClass);
-                }
-            },
-            unhighlight:function (element, errorClass, validClass) {
-                if (element.type === 'radio') {
-                    this.findByName(element.name).parent("div").parent("div").removeClass(errorClass).addClass(validClass);
-                } else {
-                    $(element).parent("div").parent("div").removeClass(errorClass).addClass(validClass);
-                }
-            }
-        });
-    });
+					            },
+							messages : {
+
+							},
+							errorPlacement : function(error, element) {
+								error.appendTo(element.parent("div").parent(
+										"div"));
+							},
+							errorClass : "control-group has-error text-danger",
+							validClass : "control-group has-success",
+							errorElement : "span",
+							highlight : function(element, errorClass,
+									validClass) {
+								if (element.type === 'radio') {
+									this.findByName(element.name).parent("div")
+											.parent("div").removeClass(
+													validClass).addClass(
+													errorClass);
+								} else {
+									$(element).parent("div").parent("div")
+											.removeClass(validClass).addClass(
+													errorClass);
+								}
+							},
+							unhighlight : function(element, errorClass,
+									validClass) {
+								if (element.type === 'radio') {
+									this.findByName(element.name).parent("div")
+											.parent("div").removeClass(
+													errorClass).addClass(
+													validClass);
+								} else {
+									$(element).parent("div").parent("div")
+											.removeClass(errorClass).addClass(
+													validClass);
+								}
+							}
+						})
+
+			});
+
 </script>

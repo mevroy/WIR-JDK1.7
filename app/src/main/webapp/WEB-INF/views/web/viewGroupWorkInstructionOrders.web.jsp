@@ -38,7 +38,7 @@
 		jQuery("#" + gridId)
 				.jqGrid(
 						{
-							url : 'json/viewGroupWorkInstructionRecords',
+							url : 'json/viewGroupWorkInstructionRecords<c:if test="${!editable}">Self</c:if>',
 							datatype : "json",
 							colModel : [
 									{
@@ -51,9 +51,9 @@
 										formatter : 'actions',
 										formatoptions : {
 											keys : true,
-											editbutton: true,
+											editbutton: ${editable},
 											delbutton : false,
-										editformbutton: true,
+										editformbutton: ${editable},
 //  											delOptions : {
 // 												ajaxDelOptions : {
 // 													// url: "deleteGroupMember",
@@ -110,12 +110,12 @@
 									},
 									{
 										label : 'Client',
-										name : 'clientName',
-										index : 'clientName',
+										name : 'groupClient.clientName',
+										index : 'groupClient.clientName',
 										sorttype : "string",
 										//frozen : true,
 										width : 100,
-										editable : true,
+										editable : false,
 										searchoptions : {
 											sopt : [ 'bw', 'eq', 'bn', 'cn',
 													'nc', 'ew', 'en' ]
@@ -200,8 +200,36 @@
 										width : 140,
 										editable : true,
 										editrules : {
+											required: false,
 											email : true
 										}
+									},
+									{
+										label : 'Assigned To',
+										name : 'groupMember.serialNumber',
+										index : 'groupMember.serialNumber',
+											sorttype : "string",
+											hidden : false,
+											width : 100,
+											formatter: function(cellValue, options, rowObject) {
+												return rowObject.groupMember.firstName + ' '+ rowObject.groupMember.lastName
+											},
+											editable : true,
+											edittype : 'select',
+											editoptions : {
+												dataUrl : 'json/viewAllGroupMembers',
+												buildSelect : function(response) {
+													var options = '<select>';
+													var j = $.parseJSON(response);
+													for (var i = 0; i < j.length; i++) {
+														options += '<option value="' + j[i].serialNumber+'">'
+																+ j[i].firstName +' '+ j[i].lastName
+																+ '</option>';
+													}
+													options += '</select>';
+													return options;
+												}
+											}
 									},
 									{
 										label : 'Mobile Phone',
@@ -327,9 +355,9 @@
 																formatter : 'actions',
 																formatoptions : {
 																	keys : true,
-																	editbutton: true,
+																	editbutton: ${editable},
 																	delbutton : false,
-																editformbutton: true,
+																editformbutton: ${editable},
 																	editOptions : {
 																		url : 'json/updateGroupWorkItem',
 																		height : 580,
@@ -500,7 +528,9 @@
 										.jqGrid(
 												'navGrid',
 												"#" + pager_id,
-												{del:false}, //options
+												{del:false, 
+												add:false, 
+												edit:false}, //add , or edit or delete option flags
 												{
 													height : 400,
 													width : 420,

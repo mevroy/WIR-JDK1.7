@@ -79,7 +79,7 @@
 						<div class="form-group">
 							<form:hidden path="clientId" id="clientId" />
 							<button class="btn btn-primary btn-lg btn-block has-spinner"
-								type="submit" onclick="return $('#groupMember').valid();"
+								type="submit" onclick="return $('#groupClient').valid();"
 								data-loading-text="<span class='spinner'><i class='icon-spin glyphicon glyphicon-repeat'></i></span> Loading..">SAVE
 								AND CONTINUE</button>
 						</div>
@@ -102,21 +102,14 @@
 					format : "dd/mm/yyyy"
 				});
 
-				$("#groupMember").validate(
+				$("#groupClient").validate(
 						{
 							rules : {
-								firstName : {
+								clientName : {
 									required : true
 								},
-								lastName : {
-									required : false
-								},
-								primaryEmail : {
-									required : true,
+								email : {
 									email : true
-								},
-								mobilephone : {
-									required : true
 								}
 							},
 							errorPlacement : function(error, element) {

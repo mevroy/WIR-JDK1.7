@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mrd.commons.util.CommonUtils;
 import com.mrd.framework.data.BaseJpaServiceImpl;
 import com.mrd.yourwebproject.common.Props;
+import com.mrd.yourwebproject.model.entity.GroupMember;
 import com.mrd.yourwebproject.model.entity.GroupWorkInstructionRecord;
 import com.mrd.yourwebproject.model.entity.GroupWorkItems;
 import com.mrd.yourwebproject.model.entity.User;
@@ -144,7 +145,7 @@ public class GroupWorkInstructionRecordServiceImpl extends BaseJpaServiceImpl<Gr
 
 	public ByteArrayOutputStream prefillPDF(GroupWorkInstructionRecord groupWorkInstructionRecord)
 			throws IOException {
-		float fontSize = 10;
+		float fontSize = 9;
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		if (groupWorkInstructionRecord == null)
 			return output;
@@ -275,6 +276,11 @@ public class GroupWorkInstructionRecordServiceImpl extends BaseJpaServiceImpl<Gr
 		pdfDocument.save(output);
 		pdfDocument.close();
 		return output;
+	}
+
+	@Override
+	public List<GroupWorkInstructionRecord> findByGroupCodeAndGroupMemeber(String groupCode, GroupMember groupMember) {
+		return groupWorkInstructionRecordRepository.findByGroupCodeAndGroupMemeber(groupCode, groupMember);
 	}
 
 }

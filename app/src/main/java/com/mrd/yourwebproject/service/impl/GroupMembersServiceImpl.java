@@ -76,6 +76,10 @@ public class GroupMembersServiceImpl extends BaseJpaServiceImpl<GroupMember, Str
 		return groupMembersRespoistory.findByGroupCode(groupCode);
 	}
 
+	public List<GroupMember> findByGroupCodeWithStatus(String groupCode, boolean includeExpired) {
+		return groupMembersRespoistory.findByGroupCodeWithStatus(groupCode, includeExpired);
+	}
+
 	public List<GroupMember> executeGenericQuery(String hibernateQuery) {
 		return groupMembersRespoistory.executeGenericQuery(hibernateQuery);
 	}

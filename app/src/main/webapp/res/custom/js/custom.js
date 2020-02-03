@@ -346,6 +346,37 @@ function buildGroupMemberCategoriesOptions(htmlSelectId) {
  * $("select#"+htmlSelectId).removeAttr("disabled"); }, dataType : 'json', async :
  * true }); }
  */
+function buildUsers(htmlSelectId) {
+	var $select = $("select#" + htmlSelectId);
+	$select.attr("disabled", "disabled");
+	$.ajax({
+		type : 'GET',
+		url : "json/viewAllActiveGroupMembers",
+		success : function(jsonData) {
+			$select.html('');
+			var $defaultOption = $("<option>", {
+				text : 'Select One',
+				value : '0'
+			});
+			$defaultOption.appendTo($select);
+				$.each(jsonData, function(j, option) {
+					var $option = $("<option>", {
+						text : option.firstName+" "+option.lastName,
+						value : option.serialNumber
+					});
+					$option.appendTo($select);
+				});
+
+			$select.removeAttr("disabled");
+			$select.selectpicker("refresh");
+
+		},
+		dataType : 'json',
+		async : true
+	});
+}
+
+
 function buildClients(htmlSelectId) {
 	var $select = $("select#" + htmlSelectId);
 	$select.attr("disabled", "disabled");
@@ -368,6 +399,8 @@ function buildClients(htmlSelectId) {
 				});
 
 			$select.removeAttr("disabled");
+			$select.selectpicker("refresh");
+
 		},
 		dataType : 'json',
 		async : true
@@ -399,6 +432,8 @@ function buildContact(clientId, htmlSelectId) {
 				});
 
 			$select.removeAttr("disabled");
+			$select.selectpicker("refresh");
+
 		},
 		dataType : 'json',
 		async : true
@@ -430,6 +465,8 @@ function buildAddress(clientId, htmlSelectId) {
 				});
 
 			$select.removeAttr("disabled");
+			$select.selectpicker("refresh");
+
 		},
 		dataType : 'json',
 		async : true

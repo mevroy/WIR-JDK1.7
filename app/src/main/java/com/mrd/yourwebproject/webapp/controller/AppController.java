@@ -1,5 +1,8 @@
 package com.mrd.yourwebproject.webapp.controller;
 
+import java.util.Locale;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,8 +17,6 @@ import com.mrd.yourwebproject.model.entity.enums.Role;
 import com.mrd.yourwebproject.service.GroupsService;
 import com.mrd.yourwebproject.webapp.common.Route;
 import com.mrd.yourwebproject.webapp.common.View;
-
-import java.util.Locale;
 
 /**
  * App central controller to render home page
@@ -35,6 +36,15 @@ public class AppController extends BaseWebAppController {
 	public String home(Locale locale, Model model,
 			@PathVariable("groupCode") String groupCode) {
 
+		try {
+		Groups group = groupsService.findByGroupCode(groupCode);
+		if(group != null && StringUtils.isNotBlank(group.getHomePageContent())) {
+			return "redirect:loadContent?contentId="+group.getHomePageContent(); 
+		}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 		return View.home;
 	}
 

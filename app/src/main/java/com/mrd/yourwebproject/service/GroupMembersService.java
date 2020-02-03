@@ -40,4 +40,5 @@ public interface GroupMembersService extends BaseService<GroupMember, String> {
 	
 	public ByteArrayOutputStream prefillPDFTest1(GroupMember groupMember) throws IOException ;
 	
+	List<GroupMember> findByGroupCodeWithStatus(String groupCode, boolean includeExpired);
 }
