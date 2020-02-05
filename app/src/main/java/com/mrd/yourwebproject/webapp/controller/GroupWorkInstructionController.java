@@ -366,6 +366,9 @@ public class GroupWorkInstructionController extends BaseWebAppController {
 			gwir.setSuitableAccess(groupWorkInstructionRecord.isSuitableAccess());
 			gwir.setUpdatedAt(Calendar.getInstance().getTime());
 			gwir.setGroupMember(groupWorkInstructionRecord.getGroupMember());
+			if("0".equals(groupWorkInstructionRecord.getGroupMember().getSerialNumber())) {
+				gwir.setGroupMember(null);
+			}
 			gwir.setUpdatedBy(this.getloggedInUser().getName());
 			groupWorkInstructionRecordService.update(gwir);
 		} catch (Exception e) {
@@ -439,7 +442,7 @@ public class GroupWorkInstructionController extends BaseWebAppController {
 	
 	@RequestMapping(value = "/saveGroupWorkInstructionRecord", method = RequestMethod.POST)
 	public String saveGroupWorkInstructionRecord(Model model, Locale locale,
-			@ModelAttribute("groupWorkInstructionRecord") GroupWorkInstructionRecord groupWorkInstructionRecord,@PathVariable String groupCode) {
+			@ModelAttribute("groupWorkInstructionRecord") GroupWorkInstructionRecord groupWorkInstructionRecord,@PathVariable String groupCode) throws Exception {
 		try {
 			List<GroupWorkItems> gwi = new ArrayList<GroupWorkItems>();
 			for (GroupWorkItems gw : groupWorkInstructionRecord.getGroupWorkItems()) {
@@ -457,12 +460,24 @@ public class GroupWorkInstructionController extends BaseWebAppController {
 					.retrieveAndLockReferenceData(ORDER_REF + String.valueOf(CommonUtils.currentYear()))
 					.getReferenceDataString());*/
 			groupWorkInstructionRecord.setGroupWorkItems(gwi);
+			if("0".equals(groupWorkInstructionRecord.getGroupMember().getSerialNumber())) {
+			groupWorkInstructionRecord.setGroupMember(null);;
+			}
+			
+			if("0".equals(groupWorkInstructionRecord.getGroupClientContact().getClientContactId())) {
+			groupWorkInstructionRecord.setGroupClientContact(null);
+			}
+			
+			if("0".equals(groupWorkInstructionRecord.getGroupAddress().getAddressId())) {
+			groupWorkInstructionRecord.setGroupAddress(null);			
+			}
+			
 			groupWorkInstructionRecord.setClientName(groupClientService.findById(groupWorkInstructionRecord.getGroupClient().getClientId()).getClientName());
 			groupWorkInstructionRecord.setCreatedBy(this.getloggedInUser().getName());
 			groupWorkInstructionRecordService.insert(groupWorkInstructionRecord);
 		} catch (Exception e) {
 			e.printStackTrace();
-			addError("An error occured suring processing", model);
+			addError("An error occured suring processing. Please ensure required inputs are provided", model);
 			try {
 				return groupInstructionRecord(model, groupCode, "");
 			} catch (Exception e1) {
@@ -470,7 +485,7 @@ public class GroupWorkInstructionController extends BaseWebAppController {
 				e1.printStackTrace();
 			}
 		}
-		return "viewGroupWorkInstructionRecords";
+		return this.viewGroupWorkInstructionRecords(model, groupCode);
 	}
 
 }

@@ -111,6 +111,11 @@ public class GroupMembersServiceImpl extends BaseJpaServiceImpl<GroupMember, Str
 			String emailAddress, String groupCode) {
 		return groupMembersRespoistory.findByAssociatedEmailForGroupMember(emailAddress, groupCode);
 	}
+	
+	public List<GroupMember> findByAssociatedEmailForGroupMemberAndDependents(
+			String emailAddress, String groupCode) {
+		return groupMembersRespoistory.findByAssociatedEmailForGroupMemberAndDependents(emailAddress, groupCode);
+	}
 
 	public  ByteArrayOutputStream prefillPDF(GroupMember groupMember) throws IOException {
 	    ByteArrayOutputStream output = new ByteArrayOutputStream(); 
@@ -725,6 +730,7 @@ public class GroupMembersServiceImpl extends BaseJpaServiceImpl<GroupMember, Str
 
 		return facts;
 	}
+
 	
 	
 	

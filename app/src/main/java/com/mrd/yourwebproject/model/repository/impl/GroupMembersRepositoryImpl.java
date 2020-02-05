@@ -59,6 +59,11 @@ public class GroupMembersRepositoryImpl extends BaseHibernateJpaRepository<Group
 	}
 
 	public List<GroupMember> findByAssociatedEmailForGroupMember(String emailAddress, String groupCode) {
+		return (List<GroupMember>) sessionFactory.getCurrentSession().createQuery("from GroupMember g where g.groupCode = ? and (g.primaryEmail like :emailAddress or g.otherEmail like :emailAddress)").setString(0,
+                groupCode).setString("emailAddress", "%"+emailAddress+"%").list();
+	}
+
+	public List<GroupMember> findByAssociatedEmailForGroupMemberAndDependents(String emailAddress, String groupCode) {
 		return (List<GroupMember>) sessionFactory.getCurrentSession().createQuery("select distinct g from GroupMember g, GroupDependents gd where g.groupCode = ? and ((g.primaryEmail like :emailAddress or g.otherEmail like :emailAddress) or (g.serialNumber=gd.groupMember.serialNumber and gd.email like :emailAddress))").setString(0,
                 groupCode).setString("emailAddress", "%"+emailAddress+"%").list();
 	}

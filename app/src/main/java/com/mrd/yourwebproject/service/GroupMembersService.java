@@ -32,6 +32,8 @@ public interface GroupMembersService extends BaseService<GroupMember, String> {
 	
 	public List<GroupMember> findByAssociatedEmailForGroupMember(String emailAddress, String groupCode);
 	
+	public List<GroupMember> findByAssociatedEmailForGroupMemberAndDependents(String emailAddress, String groupCode);
+
 	public ByteArrayOutputStream prefillPDF(GroupMember groupMember) throws IOException;
 	
 	public ByteArrayOutputStream prefillDefinedPDF(GroupMember groupMember, String httpPath) throws IOException;

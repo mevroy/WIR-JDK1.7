@@ -84,6 +84,7 @@ public class GroupWorkInstructionRecord extends JpaEntity<Long> implements Seria
 	
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinColumn(name = "serialNumber")
 	private GroupMember groupMember;
 	

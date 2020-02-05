@@ -4,6 +4,7 @@
 package com.mrd.yourwebproject.webapp.controller;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -60,6 +61,7 @@ public class GroupEmailAccountController extends BaseWebAppController {
 			return "addGroupEmailAccount";
 		}
 		try {
+			groupEmailAccount.setPassword(Base64.getEncoder().encodeToString(groupEmailAccount.getPassword().getBytes()));
 			mailSenderUntypedActor.sendTestEmail(getloggedInUser(),
 					groupEmailAccount);
 		} catch (MailAuthenticationException e) {

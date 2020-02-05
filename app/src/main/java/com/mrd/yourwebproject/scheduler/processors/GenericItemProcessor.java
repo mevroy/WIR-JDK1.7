@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.mrd.yourwebproject.actor.MailSenderActor;
 import com.mrd.yourwebproject.actor.MailSenderUntypedActor;
 import com.mrd.yourwebproject.model.entity.GroupDependents;
 import com.mrd.yourwebproject.model.entity.GroupEmail;
@@ -28,6 +27,9 @@ import com.mrd.yourwebproject.model.entity.GroupEventInviteRSVP;
 import com.mrd.yourwebproject.model.entity.GroupEventPass;
 import com.mrd.yourwebproject.model.entity.GroupEvents;
 import com.mrd.yourwebproject.model.entity.GroupMember;
+import com.mrd.yourwebproject.model.entity.GroupSMS;
+import com.mrd.yourwebproject.model.entity.GroupSMSTemplate;
+import com.mrd.yourwebproject.model.entity.GroupWorkInstructionRecord;
 import com.mrd.yourwebproject.model.entity.enums.EmailActivity;
 import com.mrd.yourwebproject.service.GroupEmailActivityService;
 import com.mrd.yourwebproject.service.GroupEmailTemplateService;
@@ -36,6 +38,9 @@ import com.mrd.yourwebproject.service.GroupEventInviteRSVPService;
 import com.mrd.yourwebproject.service.GroupEventInviteService;
 import com.mrd.yourwebproject.service.GroupEventPassesService;
 import com.mrd.yourwebproject.service.GroupEventsService;
+import com.mrd.yourwebproject.service.GroupSMSService;
+import com.mrd.yourwebproject.service.GroupSMSTemplateService;
+import com.mrd.yourwebproject.service.GroupWorkInstructionRecordService;
 
 /**
  * EmailRetrievalItemProcessor
@@ -58,10 +63,15 @@ public class GenericItemProcessor implements
 	private @Autowired GroupEmailsService groupEmailsService;
 	private @Autowired GroupEventPassesService groupEventPassesService;
 	private @Autowired GroupEmailActivityService groupEmailActivityService;
-
+	private @Autowired GroupWorkInstructionRecordService groupWorkInstructionRecordService;
+	private @Autowired GroupSMSTemplateService groupSMSTemplateService;
+	private @Autowired GroupSMSService groupSMSService;
 	@Value("#{jobParameters['templateName']}")
 	private String templateName;
-
+	
+	@Value("#{jobParameters['smsTemplateName']}")
+	private String smsTemplateName;
+	
 	@Value("#{jobParameters['runId']}")
 	private String runId;
 
@@ -100,7 +110,14 @@ public class GenericItemProcessor implements
 			throw new Exception(
 					"Unable to locate a template for Template Name:"
 							+ templateName);
+		
+		GroupSMSTemplate gSMSTemplate = null;
+		if(StringUtils.isNotBlank(smsTemplateName)) {
+		 gSMSTemplate = groupSMSTemplateService.findbyTemplateName(smsTemplateName);
+		 model.put("groupSMSTemplate", gSMSTemplate);
+		}
 		GroupEmail groupEmail = new GroupEmail();
+		GroupSMS groupSMS = new GroupSMS();
 		String eventCode = gEmailTemplate.getGroupEventCode();
 		if (!StringUtils.isBlank(groupEventCode)) {
 			eventCode = groupEventCode;
@@ -128,8 +145,12 @@ public class GenericItemProcessor implements
 			}
 			model.put("groupEvent", gevents);
 		}
-
-		groupEmail.setEmailAddress(groupMember.getPrimaryEmail());
+        List<GroupWorkInstructionRecord> gwir = groupWorkInstructionRecordService.findByGroupCodeAndGroupMemeber(groupMember.getGroupCode(), groupMember);
+		if(gwir !=null && gwir.size()>0) {
+			model.put("groupWorkInstructionRecord", gwir.get(0));
+			model.put("groupWorkInstructionRecords", gwir);
+		}
+        groupEmail.setEmailAddress(groupMember.getPrimaryEmail());
 		groupEmail.setBccEmailAddress(groupMember.getOtherEmail());
 		String ccEmail = "";
 		for (GroupDependents groupDependents : groupMember.getGroupDependents()) {
@@ -176,6 +197,9 @@ public class GenericItemProcessor implements
 		// Map<String, Object> map = new HashMap<String, Object>();
 		// map.put(groupMember.getSerialNumber(), newEmail);
 
+		if(gSMSTemplate != null) {
+			groupSMSService.createSMS(groupSMS, model);
+		}
 		return newEmail;
 	}
 

@@ -86,6 +86,16 @@
 							</div>
 						</div>
 
+							<div class="control-group" id="commentsCtl">
+								<label class="control-label" for="comments">Comments</label>
+
+								<div class="controls">
+
+									<form:textarea path="comments" cssClass="input-xlarge"
+										id="comments" placeholder="Enter Comments" />
+
+								</div>
+							</div>
 					</div>
 
 
@@ -173,18 +183,21 @@
 									</form:select>
 								</div>
 							</div>
-
-
-							<div class="control-group" id="commentsCtl">
-								<label class="control-label" for="comments">Comments</label>
+							<div class="control-group" id="smsTemplateNameCtl">
+								<label class="control-label" for="smsTemplateName">SMS
+									Template Name</label>
 
 								<div class="controls">
 
-									<form:textarea path="comments" cssClass="input-xlarge"
-										id="comments" placeholder="Enter Comments" />
 
+									<form:select path="smsTemplateName" cssClass="input-xlarge"
+										id="smsTemplateName">
+										<option value="">Select One</option>
+									</form:select>
 								</div>
 							</div>
+
+
 						</div>
 
 
@@ -272,6 +285,7 @@
 		buildGroupMemberCategoriesOptions('memberCategoryCode');
 		buildGroupEventsOptionsByMemberCategory("NULL","groupEventCode");
 		buildGroupEmailTemplateOptionsByEventCode("NULL",'templateName');
+		buildGroupSMSTemplateOptionsByEventCode("NULL",'smsTemplateName');
 	});
 
 

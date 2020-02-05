@@ -509,63 +509,11 @@ public class GroupEventInviteController extends BaseWebAppController {
 					modelMap.put("groupEventInvite", groupEventInvite);
 					modelMap.put("groupEvent", grpEvent);
 					modelMap.put("groupSMSTemplate", gSMSTemplate);
-					for (String phoneNumber : CommonUtils.convertStringToList(
-							groupMember.getMobilephone(), ",")) {
-						if (CommonUtils.isValidPhoneNumber(phoneNumber, "AU")) {
-							GroupSMS groupSMS = new GroupSMS();
-
-							groupSMS.setCreatedAt(new Date());
-							/* set the body to Template name intermittently */
-							groupSMS.setBody(templateName);
-							groupSMS.setMobileNumber(phoneNumber);
-							groupSMS.setSmsAccountCode(groupCode);
-							groupSMS.setGroupCode(groupCode);
-							groupSMS.setGroupMember(groupMember);
-							groupSMS.setGroupEventInviteId(groupEventInvite
-									.getGroupEventInviteId());
-							Date smsExpdate = grpEvent.getExpiryDate();
-							if (groupEventInvite.getInviteExpiryDate() != null
-									&& smsExpdate != null
-									&& smsExpdate.after(groupEventInvite
-											.getInviteExpiryDate())) {
-								smsExpdate = groupEventInvite
-										.getInviteExpiryDate();
-							}
-							groupSMS.setSmsExpirydate(smsExpdate);
-							Date smsStartDate = groupEventInvite
-									.getInviteStartDate();
-							if (smsStartDate != null && smsExpdate != null
-									&& smsStartDate.after(smsExpdate)) {
-								smsStartDate = new DateTime(
-										smsExpdate.getTime()).minusDays(45)
-										.toDate();
-							}
-							groupSMS.setSmsingDate(smsStartDate);
-							if (inviteStartDate != null
-									&& inviteStartDate.after(new Date()))
-								groupSMS.setSmsingDate(inviteStartDate);
-							/*
-							 * Intermittently set the hold email to true so that
-							 * Other batches dont pick the email when the body
-							 * is actually set as the template name
-							 */
-							groupSMS.setSmsHeld(true);
-							GroupSMS newSMS = groupSMSService.insert(groupSMS);
-							modelMap.put("groupSMS", groupSMS);
-							newSMS.setBody(smsSenderUntypedActor
-									.prepareSMSBody(templateName, modelMap));
-							newSMS.setSmsHeld(groupEventInvite.isInviteHeld());
-							newSMS.setUpdatedAt(Calendar.getInstance()
-									.getTime());
-							groupSMSService.insertOrUpdate(newSMS);
-
-						} else {
-							logger.info("Invalid Phone number - " + phoneNumber
-									+ " for :" + groupMember.getFirstName()
-									+ " " + groupMember.getLastName());
-						}
-					}
+					modelMap.put("user", this.getloggedInUser());
+					GroupSMS gSMS = new GroupSMS();
+					if(groupSMSService.createSMS(gSMS, modelMap) !=null) {
 					invites.add(groupEventInvite);
+					}
 				} else {
 					logger.info("Skipping this invite "
 							+ groupEventInvite.getGroupEventCode()

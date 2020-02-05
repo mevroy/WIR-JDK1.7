@@ -356,7 +356,7 @@ function buildUsers(htmlSelectId) {
 			$select.html('');
 			var $defaultOption = $("<option>", {
 				text : 'Select One',
-				value : '0'
+				value : null
 			});
 			$defaultOption.appendTo($select);
 				$.each(jsonData, function(j, option) {

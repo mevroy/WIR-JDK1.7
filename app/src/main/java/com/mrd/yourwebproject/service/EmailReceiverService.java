@@ -32,6 +32,7 @@ import com.mrd.yourwebproject.model.entity.GroupEmailTemplate;
 import com.mrd.yourwebproject.model.entity.GroupEventInvite;
 import com.mrd.yourwebproject.model.entity.GroupEvents;
 import com.mrd.yourwebproject.model.entity.GroupMember;
+import com.mrd.yourwebproject.model.entity.GroupWorkInstructionRecord;
 import com.mrd.yourwebproject.model.entity.enums.EmailActivity;
 
 /**
@@ -47,7 +48,7 @@ public class EmailReceiverService {
 	private @Autowired GroupEmailsService groupEmailsService;
 	private @Autowired GroupEmailTemplateService groupEmailTemplateService;
 	private @Autowired GroupEmailActivityService groupEmailActivityService;
-
+    private @Autowired GroupWorkInstructionRecordService groupWorkInstructionRecordService;
 	/**
 	 * Return the primary text content of the message.
 	 */
@@ -109,7 +110,7 @@ public class EmailReceiverService {
 		List<GroupMember> groupMembers = groupMemebersService
 				.findByAssociatedEmailForGroupMember(
 						((InternetAddress) mimeMessage.getFrom()[0])
-								.getAddress(), "MKC");
+								.getAddress(), "GIE");
 
 		for (GroupMember groupMember : groupMembers) {
 			if (StringUtils.isNotBlank(groupMember.getMemberCategoryCode())
@@ -138,7 +139,11 @@ public class EmailReceiverService {
 				GroupEmail groupEmail = new GroupEmail();
 				// DOnt send membership email to evryone. Just to the one who
 				// asked for it.
-
+		        List<GroupWorkInstructionRecord> gwir = groupWorkInstructionRecordService.findByGroupCodeAndGroupMemeber(groupMember.getGroupCode(), groupMember);
+				if(gwir !=null && gwir.size()>0) {
+					model.put("groupWorkInstructionRecord", gwir.get(0));
+					model.put("groupWorkInstructionRecords", gwir);
+				}
 				groupEmail.setEmailAddress(((InternetAddress) mimeMessage
 						.getFrom()[0]).getAddress());
 				/*

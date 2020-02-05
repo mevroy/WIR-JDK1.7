@@ -212,14 +212,15 @@
 											hidden : false,
 											width : 100,
 											formatter: function(cellValue, options, rowObject) {
-												return rowObject.groupMember.firstName + ' '+ rowObject.groupMember.lastName
+												return rowObject.groupMember!= null ? rowObject.groupMember.firstName + ' '+ rowObject.groupMember.lastName : ""
 											},
 											editable : true,
 											edittype : 'select',
 											editoptions : {
-												dataUrl : 'json/viewAllGroupMembers',
+												dataUrl : 'json/viewAllActiveGroupMembers',
 												buildSelect : function(response) {
 													var options = '<select>';
+													options += '<option value="0">Select One</option>';
 													var j = $.parseJSON(response);
 													for (var i = 0; i < j.length; i++) {
 														options += '<option value="' + j[i].serialNumber+'">'
@@ -273,15 +274,15 @@
 										//sorttype : "date",
 										hidden : false,
 										editable : false
-									},
-									{
-										label : 'Created By',
-										name : 'createdBy',
-										index : 'createdBy',
-										sorttype : "string",
-										hidden : true,
-										editable : false
-									},
+ 									},
+// 									{
+// 										label : 'Created By',
+// 										name : 'createdBy',
+// 										index : 'createdBy',
+// 										sorttype : "string",
+// 										hidden : true,
+// 										editable : false
+// 									},
 									{
 										label : 'ID',
 										name : 'id',
