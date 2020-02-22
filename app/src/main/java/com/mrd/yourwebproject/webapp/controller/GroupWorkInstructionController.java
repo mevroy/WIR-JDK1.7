@@ -86,6 +86,8 @@ public class GroupWorkInstructionController extends BaseWebAppController {
 
 		}
 		model.addAttribute("groupWorkInstructionRecord", groupWorkInstructionRecord);
+		model.addAttribute("groupClientContact", new GroupClientContact());
+		model.addAttribute("groupAddress", new GroupAddress());
 		return "groupWorkInstructionRecord";
 	}
 
@@ -254,7 +256,9 @@ public class GroupWorkInstructionController extends BaseWebAppController {
 					gcc.setUpdatedBy(this.getloggedInUser().getName());
 				} else {
 					gcc = groupClientContact;
+					if(StringUtils.isBlank(gcc.getClientId())) {
 					gcc.setClientId(clientId);
+					}
 					gcc.setGroup(groupsService.findByGroupCode(groupCode));
 					gcc.setCreatedBy(this.getloggedInUser().getName());
 					gcc.setClientContactId(null);
@@ -444,37 +448,105 @@ public class GroupWorkInstructionController extends BaseWebAppController {
 	public String saveGroupWorkInstructionRecord(Model model, Locale locale,
 			@ModelAttribute("groupWorkInstructionRecord") GroupWorkInstructionRecord groupWorkInstructionRecord,@PathVariable String groupCode) throws Exception {
 		try {
+			if(groupWorkInstructionRecord.getId()!=null && groupWorkInstructionRecord.getId()>0) {
+				GroupWorkInstructionRecord gwir = groupWorkInstructionRecordService
+						.findById(groupWorkInstructionRecord.getId());
+				gwir.setClientName(gwir.getGroupClient().getClientName());
+				
+				if(StringUtils.isBlank(groupWorkInstructionRecord.getGroupMember().getSerialNumber())) {
+					gwir.setGroupMember(null);;
+					}
+				else {
+					gwir.setGroupMember(groupWorkInstructionRecord.getGroupMember());
+				}
+				if(StringUtils.isBlank(groupWorkInstructionRecord.getGroupClientContact().getClientContactId())) {
+					gwir.setGroupClientContact(null);
+					}
+				else {
+					gwir.setGroupClientContact(groupWorkInstructionRecord.getGroupClientContact());
+	
+					}
+					
+				if(StringUtils.isBlank(groupWorkInstructionRecord.getGroupAddress().getAddressId())) {
+					gwir.setGroupAddress(null);			
+					}
+				else {
+					gwir.setGroupAddress(groupWorkInstructionRecord.getGroupAddress());			
+
+				}	
+				if(StringUtils.isBlank(groupWorkInstructionRecord.getGroupClientOfficeAddress().getAddressId())) {
+					gwir.setGroupClientOfficeAddress(null);			
+					}		
+				else {
+					gwir.setGroupClientOfficeAddress(groupWorkInstructionRecord.getGroupClientOfficeAddress());			
+
+				}
+
+					
+					
+				gwir.setAdditionalRequirements(groupWorkInstructionRecord.getAdditionalRequirements());
+				gwir.setEmail(groupWorkInstructionRecord.getEmail());
+				gwir.setEwpAccessEquipment(groupWorkInstructionRecord.isEwpAccessEquipment());
+				gwir.setJobEnd(groupWorkInstructionRecord.getJobEnd());
+				gwir.setJobStart(groupWorkInstructionRecord.getJobStart());
+				gwir.setTravelStart(groupWorkInstructionRecord.getTravelStart());
+				gwir.setTravelEnd(groupWorkInstructionRecord.getTravelEnd());
+				gwir.setMaterial(groupWorkInstructionRecord.getMaterial());
+				gwir.setMobilePhone(groupWorkInstructionRecord.getMobilePhone());
+				gwir.setPower(groupWorkInstructionRecord.isPower());
+				gwir.setSuitableAccess(groupWorkInstructionRecord.isSuitableAccess());
+				gwir.setUpdatedAt(Calendar.getInstance().getTime());
+
+				gwir.setUpdatedBy(this.getloggedInUser().getName());
+				groupWorkInstructionRecordService.update(gwir);
+			}
+			else {
+			if(StringUtils.isBlank(groupWorkInstructionRecord.getGroupClient().getClientId())) {
+				addError("Please ensure you choose a client to proceed!", model);
+				return groupInstructionRecord(model, groupCode, "");
+
+			}
 			List<GroupWorkItems> gwi = new ArrayList<GroupWorkItems>();
 			for (GroupWorkItems gw : groupWorkInstructionRecord.getGroupWorkItems()) {
 				if (StringUtils.isNotBlank(gw.getTestMethod())) {
 					gwi.add(gw);
 				}
 			}
-			groupWorkInstructionRecord.setJobNumber(groupReferenceDataService
-					.retrieveAndLockReferenceData(JOB_REF + String.valueOf(CommonUtils.currentYear()))
-					.getReferenceDataString());
+
 /*			groupWorkInstructionRecord.setQuoteNumber(groupReferenceDataService
 					.retrieveAndLockReferenceData(QUOTE_REF + String.valueOf(CommonUtils.currentYear()))
 					.getReferenceDataString());
 			groupWorkInstructionRecord.setOrderNumber(groupReferenceDataService
 					.retrieveAndLockReferenceData(ORDER_REF + String.valueOf(CommonUtils.currentYear()))
 					.getReferenceDataString());*/
+			groupWorkInstructionRecord.setJobNumber(CommonUtils.generateRandomString(6, 6));
 			groupWorkInstructionRecord.setGroupWorkItems(gwi);
-			if("0".equals(groupWorkInstructionRecord.getGroupMember().getSerialNumber())) {
+			if(StringUtils.isBlank(groupWorkInstructionRecord.getGroupMember().getSerialNumber())) {
 			groupWorkInstructionRecord.setGroupMember(null);;
 			}
 			
-			if("0".equals(groupWorkInstructionRecord.getGroupClientContact().getClientContactId())) {
+			if(StringUtils.isBlank(groupWorkInstructionRecord.getGroupClientContact().getClientContactId())) {
 			groupWorkInstructionRecord.setGroupClientContact(null);
 			}
 			
-			if("0".equals(groupWorkInstructionRecord.getGroupAddress().getAddressId())) {
+			if(StringUtils.isBlank(groupWorkInstructionRecord.getGroupAddress().getAddressId())) {
 			groupWorkInstructionRecord.setGroupAddress(null);			
 			}
-			
+			if(StringUtils.isBlank(groupWorkInstructionRecord.getGroupClientOfficeAddress().getAddressId())) {
+			groupWorkInstructionRecord.setGroupClientOfficeAddress(null);			
+			}			
 			groupWorkInstructionRecord.setClientName(groupClientService.findById(groupWorkInstructionRecord.getGroupClient().getClientId()).getClientName());
 			groupWorkInstructionRecord.setCreatedBy(this.getloggedInUser().getName());
-			groupWorkInstructionRecordService.insert(groupWorkInstructionRecord);
+			//To Wait for any pre-processing to happen, set the created time as null so as to the job wont pick up.
+			groupWorkInstructionRecord.setCreatedAt(null);
+			groupWorkInstructionRecord = groupWorkInstructionRecordService.insert(groupWorkInstructionRecord);
+			
+			groupWorkInstructionRecord.setCreatedAt(Calendar.getInstance().getTime());
+			groupWorkInstructionRecord.setJobNumber(groupReferenceDataService
+					.retrieveAndLockReferenceData(JOB_REF + String.valueOf(CommonUtils.currentYear()))
+					.getReferenceDataString());
+			groupWorkInstructionRecordService.update(groupWorkInstructionRecord);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			addError("An error occured suring processing. Please ensure required inputs are provided", model);

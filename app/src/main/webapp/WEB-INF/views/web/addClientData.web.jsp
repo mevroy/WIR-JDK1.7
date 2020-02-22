@@ -5,18 +5,18 @@
 
 <div id="1">
 	<div class="jumbotron">
-		<h2>Add Client</h2>
 
-		<div class="row">
-			<div>
+		<div>
 
 
-				<form:form commandName="groupClient" action="groupClient"
-					method="post" id="groupClient">
-
+			<form:form commandName="groupClient" action="groupClient"
+				method="post" id="groupClient">
+				<h2>Client</h2>
+				<div class="row">
 					<div class="col-lg-5">
 						<div class="form-group" id="clientNameCtl">
-							<label class="control-label" for="clientName">Client Name</label>
+							<label class="control-label" for="clientName">Client
+								Business Name</label>
 
 							<div class="controls">
 								<form:input path="clientName" cssClass="form-control"
@@ -74,6 +74,143 @@
 							</div>
 						</div>
 					</div>
+				</div>
+				<h3>Address <span><a id="address-plus-sign"  href="#" onclick="showById('newAddress'); hideById('address-plus-sign'); showById('address-minus-sign');"><i
+											class="glyphicon glyphicon-plus-sign"></i></a><a style="display: none;" id="address-minus-sign"  href="#" onclick="hideById('newAddress'); hideById('address-minus-sign'); showById('address-plus-sign');"><i
+											class="glyphicon glyphicon-minus-sign"></i></a></span></h3>
+
+				<div class="row" id="newAddress" style="display: none;">
+
+					<div class="col-lg-5">
+						<div class="form-group" id="addressTypeCtl">
+							<label class="control-label" for="addressType">AddressType</label>
+
+							<div class="controls">
+								<form:select path="groupAddress[0].addressType"
+									cssClass="form-control" id="addressType"
+									placeholder="Enter Address Type">
+									<form:option value="">Select One</form:option>
+									<form:option value="RESIDENCE">RESIDENCE</form:option>
+									<form:option value="OFFICE">OFFICE</form:option>
+									<form:option value="MAILING">MAILING</form:option>
+									<form:option value="SITE">SITE</form:option>
+									<form:option value="OTHER">OTHER</form:option>
+								</form:select>
+							</div>
+						</div>
+						<div class="form-group" id="poBoxCtl">
+							<label class="control-label" for="poBox">PO BOX</label>
+
+							<div class="controls">
+								<form:input path="groupAddress[0].poBox" cssClass="form-control"
+									id="poBox" placeholder="Enter PO Box" />
+							</div>
+						</div>
+						<div class="form-group" id="streetAddressCtl">
+							<label class="control-label" for="streetAddress">StreetAddress</label>
+
+							<div class="controls">
+								<form:input path="groupAddress[0].streetAddress"
+									cssClass="form-control" id="streetAddress"
+									placeholder="Enter Street Address" />
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-offset-2 col-lg-5">
+
+						<div class="form-group" id="suburbCtl">
+							<label class="control-label" for="suburb">Suburb</label>
+
+							<div class="controls">
+								<form:input path="groupAddress[0].suburb"
+									cssClass="form-control" id="suburb" placeholder="Enter Suburb" />
+
+							</div>
+						</div>
+
+						<div class="form-group" id="stateCtl">
+							<label class="control-label" for="state">State</label>
+
+							<div class="controls">
+								<form:input path="groupAddress[0].state" cssClass="form-control"
+									id="state" placeholder="Enter State" />
+							</div>
+						</div>
+
+						<div class="form-group" id="zipCodeCtl">
+							<label class="control-label" for="zipCode">ZIP</label>
+
+							<div class="controls">
+								<form:input path="groupAddress[0].zipCode"
+									cssClass="form-control" id="zipCode"
+									placeholder="Enter ZIP code" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<h3>Contact <span><a id="contact-plus-sign" href="#" onclick="showById('newContact'); hideById('contact-plus-sign'); showById('contact-minus-sign');"><i
+											class="glyphicon glyphicon-plus-sign"></i></a><a style="display: none;" href="#" id="contact-minus-sign" onclick="hideById('newContact'); hideById('contact-minus-sign'); showById('contact-plus-sign')"><i
+											class="glyphicon glyphicon-minus-sign"></i></a></span></h3>
+				<div class="row" id="newContact" style="display: none;">
+
+					<div class="col-lg-5">
+						<div class="form-group" id="firstNameCtl">
+							<label class="control-label" for="firstName">Contact
+								First Name</label>
+
+							<div class="controls">
+								<form:input path="groupClientContact[0].firstName"
+									cssClass="form-control" id="firstName"
+									placeholder="Enter First Name" />
+							</div>
+						</div>
+						<div class="form-group" id="lastNameCtl">
+							<label class="control-label" for="lastName">Contact Last
+								Name</label>
+
+							<div class="controls">
+								<form:input path="groupClientContact[0].lastName"
+									cssClass="form-control" id="lastName"
+									placeholder="Enter Last Name" />
+							</div>
+						</div>
+
+
+					</div>
+					<div class="col-lg-offset-2 col-lg-5">
+
+						<div class="form-group" id="mobilephoneCtl">
+							<label class="control-label" for="mobilephone">Mobile No.</label>
+
+							<div class="controls">
+								<div class="input-group">
+									<form:input path="groupClientContact[0].mobilephone"
+										cssClass="form-control" id="mobilephone"
+										placeholder="Enter Mobile Phone Number" />
+									<div class="input-group-addon">
+										<span><i class='glyphicon glyphicon-phone'></i></span>
+
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group" id="emailCtl">
+							<label class="control-label" for="email">Email</label>
+
+							<div class="controls">
+								<div class="input-group">
+									<form:input path="groupClientContact[0].email"
+										cssClass="form-control" id="email" placeholder="Enter Email" />
+									<div class="input-group-addon">
+										<span><i class="glyphicon glyphicon-envelope"></i></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="row">
 
 					<div class="col-lg-12">
 						<div class="form-group">
@@ -81,15 +218,15 @@
 							<button class="btn btn-primary btn-lg btn-block has-spinner"
 								type="submit" onclick="return $('#groupClient').valid();"
 								data-loading-text="<span class='spinner'><i class='icon-spin glyphicon glyphicon-repeat'></i></span> Loading..">SAVE
-								AND CONTINUE</button>
+								AND CREATE WIR</button>
 						</div>
 					</div>
 
+				</div>
 
 
 
-				</form:form>
-			</div>
+			</form:form>
 		</div>
 	</div>
 </div>

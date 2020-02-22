@@ -8,12 +8,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-
-
-
-
-
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -30,13 +24,9 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-
-
-
-
-
-
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -71,8 +61,6 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	@Column(name = "serialNumber", unique = true, updatable = false)
 	private String serialNumber;
 
-
-	
 	@Column
 	@NotNull
 	@NotBlank
@@ -126,7 +114,7 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	@Column
 	private int kidCount;
 
-	@Column 
+	@Column
 	@DateTimeFormat(pattern = "dd-MM-yyyy'T'hh:mm")
 	private Date membershipStartDate;
 
@@ -143,7 +131,7 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	@Valid
 	private Address address;
 
-	@Column(insertable = true, updatable = false, unique = true )
+	@Column(insertable = true, updatable = false, unique = true)
 	private String securityCode;
 
 	@Column
@@ -152,13 +140,12 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	@Column
 	private double paidMembershipAmount;
 
-
 	@Column
 	private Date birthday;
-	
-	@Column(unique = true) 
+
+	@Column(unique = true)
 	private String membershipIdentifier;
-	
+
 	@Transient
 	private boolean activeMember;
 
@@ -171,35 +158,41 @@ public class GroupMember extends NoIDEntity implements Serializable {
 
 	@Column(nullable = true)
 	private Date lastTransactionDate;
-	
-	@Column( nullable = true)
+
+	@Column(nullable = true)
 	private String comments;
-	
-	@Column (nullable = true)
+
+	@Column(nullable = true)
 	private String externalMembershipIdentifier;
-	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "groupId")
-	private Groups group;
+
+//	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//	@JoinColumn(name = "groupId")
+//	@ManyToOne(fetch = FetchType.EAGER)
+//	@LazyCollection(LazyCollectionOption.FALSE)
+//	@JoinColumn(name = "groupId")
+//	private Groups group;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "groupMemberCategoryId")
 	private GroupMemberCategory groupMemberCategory;
 
-/*	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = GroupEmail.class)
-	@JoinColumn(name = "serialNumber", referencedColumnName = "serialNumber")
-	private List<GroupEmail> groupEmails;*/
+	/*
+	 * @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity =
+	 * GroupEmail.class)
+	 * 
+	 * @JoinColumn(name = "serialNumber", referencedColumnName = "serialNumber")
+	 * private List<GroupEmail> groupEmails;
+	 */
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = GroupDependents.class)
 	@JoinColumn(name = "serialNumber", referencedColumnName = "serialNumber")
 	private List<GroupDependents> groupDependents;
-	
-	
+
 	/**
 	 * @return the activeMember
 	 */
 	public boolean isActiveMember() {
-		 return membershipEndDate!=null && Calendar.getInstance().getTime().before(membershipEndDate);
+		return membershipEndDate != null && Calendar.getInstance().getTime().before(membershipEndDate);
 	}
 
 	/**
@@ -247,8 +240,7 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	}
 
 	/**
-	 * @param firstName
-	 *            the firstName to set
+	 * @param firstName the firstName to set
 	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
@@ -262,8 +254,7 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	}
 
 	/**
-	 * @param middleName
-	 *            the middleName to set
+	 * @param middleName the middleName to set
 	 */
 	public void setMiddleName(String middleName) {
 		this.middleName = middleName;
@@ -277,8 +268,7 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	}
 
 	/**
-	 * @param lastName
-	 *            the lastName to set
+	 * @param lastName the lastName to set
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
@@ -292,8 +282,7 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	}
 
 	/**
-	 * @param aliasName
-	 *            the aliasName to set
+	 * @param aliasName the aliasName to set
 	 */
 	public void setAliasName(String aliasName) {
 		this.aliasName = aliasName;
@@ -307,8 +296,7 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	}
 
 	/**
-	 * @param groupCode
-	 *            the groupCode to set
+	 * @param groupCode the groupCode to set
 	 */
 	public void setGroupCode(String groupCode) {
 		this.groupCode = groupCode;
@@ -322,8 +310,7 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	}
 
 	/**
-	 * @param adultCount
-	 *            the adultCount to set
+	 * @param adultCount the adultCount to set
 	 */
 	public void setAdultCount(int adultCount) {
 		this.adultCount = adultCount;
@@ -337,8 +324,7 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	}
 
 	/**
-	 * @param kidCount
-	 *            the kidCount to set
+	 * @param kidCount the kidCount to set
 	 */
 	public void setKidCount(int kidCount) {
 		this.kidCount = kidCount;
@@ -352,8 +338,7 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	}
 
 	/**
-	 * @param primaryEmail
-	 *            the primaryEmail to set
+	 * @param primaryEmail the primaryEmail to set
 	 */
 	public void setPrimaryEmail(String primaryEmail) {
 		this.primaryEmail = primaryEmail;
@@ -367,8 +352,7 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	}
 
 	/**
-	 * @param otherEmail
-	 *            the otherEmail to set
+	 * @param otherEmail the otherEmail to set
 	 */
 	public void setOtherEmail(String otherEmail) {
 		this.otherEmail = otherEmail;
@@ -382,8 +366,7 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	}
 
 	/**
-	 * @param mobilephone
-	 *            the mobilephone to set
+	 * @param mobilephone the mobilephone to set
 	 */
 	public void setMobilephone(String mobilephone) {
 		this.mobilephone = mobilephone;
@@ -397,8 +380,7 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	}
 
 	/**
-	 * @param otherPhone
-	 *            the otherPhone to set
+	 * @param otherPhone the otherPhone to set
 	 */
 	public void setOtherPhone(String otherPhone) {
 		this.otherPhone = otherPhone;
@@ -412,8 +394,7 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	}
 
 	/**
-	 * @param numberOfDependants
-	 *            the numberOfDependants to set
+	 * @param numberOfDependants the numberOfDependants to set
 	 */
 	public void setNumberOfDependants(int numberOfDependants) {
 		this.numberOfDependants = numberOfDependants;
@@ -427,8 +408,7 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	}
 
 	/**
-	 * @param membershipStartDate
-	 *            the membershipStartDate to set
+	 * @param membershipStartDate the membershipStartDate to set
 	 */
 	public void setMembershipStartDate(Date membershipStartDate) {
 		this.membershipStartDate = membershipStartDate;
@@ -442,8 +422,7 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	}
 
 	/**
-	 * @param membershipEndDate
-	 *            the membershipEndDate to set
+	 * @param membershipEndDate the membershipEndDate to set
 	 */
 	public void setMembershipEndDate(Date membershipEndDate) {
 		this.membershipEndDate = membershipEndDate;
@@ -457,8 +436,7 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	}
 
 	/**
-	 * @param memberCategoryCode
-	 *            the memberCategoryCode to set
+	 * @param memberCategoryCode the memberCategoryCode to set
 	 */
 	public void setMemberCategoryCode(String memberCategoryCode) {
 		this.memberCategoryCode = memberCategoryCode;
@@ -472,8 +450,7 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	}
 
 	/**
-	 * @param securityCode
-	 *            the securityCode to set
+	 * @param securityCode the securityCode to set
 	 */
 
 	public void setSecurityCode(String securityCode) {
@@ -481,14 +458,13 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	}
 
 	/*	*//**
-	 * @return the users
-	 */
+			 * @return the users
+			 */
 	/*
 	 * public List<User> getUsers() { return users; }
 	 *//**
-	 * @param users
-	 *            the users to set
-	 */
+		 * @param users the users to set
+		 */
 	/*
 	 * public void setUsers(List<User> users) { this.users = users; }
 	 */
@@ -501,8 +477,7 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	}
 
 	/**
-	 * @param paidMember
-	 *            the paidMember to set
+	 * @param paidMember the paidMember to set
 	 */
 	public void setPaidMember(boolean paidMember) {
 		this.paidMember = paidMember;
@@ -516,8 +491,7 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	}
 
 	/**
-	 * @param paidMembershipAmount
-	 *            the paidMembershipAmount to set
+	 * @param paidMembershipAmount the paidMembershipAmount to set
 	 */
 	public void setPaidMembershipAmount(double paidMembershipAmount) {
 		this.paidMembershipAmount = paidMembershipAmount;
@@ -531,27 +505,23 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	}
 
 	/**
-	 * @param primaryEmailVerified
-	 *            the primaryEmailVerified to set
+	 * @param primaryEmailVerified the primaryEmailVerified to set
 	 */
 	public void setPrimaryEmailVerified(boolean primaryEmailVerified) {
 		this.primaryEmailVerified = primaryEmailVerified;
 	}
 
-	/**
-	 * @return the group
-	 */
-	public Groups getGroup() {
-		return group;
-	}
-
-	/**
-	 * @param group
-	 *            the group to set
-	 */
-	public void setGroup(Groups group) {
-		this.group = group;
-	}
+	/*	*//**
+			 * @return the group
+			 */
+	/*
+	 * public Groups getGroup() { return group; }
+	 * 
+	 *//**
+		 * @param group the group to set
+		 *//*
+			 * public void setGroup(Groups group) { this.group = group; }
+			 */
 
 	/**
 	 * @return the groupMemberCategory
@@ -561,8 +531,7 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	}
 
 	/**
-	 * @param groupMemberCategory
-	 *            the groupMemberCategory to set
+	 * @param groupMemberCategory the groupMemberCategory to set
 	 */
 	public void setGroupMemberCategory(GroupMemberCategory groupMemberCategory) {
 		this.groupMemberCategory = groupMemberCategory;
@@ -637,7 +606,5 @@ public class GroupMember extends NoIDEntity implements Serializable {
 	public void setExternalMembershipIdentifier(String externalMembershipIdentifier) {
 		this.externalMembershipIdentifier = externalMembershipIdentifier;
 	}
-
-
 
 }

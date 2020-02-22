@@ -348,6 +348,7 @@ function buildGroupMemberCategoriesOptions(htmlSelectId) {
  */
 function buildUsers(htmlSelectId) {
 	var $select = $("select#" + htmlSelectId);
+	var selectedValue = $("select#" + htmlSelectId).val();
 	$select.attr("disabled", "disabled");
 	$.ajax({
 		type : 'GET',
@@ -356,13 +357,18 @@ function buildUsers(htmlSelectId) {
 			$select.html('');
 			var $defaultOption = $("<option>", {
 				text : 'Select One',
-				value : null
+				value : ''
 			});
 			$defaultOption.appendTo($select);
 				$.each(jsonData, function(j, option) {
+					select = false;
+					if(option.serialNumber === selectedValue) {
+						select = true;
+					}
 					var $option = $("<option>", {
 						text : option.firstName+" "+option.lastName,
-						value : option.serialNumber
+						value : option.serialNumber,
+						selected: select
 					});
 					$option.appendTo($select);
 				});
@@ -379,6 +385,7 @@ function buildUsers(htmlSelectId) {
 
 function buildClients(htmlSelectId) {
 	var $select = $("select#" + htmlSelectId);
+	var selectedValue = $("select#" + htmlSelectId).val();
 	$select.attr("disabled", "disabled");
 	$.ajax({
 		type : 'GET',
@@ -387,28 +394,35 @@ function buildClients(htmlSelectId) {
 			$select.html('');
 			var $defaultOption = $("<option>", {
 				text : 'Select One',
-				value : '0'
+				value : ''
 			});
 			$defaultOption.appendTo($select);
 				$.each(jsonData, function(j, option) {
+					select = false;
+					if(option.clientId === selectedValue) {
+						select = true;
+					}
 					var $option = $("<option>", {
 						text : option.clientName,
-						value : option.clientId
+						value : option.clientId,
+						selected: select
 					});
 					$option.appendTo($select);
 				});
 
 			$select.removeAttr("disabled");
+			//$("select#" + htmlSelectId).val(selectedDef);
 			$select.selectpicker("refresh");
 
 		},
 		dataType : 'json',
-		async : true
+		async : false
 	});
 }
 
 function buildContact(clientId, htmlSelectId) {
 	var $select = $("select#" + htmlSelectId);
+	var selectedValue = $("select#" + htmlSelectId).val();
 	$select.attr("disabled", "disabled");
 	$.ajax({
 		type : 'GET',
@@ -420,13 +434,18 @@ function buildContact(clientId, htmlSelectId) {
 			$select.html('');
 			var $defaultOption = $("<option>", {
 				text : 'Select One',
-				value : '0'
+				value : ''
 			});
 			$defaultOption.appendTo($select);
 				$.each(jsonData, function(j, option) {
+					select = false;
+					if(option.clientContactId === selectedValue) {
+						select = true;
+					}
 					var $option = $("<option>", {
 						text : option.firstName+" "+option.lastName,
-						value : option.clientContactId
+						value : option.clientContactId,
+						selected: select
 					});
 					$option.appendTo($select);
 				});
@@ -436,12 +455,13 @@ function buildContact(clientId, htmlSelectId) {
 
 		},
 		dataType : 'json',
-		async : true
+		async : false
 	});
 }
 
 function buildAddress(clientId, htmlSelectId) {
 	var $select = $("select#" + htmlSelectId);
+	var selectedValue = $("select#" + htmlSelectId).val();
 	$select.attr("disabled", "disabled");
 	$.ajax({
 		type : 'GET',
@@ -453,13 +473,18 @@ function buildAddress(clientId, htmlSelectId) {
 			$select.html('');
 			var $defaultOption = $("<option>", {
 				text : 'Select One',
-				value : '0'
+				value : ''
 			});
 			$defaultOption.appendTo($select);
 				$.each(jsonData, function(j, option) {
+					select = false;
+					if(option.addressId === selectedValue) {
+						select = true;
+					}
 					var $option = $("<option>", {
 						text : option.streetAddress+", "+option.suburb+", "+option.state+" ("+option.addressType+")",
-						value : option.addressId
+						value : option.addressId,
+						selected: select						
 					});
 					$option.appendTo($select);
 				});
@@ -469,7 +494,7 @@ function buildAddress(clientId, htmlSelectId) {
 
 		},
 		dataType : 'json',
-		async : true
+		async : false
 	});
 }
 
@@ -708,6 +733,7 @@ function postFormToggleErrorModal(formId, url, hideElementOnSuccess, showElement
 		type : "POST",
 		url : url,
 		data : data,
+		async : false,
 		// contentType: "application/json; charset=utf-8",
 		success : function(response, textStatus, jqXHR) {
 			if ("success" !== response) {
@@ -716,6 +742,7 @@ function postFormToggleErrorModal(formId, url, hideElementOnSuccess, showElement
 			else {
 			//hideById(hideElementOnSuccess);
 			//showById(showElementOnSuccess)
+				loadInfoMessageById("Record added successfully!","modalalertInfoMessage","modalalertBlock");
 				}
 			resetButton();
 			// $('input[type="submit"]').button('reset');
@@ -723,6 +750,43 @@ function postFormToggleErrorModal(formId, url, hideElementOnSuccess, showElement
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
 			loadAlertMessage(textStatus+":"+errorThrown, "modalalertMessage", "modalalertBlock");
+			resetButton();
+			// $('input[type="submit"]').button('loading');
+		}
+	});
+
+	
+}
+
+function postFormToggleErrorModalResetForm(formId, url, hideElementOnSuccess, showElementOnSuccess,modalId ){
+
+	hideByRef($('#'+modalId).find('#modalalertBlock'));
+	var data = $('#' + formId).serialize();
+	toggleButton();
+	$.ajax({
+		type : "POST",
+		url : url,
+		data : data,
+		async : false,
+		// contentType: "application/json; charset=utf-8",
+		success : function(response, textStatus, jqXHR) {
+			if ("success" !== response) {
+				
+				loadAlertMessageByIdRef(response, $('#'+modalId).find('#modalalertMessage'), $('#'+modalId).find('#modalalertBlock'));
+			}
+			else {
+			//hideById(hideElementOnSuccess);
+			//showById(showElementOnSuccess)
+				loadInfoMessageByIdRef("Record added successfully!",$('#'+modalId).find('#modalalertInfoMessage'),$('#'+modalId).find('#modalalertBlock'));
+				}
+			resetButton();
+			// $('input[type="submit"]').button('reset');
+
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			//loadAlertMessage(textStatus+":"+errorThrown, "modalalertMessage", "modalalertBlock");
+			loadAlertMessageByIdRef(textStatus+":"+errorThrown, $('#'+modalId).find('#modalalertMessage'), $('#'+modalId).find('#modalalertBlock'));
+
 			resetButton();
 			// $('input[type="submit"]').button('loading');
 		}
@@ -812,6 +876,25 @@ function loadAlertMessageById(message,messageId, htmlId) {
 	$("#"+messageId).html("<p class='text-left'><i class='icon-exclamation-sign'> </i>" + message + "</p>");
 	$("#"+htmlId).slideDown(400, "linear");
 }
+
+function loadInfoMessageById(message,messageId, htmlId) {
+
+	$("#"+messageId).html("<p class='text-left'><i class='icon-exclamation-sign'> </i>" + message + "</p>");
+	$("#"+htmlId).slideDown(400, "linear");
+}
+
+function loadAlertMessageByIdRef(message,messageId, htmlId) {
+	messageId.html("<p class='text-left'><i class='icon-exclamation-sign'> </i>" + message + "</p>");
+	
+	htmlId.slideDown(400, "linear");
+}
+
+function loadInfoMessageByIdRef(message,messageId, htmlId) {
+
+	messageId.html("<p class='text-left'><i class='icon-exclamation-sign'> </i>" + message + "</p>");
+	htmlId.slideDown(400, "linear");
+}
+
 
 function fetchContentTemplateList(includeExpired) {
 	var dropDown = '';
@@ -956,6 +1039,13 @@ function hideById(id) {
 	}
 }
 
+function hideByRef(ref) {
+	try {
+		ref.hide();
+	} catch (Exception) {
+
+	}
+}
 
 function loadTotalSoldCountForEvent(cssSelector, groupEventCode) {
  	$.ajax({

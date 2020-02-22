@@ -23,8 +23,11 @@
 							<div class="input-group">
 								<form:select path="groupClient.clientId" data-live-search="true"
 									cssClass="form-control selectpicker" id="clientId"
-									onchange="buildAddress(this.value, 'addressId'); buildContact(this.value, 'clientContactId');"
-									placeholder="Select Client" />
+									onchange="buildAddress(this.value, 'addressId'); buildAddress(this.value, 'officeAddressId'); buildContact(this.value, 'clientContactId');"
+									placeholder="Select Client">
+									<option
+										value="${groupWorkInstructionRecord.groupClient.clientId}">Select</option>
+								</form:select>
 								<div class="input-group-addon">
 									<span><a href="addClientData"><i
 											class="glyphicon glyphicon-plus"></i></a></span>
@@ -33,22 +36,48 @@
 						</div>
 
 					</div>
+					<div class="form-group" id="groupClientOfficeAddressCtl">
+						<label class="control-label"
+							for="groupClientOfficeAddress.addressId">Office Address </label>
+
+						<div class="controls">
+							<div class="input-group">
+								<form:select path="groupClientOfficeAddress.addressId"
+									data-live-search="true" cssClass="form-control selectpicker"
+									id="officeAddressId" placeholder="Office Address">
+									<!-- <option value="">Select One</option>  -->
+									<option
+										value="${groupWorkInstructionRecord.groupClientOfficeAddress.addressId}">Select</option>
+
+								</form:select>
+								<div class="input-group-addon">
+									<span><a href="#"
+										onclick="loadmodalMessageAddress('modalMessageAddress'); addClientId(this);"><i
+											class="glyphicon glyphicon-plus"></i></a></span>
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="form-group" id="groupAddressCtl">
 						<label class="control-label" for="groupAddress.addressId">Site
 							Address </label>
 
 						<div class="controls">
-						<div class="input-group">
-							<form:select path="groupAddress.addressId"
-								data-live-search="true" cssClass="form-control selectpicker" id="addressId"
-								placeholder="Site Address">
-								<option value="">Select One</option>
-							</form:select>
-															<div class="input-group-addon">
-									<span><a href="loadClientData?clientId=" onclick="addClientId(this);"><i
+							<div class="input-group">
+								<form:select path="groupAddress.addressId"
+									data-live-search="true" cssClass="form-control selectpicker"
+									id="addressId" placeholder="Site Address">
+									<!-- <option value="">Select One</option>  -->
+									<option
+										value="${groupWorkInstructionRecord.groupAddress.addressId}">Select</option>
+
+								</form:select>
+								<div class="input-group-addon">
+									<span><a href="#"
+										onclick="loadmodalMessageAddress('modalMessageAddress'); addClientId(this);"><i
 											class="glyphicon glyphicon-plus"></i></a></span>
 								</div>
-						</div>	
+							</div>
 						</div>
 					</div>
 					<div class="form-group" id="clientContactIdCtl">
@@ -56,17 +85,20 @@
 							for="groupClientContact.clientContactId">Contact </label>
 
 						<div class="controls">
-						<div class="input-group">
-							<form:select path="groupClientContact.clientContactId"
-								data-live-search="true" cssClass="form-control selectpicker"
-								id="clientContactId" placeholder="Contact">
-								<option value="">Select One</option>
-							</form:select>
-							<div class="input-group-addon">
-									<span><a href="loadClientData?clientId=" onclick="addClientId(this);"><i
+							<div class="input-group">
+								<form:select path="groupClientContact.clientContactId"
+									data-live-search="true" cssClass="form-control selectpicker"
+									id="clientContactId" placeholder="Contact">
+									<option
+										value="${groupWorkInstructionRecord.groupClientContact.clientContactId}">Select</option>
+
+								</form:select>
+								<div class="input-group-addon">
+									<span><a href="#"
+										onclick="loadmodalMessageContact('modalMessageContact'); addClientId(this);"><i
 											class="glyphicon glyphicon-plus"></i></a></span>
 								</div>
-						</div>
+							</div>
 						</div>
 					</div>
 					<!-- 		<div class="form-group" id="jobNumberCtl">
@@ -240,21 +272,24 @@
 						</div>
 					</div>
 					<div class="form-group" id="serialNumberCtl">
-						<label class="control-label"
-							for="groupMember.serialNumber">Assigned To </label>
+						<label class="control-label" for="groupMember.serialNumber">Assigned
+							To </label>
 
 						<div class="controls">
-						<div class="input-group">
-							<form:select path="groupMember.serialNumber"
-								data-live-search="true" cssClass="form-control selectpicker"
-								id="serialNumber" placeholder="User">
-								<option value="">Select One</option>
-							</form:select>
-							<div class="input-group-addon">
+							<div class="input-group">
+								<form:select path="groupMember.serialNumber"
+									data-live-search="true" cssClass="form-control selectpicker"
+									id="serialNumber" placeholder="User">
+									<option
+										value="${groupWorkInstructionRecord.groupMember.serialNumber}">Select
+										one</option>
+
+								</form:select>
+								<div class="input-group-addon">
 									<span><a href="addGroupMemberGIES"><i
 											class="glyphicon glyphicon-plus"></i></a></span>
 								</div>
-						</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -468,10 +503,13 @@
 			</div>
 			<div class="row">
 				<div class="col-lg-12">
+					<form:hidden path="id" id="id" readonly="true" />
 					<form:hidden path="group.id" id="group.id" readonly="true" />
-					<input class="btn btn-primary btn-block btn-lg" type="submit" onclick="return $('#groupWorkInstructionRecord').valid();"
-						value="SUBMIT"/> <a
-						href="#" onclick="showAlert(''); return false;"
+
+					<input class="btn btn-primary btn-block btn-lg" type="submit"
+						onclick="return $('#groupWorkInstructionRecord').valid();"
+						value="SUBMIT" /> <a
+						href="${pageContext.request.contextPath}/${sessionScope.groupCode}/"
 						class="btn btn-default btn-block btn-lg">CANCEL</a>
 				</div>
 			</div>
@@ -482,6 +520,231 @@
 	</div>
 
 </div>
+
+<!-- Modal Window Start -->
+<div id="modalMessageAddress" class="modal fade" data-backdrop="static"
+	tabindex="-1" role="dialog" aria-labelledby="modalMessageLabel1"
+	aria-hidden="true" align="left">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn btn-primary pull-right"
+					data-dismiss="modal"
+					onclick="$('#addressx').get(0).reset(); $('#addressx').data('validator').resetForm(); clearModal($('#modalMessageAddress').find('#modalalertBlock'));">
+					CLOSE</button>
+				<h3 class="modal-title" id="modalMessageTitle"></h3>
+			</div>
+			<div class="modal-body">
+				<div id="modalalertBlock" style="display: none;">
+					<div class="alert alert-danger">
+						<div id="modalalertMessage"></div>
+					</div>
+					<div class="alert alert-success">
+						<div id="modalalertInfoMessage"></div>
+					</div>					
+				</div>
+
+				<div id="modalMessageContent">
+
+					<form:form commandName="groupAddress" action="json/groupAddress"
+						method="post" id="addressx"
+						onsubmit="event.preventDefault(); mapClientId('addressClientId'); postAndBuildAddress('addressx','json/groupAddress','','',$('select#clientId').val(), 'addressId'); ">
+						<div class="col-md-12">
+							<div class="form-group" id="addressTypeCtl">
+								<label class="control-label" for="addressType">AddressType</label>
+
+								<div class="controls">
+									<form:select path="addressType" cssClass="form-control"
+										id="addressType" placeholder="Enter Address Type">
+										<form:option value="">Select One</form:option>
+										<form:option value="RESIDENCE">RESIDENCE</form:option>
+										<form:option value="OFFICE">OFFICE</form:option>
+										<form:option value="MAILING">MAILING</form:option>
+										<form:option value="SITE">SITE</form:option>
+										<form:option value="OTHER">OTHER</form:option>
+									</form:select>
+								</div>
+							</div>
+							<div class="form-group" id="poBoxCtl">
+								<label class="control-label" for="poBox">PO BOX</label>
+
+								<div class="controls">
+									<form:input path="poBox" cssClass="form-control" id="poBox"
+										placeholder="Enter PO Box" />
+								</div>
+							</div>
+							<div class="form-group" id="streetAddressCtl">
+								<label class="control-label" for="streetAddress">StreetAddress</label>
+
+								<div class="controls">
+									<form:input path="streetAddress" cssClass="form-control"
+										id="streetAddress" placeholder="Enter Street Address" />
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+
+							<div class="form-group" id="suburbCtl">
+								<label class="control-label" for="suburb">Suburb</label>
+
+								<div class="controls">
+									<form:input path="suburb" cssClass="form-control" id="suburb"
+										placeholder="Enter Suburb" />
+
+								</div>
+							</div>
+
+							<div class="form-group" id="stateCtl">
+								<label class="control-label" for="state">State</label>
+
+								<div class="controls">
+									<form:input path="state" cssClass="form-control" id="state"
+										placeholder="Enter State" />
+								</div>
+							</div>
+
+							<div class="form-group" id="zipCodeCtl">
+								<label class="control-label" for="zipCode">ZIP</label>
+
+								<div class="controls">
+									<form:input path="zipCode" cssClass="form-control" id="zipCode"
+										placeholder="Enter ZIP code" />
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<div class="form-group">
+								<button class="btn btn-primary btn-lg btn-block has-spinner"
+									type="submit" onclick="return $('#addressx').valid();"
+									data-loading-text="<span class='spinner'><i class='icon-spin glyphicon glyphicon-repeat'></i></span> Loading..">SAVE
+									AND CONTINUE</button>
+							</div>
+						</div>
+						<form:hidden path="clientId" id="addressClientId" />
+
+					</form:form>
+
+
+
+				</div>
+
+			</div>
+			<div class="modal-footer" style="border: none;"></div>
+		</div>
+	</div>
+</div>
+<!-- Modal Window End-->
+
+
+<!-- Modal Window Start -->
+<div id="modalMessageContact" class="modal fade" data-backdrop="static"
+	tabindex="-1" role="dialog" aria-labelledby="modalMessageLabel1"
+	aria-hidden="true" align="left">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn btn-primary pull-right"
+					data-dismiss="modal"
+					onclick="$('#contactx').get(0).reset(); $('#contactx').data('validator').resetForm(); clearModal($('#modalMessageContact').find('#modalalertBlock'));">
+					CLOSE</button>
+				<h3 class="modal-title" id="modalMessageTitle"></h3>
+			</div>
+			<div class="modal-body">
+				<div id="modalalertBlock" style="display: none;">
+					<div class="alert alert-danger">
+						<div id="modalalertMessage"></div>
+					</div>
+					<div class="alert alert-success">
+						<div id="modalalertInfoMessage"></div>
+					</div>
+				</div>
+
+				<div id="modalMessageContent">
+					<form:form commandName="groupClientContact" id="contactx"
+						action="json/groupClientContact" method="post"
+						onsubmit="event.preventDefault(); mapClientId('contactClientId'); postAndBuildContact('contactx','json/groupClientContact','','',$('select#clientId').val(), 'clientContactId'); ">
+						<div class="col-md-12">
+							<div class="form-group" id="firstNameCtl">
+								<label class="control-label" for="firstName">Contact
+									First Name</label>
+
+								<div class="controls">
+									<form:input path="firstName" cssClass="form-control"
+										id="firstName" placeholder="Enter First Name" />
+								</div>
+							</div>
+							<div class="form-group" id="lastNameCtl">
+								<label class="control-label" for="lastName">Contact Last
+									Name</label>
+
+								<div class="controls">
+									<form:input path="lastName" cssClass="form-control"
+										id="lastName" placeholder="Enter Last Name" />
+								</div>
+							</div>
+
+
+						</div>
+						<div class="col-md-12">
+
+							<div class="form-group" id="mobilephoneCtl">
+								<label class="control-label" for="mobilephone">Mobile
+									No.</label>
+
+								<div class="controls">
+									<div class="input-group">
+										<form:input path="mobilephone" cssClass="form-control"
+											id="mobilephone" placeholder="Enter Mobile Phone Number" />
+										<div class="input-group-addon">
+											<span><i class='glyphicon glyphicon-phone'></i></span>
+
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group" id="emailCtl">
+								<label class="control-label" for="email">Email</label>
+
+								<div class="controls">
+									<div class="input-group">
+										<form:input path="email" cssClass="form-control" id="email"
+											placeholder="Enter Email" />
+										<div class="input-group-addon">
+											<span><i class="glyphicon glyphicon-envelope"></i></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<div class="form-group">
+								<button class="btn btn-primary btn-lg btn-block has-spinner"
+									type="submit" onclick="return $('#contactx').valid();"
+									data-loading-text="<span class='spinner'><i class='icon-spin glyphicon glyphicon-repeat'></i></span> Loading..">SAVE
+									AND CONTINUE</button>
+							</div>
+						</div>
+						<form:hidden path="clientId" id="contactClientId" />
+					</form:form>
+				</div>
+
+			</div>
+			<div class="modal-footer" style="border: none;"></div>
+		</div>
+	</div>
+</div>
+<!-- Modal Window End-->
+
+<div id="newContact" style="display: none;"></div>
+
+
+
+<div id="newAddress" style="display: none;"></div>
+
+
+
 <script type="text/javascript">
 	$(document).ready(
 			function() {
@@ -554,12 +817,114 @@
 						});
 
 
+				$("#contactx").validate(
+						{   
+							rules : {
+								firstName : {
+									required : true,
+								},
+								lastName : {
+									required : false
+								},
+								email : {
+									required : false,
+									email : true
+								},
+								mobilephone : {
+									required : false
+								}
+							},
+							messages : {
+								firstName: "FirstName is required!"
+							},
+							errorPlacement : function(error, element) {
+								error.appendTo(element.parent("div").parent(
+										"div"));
+							},
+							errorClass : "control-group has-error text-danger",
+							validClass : "control-group has-success",
+							errorElement : "span",
+							highlight : function(element, errorClass, validClass) {
+								if (element.type === 'radio') {
+									this.findByName(element.name).parent("div").parent(
+											"div").removeClass(validClass).addClass(
+											errorClass);
+								} else {
+									$(element).parent("div").parent("div").removeClass(
+											validClass).addClass(errorClass);
+								}
+							},
+							unhighlight : function(element, errorClass, validClass) {
+								if (element.type === 'radio') {
+									this.findByName(element.name).parent("div").parent(
+											"div").removeClass(errorClass).addClass(
+											validClass);
+								} else {
+									$(element).parent("div").parent("div").removeClass(
+											errorClass).addClass(validClass);
+								}
+							}
+						});
+				
+				$("#addressx").validate(
+						{
+							rules : {
+								streetAddress : {
+									required : true
+								},
+								suburb : {
+									required : false
+								},
+								state : {
+									required : false,
+								},
+								addressType : {
+									required : true
+								}
+							},
+							errorPlacement : function(error, element) {
+								error.appendTo(element.parent("div").parent(
+										"div"));
+							},
+							errorClass : "control-group has-error text-danger",
+							validClass : "control-group has-success",
+							errorElement : "span",
+							highlight : function(element, errorClass, validClass) {
+								if (element.type === 'radio') {
+									this.findByName(element.name).parent("div").parent(
+											"div").removeClass(validClass).addClass(
+											errorClass);
+								} else {
+									$(element).parent("div").parent("div").removeClass(
+											validClass).addClass(errorClass);
+								}
+							},
+							unhighlight : function(element, errorClass, validClass) {
+								if (element.type === 'radio') {
+									this.findByName(element.name).parent("div").parent(
+											"div").removeClass(errorClass).addClass(
+											validClass);
+								} else {
+									$(element).parent("div").parent("div").removeClass(
+											errorClass).addClass(validClass);
+								}
+							}
+						});
+				
+				
 			});
 
+	
 	$(function() {
 		buildClients('clientId');
 		buildTestMethods('testMethod');
 		buildUsers('serialNumber');
+		if(typeof $("select#clientId").val() !== 'undefined') {
+			var clientId = $("select#clientId").val();
+			buildContact(clientId, 'clientContactId');
+			buildAddress(clientId, 'officeAddressId');
+			buildAddress(clientId, 'addressId');
+		}
 		//buildAcceptanceCriteria('acceptanceCriteria');
 		//buildTestMethodStandards('testStandard');
 		
@@ -580,6 +945,32 @@
 		alert($('select#clientId').val());
 	}
 
+	function loadmodalMessageAddress(modalId) {
+		$modal = $("#"+modalId);
+		$modal.modal('show');
+	}
+	
+	function loadmodalMessageContact(modalId) {
+		$modal = $("#"+modalId);
+		$modal.modal('show');
+	}
+	
+	function postAndBuildContact(formid,url,hideId,showId,selectedVal, buildId) {
+		postFormToggleErrorModalResetForm(formid,url,hideId,showId,"modalMessageContact"); 
+		buildContact(selectedVal, buildId);
+		//$('#contactx').get(0).reset(); 
+		//$('#contactx').data('validator').resetForm();
+	}
+	function postAndBuildAddress(formid,url,hideId,showId,selectedVal, buildId) {
+		postFormToggleErrorModalResetForm(formid,url,hideId,showId,"modalMessageAddress"); 
+		buildAddress(selectedVal, buildId);
+		//$('#addressx').get(0).reset(); 
+		//$('#addressx').data('validator').resetForm();
+	}
+	
+	function clearModal(modalRef){
+		hideByRef(modalRef);
+	}
 	function addClientId(element){
 	    $(element).attr('href', function() {
 	    	if($('select#clientId').val() === "0") {
@@ -588,12 +979,15 @@
 	        return this.href + $('select#clientId').val();
 	    });
 	}
+	
+	function mapClientId(htmlId){
+	    $('input#'+htmlId).val($('select#clientId').val());
+	    
+	}
 	$.validator.addMethod("requiredCheck", function(value, element) {
 		var success = false;
-		var val = $('#clientContactId').val();
-		alert($('#clientContactId').val());
-		
-		if(typeof val!== 'undefined' && val !=='0')
+		var val = $('#clientContactId').val();		
+		if(typeof val!== 'undefined' && val !=='')
 		{success = true;}
 		return success;
 	},  jQuery.validator.format("This is required")); 

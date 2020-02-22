@@ -111,6 +111,11 @@ public class GroupWorkInstructionRecord extends JpaEntity<Long> implements Seria
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinColumn(name = "addressId")
 	private GroupAddress groupAddress;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JoinColumn(name = "clientOfficeAddressId", referencedColumnName = "addressId")
+	private GroupAddress groupClientOfficeAddress;
 	
 	@Column(columnDefinition = "TEXT")
 	private String additionalRequirements;
@@ -467,6 +472,20 @@ public class GroupWorkInstructionRecord extends JpaEntity<Long> implements Seria
 	 */
 	public void setLighting(boolean lighting) {
 		this.lighting = lighting;
+	}
+
+	/**
+	 * @return the groupClientOfficeAddress
+	 */
+	public GroupAddress getGroupClientOfficeAddress() {
+		return groupClientOfficeAddress;
+	}
+
+	/**
+	 * @param groupClientOfficeAddress the groupClientOfficeAddress to set
+	 */
+	public void setGroupClientOfficeAddress(GroupAddress groupClientOfficeAddress) {
+		this.groupClientOfficeAddress = groupClientOfficeAddress;
 	}
 
 
