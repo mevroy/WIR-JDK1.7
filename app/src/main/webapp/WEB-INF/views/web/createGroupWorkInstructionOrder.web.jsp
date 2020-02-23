@@ -36,7 +36,7 @@
 						</div>
 
 					</div>
-					<div class="form-group" id="groupClientOfficeAddressCtl">
+		<!-- 			<div class="form-group" id="groupClientOfficeAddressCtl">
 						<label class="control-label"
 							for="groupClientOfficeAddress.addressId">Office Address </label>
 
@@ -45,7 +45,6 @@
 								<form:select path="groupClientOfficeAddress.addressId"
 									data-live-search="true" cssClass="form-control selectpicker"
 									id="officeAddressId" placeholder="Office Address">
-									<!-- <option value="">Select One</option>  -->
 									<option
 										value="${groupWorkInstructionRecord.groupClientOfficeAddress.addressId}">Select</option>
 
@@ -58,6 +57,7 @@
 							</div>
 						</div>
 					</div>
+				 -->
 					<div class="form-group" id="groupAddressCtl">
 						<label class="control-label" for="groupAddress.addressId">Site
 							Address </label>
@@ -522,6 +522,39 @@
 </div>
 
 <!-- Modal Window Start -->
+<div id="modalAlert" class="modal fade" data-backdrop="static"
+	tabindex="-1" role="dialog" aria-labelledby="modalMessageLabel1"
+	aria-hidden="true" align="left">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn btn-primary pull-right"
+					data-dismiss="modal">
+					CLOSE</button>
+				<h3 class="modal-title" id="modalMessageTitle">Error</h3>
+			</div>
+			<div class="modal-body">
+				<div id="modalalertBlock">
+					<div class="alert alert-danger">
+						<div id="modalalertMessage">Please select a client before proceeding!</div>
+					</div>				
+				</div>
+
+				<div id="modalMessageContent">
+
+
+				</div>
+
+			</div>
+			<div class="modal-footer" style="border: none;"></div>
+		</div>
+	</div>
+</div>
+<!-- Modal Window End-->
+
+
+
+<!-- Modal Window Start -->
 <div id="modalMessageAddress" class="modal fade" data-backdrop="static"
 	tabindex="-1" role="dialog" aria-labelledby="modalMessageLabel1"
 	aria-hidden="true" align="left">
@@ -532,7 +565,7 @@
 					data-dismiss="modal"
 					onclick="$('#addressx').get(0).reset(); $('#addressx').data('validator').resetForm(); clearModal($('#modalMessageAddress').find('#modalalertBlock'));">
 					CLOSE</button>
-				<h3 class="modal-title" id="modalMessageTitle"></h3>
+				<h3 class="modal-title" id="modalMessageTitle">Add Address</h3>
 			</div>
 			<div class="modal-body">
 				<div id="modalalertBlock" style="display: none;">
@@ -648,7 +681,7 @@
 					data-dismiss="modal"
 					onclick="$('#contactx').get(0).reset(); $('#contactx').data('validator').resetForm(); clearModal($('#modalMessageContact').find('#modalalertBlock'));">
 					CLOSE</button>
-				<h3 class="modal-title" id="modalMessageTitle"></h3>
+				<h3 class="modal-title" id="modalMessageTitle">Add Contact</h3>
 			</div>
 			<div class="modal-body">
 				<div id="modalalertBlock" style="display: none;">
@@ -827,7 +860,6 @@
 									required : false
 								},
 								email : {
-									required : false,
 									email : true
 								},
 								mobilephone : {
@@ -946,15 +978,29 @@
 	}
 
 	function loadmodalMessageAddress(modalId) {
+    	if($('select#clientId').val() === "0" || $('select#clientId').val() === "") {
+    		showErrorModal('modalAlert') ;   	
+    		}
+    	else {
 		$modal = $("#"+modalId);
 		$modal.modal('show');
+    	}
 	}
 	
 	function loadmodalMessageContact(modalId) {
+    	if($('select#clientId').val() === "0" || $('select#clientId').val() === "") {
+    		showErrorModal('modalAlert') ;   	
+    	}
+    	else {
+		$modal = $("#"+modalId);
+		$modal.modal('show');
+    	}
+	}
+	
+	function showErrorModal(modalId){
 		$modal = $("#"+modalId);
 		$modal.modal('show');
 	}
-	
 	function postAndBuildContact(formid,url,hideId,showId,selectedVal, buildId) {
 		postFormToggleErrorModalResetForm(formid,url,hideId,showId,"modalMessageContact"); 
 		buildContact(selectedVal, buildId);

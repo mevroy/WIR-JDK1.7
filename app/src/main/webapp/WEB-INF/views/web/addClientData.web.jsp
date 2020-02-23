@@ -75,12 +75,58 @@
 						</div>
 					</div>
 				</div>
-				<h3>Address <span><a id="address-plus-sign"  href="#" onclick="showById('newAddress'); hideById('address-plus-sign'); showById('address-minus-sign');"><i
-											class="glyphicon glyphicon-plus-sign"></i></a><a style="display: none;" id="address-minus-sign"  href="#" onclick="hideById('newAddress'); hideById('address-minus-sign'); showById('address-plus-sign');"><i
+				<h3>Address <span><a id="address-plus-sign"  href="#" onclick="replaceHTML('newAddress',$('#addressForm').html()); hideById('address-plus-sign'); showById('address-minus-sign'); $('#groupClient').validate(); $('input#streetAddress').rules('add', 'required'); $('select#addressType').rules('add', 'required');"><i
+											class="glyphicon glyphicon-plus-sign"></i></a><a style="display: none;" id="address-minus-sign"  href="#" onclick="replaceHTML('newAddress',''); hideById('address-minus-sign'); showById('address-plus-sign');"><i
 											class="glyphicon glyphicon-minus-sign"></i></a></span></h3>
 
-				<div class="row" id="newAddress" style="display: none;">
+				<div class="row" id="newAddress">
 
+
+				</div>
+				<h3>Contact <span><a id="contact-plus-sign" href="#" onclick="replaceHTML('newContact',$('#contactForm').html()); hideById('contact-plus-sign'); showById('contact-minus-sign'); $('#groupClient').validate(); $('input#contactFirstName').rules('add', 'required');"><i
+											class="glyphicon glyphicon-plus-sign"></i></a><a style="display: none	;" href="#" id="contact-minus-sign" onclick="replaceHTML('newContact',''); hideById('contact-minus-sign'); showById('contact-plus-sign')"><i
+											class="glyphicon glyphicon-minus-sign"></i></a></span></h3>
+				<div class="row" id="newContact">
+
+
+				</div>
+				<form:hidden path="clientId" id="clientId" />
+				
+				<div class="row">
+
+					<div class="col-lg-12">
+						<div class="form-group">
+							<input type="hidden" name="goTo" value="createWIR"/>
+							<button class="btn btn-primary btn-lg btn-block has-spinner"
+								type="submit" onclick="return $('#groupClient').valid();"
+								data-loading-text="<span class='spinner'><i class='icon-spin glyphicon glyphicon-repeat'></i></span> Loading..">SAVE
+								AND CREATE WIR</button>
+						</div>
+					</div>
+
+				</div>
+				<div class="row">
+
+					<div class="col-lg-12">
+						<div class="form-group">
+							<button class="btn btn-primary btn-lg btn-block has-spinner"
+								type="submit" onclick="return $('#groupClient').valid();"
+								data-loading-text="<span class='spinner'><i class='icon-spin glyphicon glyphicon-repeat'></i></span> Loading..">SAVE
+								</button>
+						</div>
+					</div>
+
+				</div>
+
+
+			</form:form>
+		</div>
+	</div>
+</div>
+
+<div  style="display: none;">
+			<form:form commandName="groupClient" action="groupClient"
+				method="post" id="addressForm">
 					<div class="col-lg-5">
 						<div class="form-group" id="addressTypeCtl">
 							<label class="control-label" for="addressType">AddressType</label>
@@ -91,7 +137,7 @@
 									placeholder="Enter Address Type">
 									<form:option value="">Select One</form:option>
 									<form:option value="RESIDENCE">RESIDENCE</form:option>
-									<form:option value="OFFICE">OFFICE</form:option>
+									<form:option value="OFFICE" selected="true">OFFICE</form:option>
 									<form:option value="MAILING">MAILING</form:option>
 									<form:option value="SITE">SITE</form:option>
 									<form:option value="OTHER">OTHER</form:option>
@@ -147,12 +193,11 @@
 							</div>
 						</div>
 					</div>
-				</div>
-				<h3>Contact <span><a id="contact-plus-sign" href="#" onclick="showById('newContact'); hideById('contact-plus-sign'); showById('contact-minus-sign');"><i
-											class="glyphicon glyphicon-plus-sign"></i></a><a style="display: none;" href="#" id="contact-minus-sign" onclick="hideById('newContact'); hideById('contact-minus-sign'); showById('contact-plus-sign')"><i
-											class="glyphicon glyphicon-minus-sign"></i></a></span></h3>
-				<div class="row" id="newContact" style="display: none;">
-
+					</form:form>
+</div>
+<div style="display: none;">
+			<form:form commandName="groupClient" action="groupClient"
+				method="post" id="contactForm">
 					<div class="col-lg-5">
 						<div class="form-group" id="firstNameCtl">
 							<label class="control-label" for="firstName">Contact
@@ -160,7 +205,7 @@
 
 							<div class="controls">
 								<form:input path="groupClientContact[0].firstName"
-									cssClass="form-control" id="firstName"
+									cssClass="form-control" id="contactFirstName"
 									placeholder="Enter First Name" />
 							</div>
 						</div>
@@ -208,30 +253,8 @@
 							</div>
 						</div>
 					</div>
-
-				</div>
-				<div class="row">
-
-					<div class="col-lg-12">
-						<div class="form-group">
-							<form:hidden path="clientId" id="clientId" />
-							<button class="btn btn-primary btn-lg btn-block has-spinner"
-								type="submit" onclick="return $('#groupClient').valid();"
-								data-loading-text="<span class='spinner'><i class='icon-spin glyphicon glyphicon-repeat'></i></span> Loading..">SAVE
-								AND CREATE WIR</button>
-						</div>
-					</div>
-
-				</div>
-
-
-
-			</form:form>
-		</div>
-	</div>
+					</form:form>
 </div>
-
-
 <script type="text/javascript">
 	$(document).ready(
 			function() {
@@ -246,8 +269,19 @@
 									required : true
 								},
 								email : {
+									required: false,
 									email : true
+								},
+								firstName : {
+									required: true
+								},
+								addressType : {
+									required: true
+								},
+								streetAddress : {
+									required: true
 								}
+								
 							},
 							errorPlacement : function(error, element) {
 								error.appendTo(element.parent("div").parent(
@@ -375,4 +409,8 @@
 					}
 				}
 			});
+	
+	function replaceHTML(divId, html){
+		$('#'+divId).html(html);
+	}
 </script>

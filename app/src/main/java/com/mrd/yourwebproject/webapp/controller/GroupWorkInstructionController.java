@@ -139,7 +139,7 @@ public class GroupWorkInstructionController extends BaseWebAppController {
 	}
 	@RequestMapping(value = "/groupClient", method = RequestMethod.POST)
 	public String addGroupClients(Model model, Locale locale,
-			@ModelAttribute("groupClient") GroupClient groupClient, @PathVariable String groupCode) {
+			@ModelAttribute("groupClient") GroupClient groupClient, @PathVariable String groupCode , @RequestParam(required = false) String goTo) {
 		try {
 			GroupClient gc = new GroupClient();
 			if (StringUtils.isNotEmpty(groupClient.getClientId())) {
@@ -164,6 +164,15 @@ public class GroupWorkInstructionController extends BaseWebAppController {
 			e.printStackTrace();
 			return "Error occured: "+e.getLocalizedMessage();
 
+		}
+		if(StringUtils.isNotBlank(goTo) && StringUtils.equalsIgnoreCase(goTo, "createWIR")) {
+			try {
+				return this.groupInstructionRecord(model, groupCode, "");
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "Error occured: "+e.getLocalizedMessage();
+
+			}
 		}
 		return this.loadClientData(locale, model, groupCode, groupClient.getClientId());
 	}
