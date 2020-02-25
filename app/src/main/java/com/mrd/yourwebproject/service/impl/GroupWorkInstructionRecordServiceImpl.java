@@ -14,6 +14,7 @@ import javax.annotation.PostConstruct;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -28,11 +29,17 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mrd.commons.util.CommonUtils;
 import com.mrd.framework.data.BaseJpaServiceImpl;
 import com.mrd.yourwebproject.common.Props;
+import com.mrd.yourwebproject.model.entity.GroupAddress;
+import com.mrd.yourwebproject.model.entity.GroupClientContact;
 import com.mrd.yourwebproject.model.entity.GroupMember;
 import com.mrd.yourwebproject.model.entity.GroupWorkInstructionRecord;
 import com.mrd.yourwebproject.model.entity.GroupWorkItems;
 import com.mrd.yourwebproject.model.entity.User;
+import com.mrd.yourwebproject.model.entity.enums.AddressType;
+import com.mrd.yourwebproject.model.entity.enums.ContactType;
 import com.mrd.yourwebproject.model.repository.GroupWorkInstructionRecordRepository;
+import com.mrd.yourwebproject.service.GroupAddressService;
+import com.mrd.yourwebproject.service.GroupClientContactService;
 import com.mrd.yourwebproject.service.GroupWorkInstructionRecordService;
 
 import be.quodlibet.boxable.BaseTable;
@@ -49,6 +56,8 @@ public class GroupWorkInstructionRecordServiceImpl extends BaseJpaServiceImpl<Gr
 
 	private @Autowired GroupWorkInstructionRecordRepository groupWorkInstructionRecordRepository;
 	protected @Autowired Props props;
+	private @Autowired GroupAddressService groupAddressService;
+	private @Autowired GroupClientContactService groupClientContactService;
 	private Logger log = LoggerFactory.getLogger(GroupWorkInstructionRecordRepository.class);
 
 	@PostConstruct
@@ -172,7 +181,8 @@ public class GroupWorkInstructionRecordServiceImpl extends BaseJpaServiceImpl<Gr
 		float bottomMargin = 0;
 		//BaseTable table = new BaseTable(yStart, yStartNewPage, bottomMargin, tableWidth, margin, pdfDocument, page,
 		//		true, drawContent);
-
+		List<GroupAddress> officeAddresses = groupAddressService.findByGroupClientAndType(groupWorkInstructionRecord.getGroupClient().getClientId()	, AddressType.OFFICE);
+		List<GroupClientContact> clientContacts = groupClientContactService.findByGroupClientAndType(groupWorkInstructionRecord.getGroupClient().getClientId(), ContactType.CLIENT);
 		// Create Header row
 		//Row<PDPage> headerRow = table.createRow(15f);
 		//headerRow.createCell(14, "Test Method").setFontSize(fontSize);
@@ -186,27 +196,43 @@ public class GroupWorkInstructionRecordServiceImpl extends BaseJpaServiceImpl<Gr
 		// as there might not be an AcroForm entry a null check is necessary
 		if (acroForm != null) {
 			
-			CommonUtils.setAcroFormField(acroForm, "currentDateTime", CommonUtils.printDateInPattern(Calendar.getInstance().getTime(),datePatternWithAMPM));
+			CommonUtils.setAcroFormField(acroForm, "currentDateTime", CommonUtils.printDateInPattern(Calendar.getInstance().getTime(),datePatternWithAMPM),true);
 			// Retrieve an individual field and set its value.
 			CommonUtils.setAcroFormField(acroForm, "jobNumber", groupWorkInstructionRecord.getJobNumber());
 			CommonUtils.setAcroFormField(acroForm, "orderNumber", groupWorkInstructionRecord.getOrderNumber());
-			CommonUtils.setAcroFormField(acroForm, "createdAt", CommonUtils.printDateInPattern(groupWorkInstructionRecord.getCreatedAt(),date));
-			CommonUtils.setAcroFormField(acroForm, "jobStart", CommonUtils.printDateInPattern(groupWorkInstructionRecord.getJobStart(),datePatternWithAMPM));
-			CommonUtils.setAcroFormField(acroForm, "jobEnd", CommonUtils.printDateInPattern(groupWorkInstructionRecord.getJobEnd(),datePatternWithAMPM));
-			CommonUtils.setAcroFormField(acroForm, "travelStart", CommonUtils.printDateInPattern(groupWorkInstructionRecord.getTravelStart(),datePatternWithAMPM));
-			CommonUtils.setAcroFormField(acroForm, "travelEnd", CommonUtils.printDateInPattern(groupWorkInstructionRecord.getTravelEnd(),datePatternWithAMPM));
+			CommonUtils.setAcroFormField(acroForm, "createdAt", CommonUtils.printDateInPattern(groupWorkInstructionRecord.getCreatedAt(),date), true);
+			CommonUtils.setAcroFormField(acroForm, "jobStart", CommonUtils.printDateInPattern(groupWorkInstructionRecord.getJobStart(),datePatternWithAMPM), true);
+			CommonUtils.setAcroFormField(acroForm, "jobEnd", CommonUtils.printDateInPattern(groupWorkInstructionRecord.getJobEnd(),datePatternWithAMPM), true);
+			CommonUtils.setAcroFormField(acroForm, "travelStart", CommonUtils.printDateInPattern(groupWorkInstructionRecord.getTravelStart(),datePatternWithAMPM), true);
+			CommonUtils.setAcroFormField(acroForm, "travelEnd", CommonUtils.printDateInPattern(groupWorkInstructionRecord.getTravelEnd(),datePatternWithAMPM), true);
 
-			CommonUtils.setAcroFormField(acroForm, "clientName", groupWorkInstructionRecord.getClientName());
-			CommonUtils.setAcroFormField(acroForm, "quoteNumber", groupWorkInstructionRecord.getQuoteNumber());
+			CommonUtils.setAcroFormField(acroForm, "clientName", groupWorkInstructionRecord.getClientName(), true);
+			CommonUtils.setAcroFormField(acroForm, "quoteNumber", groupWorkInstructionRecord.getQuoteNumber(), true);
 			CommonUtils.setAcroFormField(acroForm, "material", groupWorkInstructionRecord.getMaterial());
-			CommonUtils.setAcroFormField(acroForm, "clientName", groupWorkInstructionRecord.getClientName());
-			CommonUtils.setAcroFormField(acroForm, "postalAddress", groupWorkInstructionRecord.getGroupAddress().getStreetAddress()+ ", "+groupWorkInstructionRecord.getGroupAddress().getSuburb()+" - "+groupWorkInstructionRecord.getGroupAddress().getState()+", "+groupWorkInstructionRecord.getGroupAddress().getZipCode());
-			CommonUtils.setAcroFormField(acroForm, "siteContact", groupWorkInstructionRecord.getGroupClientContact().getFirstName()+" "+groupWorkInstructionRecord.getGroupClientContact().getLastName());
-			CommonUtils.setAcroFormField(acroForm, "siteAddress", groupWorkInstructionRecord.getGroupAddress().getStreetAddress()+ ", "+groupWorkInstructionRecord.getGroupAddress().getSuburb()+" - "+groupWorkInstructionRecord.getGroupAddress().getState()+", "+groupWorkInstructionRecord.getGroupAddress().getZipCode());
+			if(CollectionUtils.isNotEmpty(officeAddresses)) {
+				GroupAddress ga = officeAddresses.get(0);
+			CommonUtils.setAcroFormField(acroForm, "postalAddress", ga.getStreetAddress()+ ", "+ga.getSuburb()+" - "+ga.getState()+", "+ga.getZipCode(), true);
+
+			}
+
+			if(CollectionUtils.isNotEmpty(clientContacts)) {
+				GroupClientContact gcc = clientContacts.get(0);
+				CommonUtils.setAcroFormField(acroForm, "clientContact", gcc.getFirstName()+" "+gcc.getLastName(), true);
+				CommonUtils.setAcroFormField(acroForm, "clientPhone", gcc.getMobilephone());
+				CommonUtils.setAcroFormField(acroForm, "clientEmail", gcc.getEmail(), true);
+				CommonUtils.setAcroFormField(acroForm, "clientMobile", gcc.getMobilephone());
+				CommonUtils.setAcroFormField(acroForm, "clientFax", gcc.getFax());
+
+			}
+
+			
+			CommonUtils.setAcroFormField(acroForm, "siteContact", groupWorkInstructionRecord.getGroupClientContact().getFirstName()+" "+groupWorkInstructionRecord.getGroupClientContact().getLastName(), true);
+			CommonUtils.setAcroFormField(acroForm, "siteAddress", groupWorkInstructionRecord.getGroupAddress().getStreetAddress()+ ", "+groupWorkInstructionRecord.getGroupAddress().getSuburb()+" - "+groupWorkInstructionRecord.getGroupAddress().getState()+", "+groupWorkInstructionRecord.getGroupAddress().getZipCode(), true);
 			CommonUtils.setAcroFormField(acroForm, "contactMobile", groupWorkInstructionRecord.getGroupClientContact().getMobilephone());
-			CommonUtils.setAcroFormField(acroForm, "contactEmail", groupWorkInstructionRecord.getGroupClientContact().getEmail());
+			CommonUtils.setAcroFormField(acroForm, "contactPhone", groupWorkInstructionRecord.getGroupClientContact().getMobilephone());
+			CommonUtils.setAcroFormField(acroForm, "contactEmail", groupWorkInstructionRecord.getGroupClientContact().getEmail(), true);
 			CommonUtils.setAcroFormField(acroForm, "contactFax", groupWorkInstructionRecord.getGroupClientContact().getFax());
-			CommonUtils.setAcroFormField(acroForm, "clientEmail", groupWorkInstructionRecord.getGroupClient().getEmail());
+			CommonUtils.setAcroFormField(acroForm, "clientEmail", groupWorkInstructionRecord.getGroupClient().getEmail(), true);
 
 
 //TODO
@@ -226,22 +252,23 @@ public class GroupWorkInstructionRecordServiceImpl extends BaseJpaServiceImpl<Gr
 					CommonUtils.replacePattern("(\\r\\n|\\n|,)", ", ", groupWorkInstructionRecord.getAdditionalRequirements()));
 
 			if (!CollectionUtils.isEmpty(groupWorkInstructionRecord.getGroupWorkItems())) {
+				int i = 0;
 				for (GroupWorkItems gw : groupWorkInstructionRecord.getGroupWorkItems()) {
-					CommonUtils.setAcroFormField(acroForm, "testMethod",
+					CommonUtils.setAcroFormField(acroForm,  "testMethod"+String.valueOf(i),
 							CommonUtils.replacePattern("(\\r\\n|\\n|,)", "\n", gw.getTestMethod()));
 
-					CommonUtils.setAcroFormField(acroForm, "itrDocuments",
+					CommonUtils.setAcroFormField(acroForm, "itrDocuments"+String.valueOf(i),
 							CommonUtils.replacePattern("(\\r\\n|\\n|,)", "\n", gw.getItrDocument()));
 
-					CommonUtils.setAcroFormField(acroForm, "testStandard",
+					CommonUtils.setAcroFormField(acroForm, "testStandard"+String.valueOf(i),
 							CommonUtils.replacePattern("(\\r\\n|\\n|,)", "\n", gw.getTestStandard()));
 
-					CommonUtils.setAcroFormField(acroForm, "acceptanceCriteria",
+					CommonUtils.setAcroFormField(acroForm, "acceptanceCriteria"+String.valueOf(i),
 							CommonUtils.replacePattern("(\\r\\n|\\n|,)", "\n", gw.getAcceptanceCriteria()));
-					CommonUtils.setAcroFormField(acroForm, "procedure",
+					CommonUtils.setAcroFormField(acroForm, "procedure"+String.valueOf(i),
 							CommonUtils.replacePattern("(\\r\\n|\\n|,)", "\n", gw.getItemProcedure()));
 
-					CommonUtils.setAcroFormField(acroForm, "nataClassTest",
+					CommonUtils.setAcroFormField(acroForm, "nataClassTest"+String.valueOf(i),
 							CommonUtils.replacePattern("(\\r\\n|\\n|,)", "\n", gw.getNataClassTest()));
 
 					
@@ -253,7 +280,7 @@ public class GroupWorkInstructionRecordServiceImpl extends BaseJpaServiceImpl<Gr
 					CommonUtils.setAcroFormField(acroForm, "procedure" , gw.getItemProcedure());
 					CommonUtils.setAcroFormField(acroForm, "nataClassTest" , gw.getNataClassTest());
 */
-					break;
+					i++;
 					
 /*					Row<PDPage> row = table.createRow(15f);
 					row.createCell(14, CommonUtils.replacePattern("(\\r\\n|\\n|,|//|/)", "/<br />", gw.getTestMethod())).setFontSize(fontSize);

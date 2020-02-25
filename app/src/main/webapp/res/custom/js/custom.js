@@ -443,7 +443,7 @@ function buildContact(clientId, htmlSelectId) {
 						select = true;
 					}
 					var $option = $("<option>", {
-						text : option.firstName+" "+option.lastName,
+						text : option.firstName+" "+option.lastName+" ("+option.contactType+")",
 						value : option.clientContactId,
 						selected: select
 					});

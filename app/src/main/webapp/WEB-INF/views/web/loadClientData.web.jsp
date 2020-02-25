@@ -150,6 +150,20 @@
 						id="contact${contactCount - 1}"
 						onsubmit="event.preventDefault(); javascript:postFormAndToggleError('contact${contactCount - 1}','json/groupClientContact','${contactCount - 1}','${contactCount}');">
 						<div class="col-lg-5">
+						<div class="form-group" id="groupClientContact[${counter.index}].contactTypeCtl">
+							<label class="control-label" for="groupClientContact[${counter.index}].contactType">Contact Type</label>
+
+							<div class="controls">
+								<form:select path="groupClientContact[${counter.index}].contactType"
+									cssClass="form-control" id="contactType"
+									placeholder="Enter Contact Type">
+									<form:option value="">Select One</form:option>
+									<form:option value="CLIENT">CLIENT</form:option>
+									<form:option value="SITE">SITE</form:option>
+									<form:option value="OTHER">OTHER</form:option>
+								</form:select>
+							</div>
+						</div>								
 							<div class="form-group"
 								id="groupClientContact[${counter.index}].firstNameCtl">
 								<label class="control-label"
@@ -401,6 +415,20 @@
 				<form:form commandName="groupClientContacts" action="json/groupClientContact?clientId=${groupClient.clientId}"
 					method="post" id="contactx" onsubmit="event.preventDefault(); javascript:postFormAndToggleError('contactx','json/groupClientContact?clientId=${groupClient.clientId}','newContact','addDepButton'); ">
 					<div class="col-lg-5">
+											<div class="form-group" id="contactTypeCtl">
+							<label class="control-label" for="contactType">Contact Type</label>
+
+							<div class="controls">
+								<form:select path="contactType"
+									cssClass="form-control" id="contactType"
+									placeholder="Enter Contact Type">
+									<form:option value="">Select One</form:option>
+									<form:option value="CLIENT">CLIENT</form:option>
+									<form:option value="SITE">SITE</form:option>
+									<form:option value="OTHER">OTHER</form:option>
+								</form:select>
+							</div>
+						</div>		
 						<div class="form-group" id="firstNameCtl">
 							<label class="control-label" for="firstName">Contact First Name</label>
 
@@ -640,7 +668,7 @@
 							data-loading-text="<span class='spinner'><i class='icon-spin glyphicon glyphicon-repeat'></i></span> Loading.."><span class="glyphicon glyphicon glyphicon-pencil" aria-hidden="true"></span>  ${looper}</button>
 					</td>
 								<td>${groupClientContacts.firstName} ${groupClientContacts.lastName}</td>
-								<td>Client Contact</td>
+								<td>${groupClientContacts.contactType} Contact</td>
 							</tr>
 								<c:set var="contactCountDisplay" value="${contactCountDisplay + 1}"></c:set>
 						</c:forEach>
@@ -754,6 +782,9 @@
 	$("#contactx").validate(
 			{
 				rules : {
+					contactType: {
+						required: true
+					},
 					firstName : {
 						required : true
 					},

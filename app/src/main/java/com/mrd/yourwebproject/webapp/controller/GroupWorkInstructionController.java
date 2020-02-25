@@ -231,6 +231,7 @@ public class GroupWorkInstructionController extends BaseWebAppController {
 								.findById(gcc.getClientContactId());
 
 						gc.setEmail(gcc.getEmail());
+						gc.setContactType(gcc.getContactType());
 						gc.setFax(gcc.getFax());
 						gc.setFirstName(gcc.getFirstName());
 						gc.setLastName(gcc.getLastName());
@@ -256,6 +257,7 @@ public class GroupWorkInstructionController extends BaseWebAppController {
 				if (StringUtils.isNotEmpty(groupClientContact.getClientContactId())) {
 					gcc = groupClientContactService.findById(groupClientContact.getClientContactId());
 					gcc.setEmail(groupClientContact.getEmail());
+					gcc.setContactType(groupClientContact.getContactType());
 					gcc.setFax(groupClientContact.getFax());
 					gcc.setFirstName(groupClientContact.getFirstName());
 					gcc.setLastName(groupClientContact.getLastName());
@@ -483,13 +485,13 @@ public class GroupWorkInstructionController extends BaseWebAppController {
 					gwir.setGroupAddress(groupWorkInstructionRecord.getGroupAddress());			
 
 				}	
-				if(StringUtils.isBlank(groupWorkInstructionRecord.getGroupClientOfficeAddress().getAddressId())) {
-					gwir.setGroupClientOfficeAddress(null);			
-					}		
-				else {
-					gwir.setGroupClientOfficeAddress(groupWorkInstructionRecord.getGroupClientOfficeAddress());			
-
-				}
+//				if(StringUtils.isBlank(groupWorkInstructionRecord.getGroupClientOfficeAddress().getAddressId())) {
+//					gwir.setGroupClientOfficeAddress(null);			
+//					}		
+//				else {
+//					gwir.setGroupClientOfficeAddress(groupWorkInstructionRecord.getGroupClientOfficeAddress());			
+//
+//				}
 
 					
 					
@@ -541,20 +543,20 @@ public class GroupWorkInstructionController extends BaseWebAppController {
 			if(StringUtils.isBlank(groupWorkInstructionRecord.getGroupAddress().getAddressId())) {
 			groupWorkInstructionRecord.setGroupAddress(null);			
 			}
-			if(StringUtils.isBlank(groupWorkInstructionRecord.getGroupClientOfficeAddress().getAddressId())) {
-			groupWorkInstructionRecord.setGroupClientOfficeAddress(null);			
-			}			
+//			if(StringUtils.isBlank(groupWorkInstructionRecord.getGroupClientOfficeAddress().getAddressId())) {
+//			groupWorkInstructionRecord.setGroupClientOfficeAddress(null);			
+//			}			
 			groupWorkInstructionRecord.setClientName(groupClientService.findById(groupWorkInstructionRecord.getGroupClient().getClientId()).getClientName());
 			groupWorkInstructionRecord.setCreatedBy(this.getloggedInUser().getName());
 			//To Wait for any pre-processing to happen, set the created time as null so as to the job wont pick up.
 			groupWorkInstructionRecord.setCreatedAt(null);
 			groupWorkInstructionRecord = groupWorkInstructionRecordService.insert(groupWorkInstructionRecord);
-			
-			groupWorkInstructionRecord.setCreatedAt(Calendar.getInstance().getTime());
-			groupWorkInstructionRecord.setJobNumber(groupReferenceDataService
+			GroupWorkInstructionRecord newGWIR = groupWorkInstructionRecordService.findById(groupWorkInstructionRecord.getId());
+			newGWIR.setCreatedAt(Calendar.getInstance().getTime());
+			newGWIR.setJobNumber(groupReferenceDataService
 					.retrieveAndLockReferenceData(JOB_REF + String.valueOf(CommonUtils.currentYear()))
 					.getReferenceDataString());
-			groupWorkInstructionRecordService.update(groupWorkInstructionRecord);
+			groupWorkInstructionRecordService.update(newGWIR);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -7,6 +7,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -21,6 +23,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.mrd.framework.data.NoIDEntity;
+import com.mrd.yourwebproject.model.entity.enums.ContactType;
 
 /**
  * @author mevan.d.souza
@@ -57,6 +60,10 @@ public class GroupClientContact extends NoIDEntity implements Serializable {
 	@Length(max = 25)
 	private String firstName;
 
+	@Column
+	@Enumerated(EnumType.STRING)
+	private ContactType contactType;
+	
 	@Column
 	@Length(max = 25)
 	private String lastName;
@@ -247,6 +254,20 @@ public class GroupClientContact extends NoIDEntity implements Serializable {
 	 */
 	public void setClientId(String clientId) {
 		this.clientId = clientId;
+	}
+
+	/**
+	 * @return the contactType
+	 */
+	public ContactType getContactType() {
+		return contactType;
+	}
+
+	/**
+	 * @param contactType the contactType to set
+	 */
+	public void setContactType(ContactType contactType) {
+		this.contactType = contactType;
 	}
 
 /*	*//**

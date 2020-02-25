@@ -36,28 +36,7 @@
 						</div>
 
 					</div>
-		<!-- 			<div class="form-group" id="groupClientOfficeAddressCtl">
-						<label class="control-label"
-							for="groupClientOfficeAddress.addressId">Office Address </label>
 
-						<div class="controls">
-							<div class="input-group">
-								<form:select path="groupClientOfficeAddress.addressId"
-									data-live-search="true" cssClass="form-control selectpicker"
-									id="officeAddressId" placeholder="Office Address">
-									<option
-										value="${groupWorkInstructionRecord.groupClientOfficeAddress.addressId}">Select</option>
-
-								</form:select>
-								<div class="input-group-addon">
-									<span><a href="#"
-										onclick="loadmodalMessageAddress('modalMessageAddress'); addClientId(this);"><i
-											class="glyphicon glyphicon-plus"></i></a></span>
-								</div>
-							</div>
-						</div>
-					</div>
-				 -->
 					<div class="form-group" id="groupAddressCtl">
 						<label class="control-label" for="groupAddress.addressId">Site
 							Address </label>
@@ -698,6 +677,20 @@
 						action="json/groupClientContact" method="post"
 						onsubmit="event.preventDefault(); mapClientId('contactClientId'); postAndBuildContact('contactx','json/groupClientContact','','',$('select#clientId').val(), 'clientContactId'); ">
 						<div class="col-md-12">
+						<div class="form-group" id="contactTypeCtl">
+							<label class="control-label" for="contactType">Contact Type</label>
+
+							<div class="controls">
+								<form:select path="contactType"
+									cssClass="form-control" id="contactType"
+									placeholder="Enter Contact Type">
+									<form:option value="">Select One</form:option>
+									<form:option value="CLIENT">CLIENT</form:option>
+									<form:option value="SITE" selected="true">SITE</form:option>
+									<form:option value="OTHER">OTHER</form:option>
+								</form:select>
+							</div>
+						</div>							
 							<div class="form-group" id="firstNameCtl">
 								<label class="control-label" for="firstName">Contact
 									First Name</label>
@@ -864,6 +857,9 @@
 								},
 								mobilephone : {
 									required : false
+								},
+								contactType : {
+									required: true
 								}
 							},
 							messages : {

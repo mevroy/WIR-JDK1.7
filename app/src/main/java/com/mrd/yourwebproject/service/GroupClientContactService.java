@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.mrd.framework.data.BaseService;
 import com.mrd.yourwebproject.model.entity.GroupClientContact;
+import com.mrd.yourwebproject.model.entity.enums.ContactType;
 
 /**
  * @author mevan.d.souza
@@ -15,4 +16,6 @@ import com.mrd.yourwebproject.model.entity.GroupClientContact;
 public interface GroupClientContactService extends BaseService<GroupClientContact, String> {
 
 	public List<GroupClientContact> findByGroupClient(String clientId);
+	public List<GroupClientContact> findByGroupClientAndType(String clientId, ContactType type);
+
 }

@@ -80,15 +80,16 @@ public class CommonUtils {
 
 		return created;
 	}
- public static int currentYear() {
+
+	public static int currentYear() {
 		Calendar cal = Calendar.getInstance();
 		return cal.get(Calendar.YEAR);
- }
+	}
+
 	/**
 	 * Converts the data to hex representation.
 	 *
-	 * @param data
-	 *            The data to be converted
+	 * @param data The data to be converted
 	 * @return
 	 */
 	public static String toHex(final byte[] data) {
@@ -145,7 +146,7 @@ public class CommonUtils {
 	public static String printDateInPattern(Date hostTime, String pattern) {
 		if (hostTime != null && pattern != null) {
 			DateFormat formatter = new SimpleDateFormat(pattern);
-			//formatter.setTimeZone(TimeZone.getTimeZone("Australia/Melbourne"));
+			// formatter.setTimeZone(TimeZone.getTimeZone("Australia/Melbourne"));
 			// formatter.setTimeZone(TimeZone.getTimeZone("America/New_York"));
 			return formatter.format(hostTime).toString();
 		}
@@ -190,11 +191,15 @@ public class CommonUtils {
 	}
 
 	public static void setAcroFormField(PDAcroForm acroForm, String fieldName, String fieldValue) {
+		setAcroFormField(acroForm, fieldName, fieldValue, false);
+	}
+
+	public static void setAcroFormField(PDAcroForm acroForm, String fieldName, String fieldValue, boolean toUpperCase) {
 		if (acroForm != null && StringUtils.isNotBlank(fieldName)) {
 			PDTextField field = (PDTextField) acroForm.getField(fieldName);
 			if (field != null) {
 				try {
-					field.setValue(fieldValue);
+					field.setValue(toUpperCase ? StringUtils.upperCase(fieldValue) : fieldValue);
 				} catch (IOException e) {
 
 					e.printStackTrace();

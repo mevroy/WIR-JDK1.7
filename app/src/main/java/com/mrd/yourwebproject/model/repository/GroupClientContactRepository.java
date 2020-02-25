@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.mrd.framework.data.BaseJpaRepository;
 import com.mrd.yourwebproject.model.entity.GroupClientContact;
+import com.mrd.yourwebproject.model.entity.enums.ContactType;
 
 /**
  * @author mevan.d.souza
@@ -16,5 +17,6 @@ public interface GroupClientContactRepository extends BaseJpaRepository<GroupCli
 
 
 	public List<GroupClientContact> findByGroupClient(String clientId);
-	
+	public List<GroupClientContact> findByGroupClientAndType(String clientId, ContactType type);
+
 }
