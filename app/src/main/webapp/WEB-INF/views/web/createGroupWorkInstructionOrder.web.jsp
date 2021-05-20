@@ -141,10 +141,24 @@
 						<div class="controls">
 							<form:textarea path="surfacePrepartion" cssClass="form-control"
 								id="surfacePrepartion" placeholder="Surface Preparation"
-								rows="5" />
+								rows="3" />
 						</div>
 					</div>
 
+					<div class="form-group" id="nataEndorsedCtl">
+						<label class="control-label" for="nataEndorsed">NATA Endorsed
+							</label>
+						<div>
+							<div class="radio">
+								<label class="radio-inline"> <form:radiobutton
+										path="nataEndorsed" id="nataEndorsed" value="true" /> Yes
+								</label> <label class="radio-inline"> <form:radiobutton
+										path="nataEndorsed" id="nataEndorsed" value="false" /> NO
+								</label>
+							</div>
+						</div>
+
+					</div>
 				</div>
 				<div class="col-lg-offset-2 col-lg-5">
 					<div class="form-group" id="travelstartEndDateCtl">

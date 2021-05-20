@@ -379,6 +379,7 @@ public class GroupWorkInstructionController extends BaseWebAppController {
 			gwir.setMobilePhone(groupWorkInstructionRecord.getMobilePhone());
 			gwir.setPower(groupWorkInstructionRecord.isPower());
 			gwir.setSuitableAccess(groupWorkInstructionRecord.isSuitableAccess());
+			gwir.setNataEndorsed(groupWorkInstructionRecord.isNataEndorsed());
 			gwir.setUpdatedAt(Calendar.getInstance().getTime());
 			gwir.setGroupMember(groupWorkInstructionRecord.getGroupMember());
 			if("0".equals(groupWorkInstructionRecord.getGroupMember().getSerialNumber())) {
@@ -505,6 +506,7 @@ public class GroupWorkInstructionController extends BaseWebAppController {
 				gwir.setMaterial(groupWorkInstructionRecord.getMaterial());
 				gwir.setMobilePhone(groupWorkInstructionRecord.getMobilePhone());
 				gwir.setPower(groupWorkInstructionRecord.isPower());
+				gwir.setNataEndorsed(groupWorkInstructionRecord.isNataEndorsed());
 				gwir.setSuitableAccess(groupWorkInstructionRecord.isSuitableAccess());
 				gwir.setUpdatedAt(Calendar.getInstance().getTime());
 

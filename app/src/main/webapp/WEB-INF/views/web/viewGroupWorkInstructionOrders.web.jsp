@@ -30,7 +30,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		loadGrid('gridALL', 'ALL', 'All Clients');
+		loadGrid('gridALL', 'ALL', 'All WIRs');
 		var lastsel = "";
 	});
 
@@ -156,6 +156,19 @@
 										label : 'Access',
 										name : 'suitableAccess',
 										index : 'suitableAccess',
+										width : 50,
+										sortable : true,
+										editable : true,
+										edittype : "checkbox",
+										formatter : formatBoolean,
+										editoptions : {
+											value : "Yes:No"
+										}
+									},
+									{
+										label : 'NATA Endorsed',
+										name : 'nataEndorsed',
+										index : 'nataEndorsed',
 										width : 50,
 										sortable : true,
 										editable : true,
