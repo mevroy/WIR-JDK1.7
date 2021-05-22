@@ -41,46 +41,61 @@
 							url : 'json/viewGroupWorkInstructionRecords<c:if test="${!editable}">Self</c:if>',
 							datatype : "json",
 							colModel : [
+//									{
+// 										label : 'Action',
+// 										name : 'myac',
+// 										width : 35,
+// 										fixed : true,
+// 										sortable : false,
+// 										resize : false,
+// 										formatter : 'actions',
+// 										formatoptions : {
+// 											keys : true,
+// 											editbutton: ${editable},
+// 											delbutton : false,
+// 										editformbutton: ${editable},
+// //  											delOptions : {
+// // 												ajaxDelOptions : {
+// // 													// url: "deleteGroupMember",
+// // 													contentType : 'application/json;charset=utf-8',
+// // 													type : 'POST',
+// // 													datatype : 'json'
+// // 												}
+// // 											},
+// 											editOptions : {
+// 												url : 'json/updateGroupWorkInstructionRecord',
+// 												height : 580,
+// 												width : 540,
+// 												top : 44,
+// 												left : 470,
+// 												dataheight : 490,
+// 												closeAfterEdit: true,
+// 												//modal : true,
+// 												reloadAfterSubmit : true,
+// 												afterSubmit : function(
+// 														response, postdata) {
+// 													var status = false;
+// 													if (response.responseText === "success")
+// 														status = true
+// 													return [ status,
+// 													         response.responseText ];
+// 												}}
+// 										}
+// 									},
 									{
 										label : 'Action',
-										name : 'myac',
-										width : 35,
-										fixed : true,
-										sortable : false,
-										resize : false,
-										formatter : 'actions',
-										formatoptions : {
-											keys : true,
-											editbutton: ${editable},
-											delbutton : false,
-										editformbutton: ${editable},
-//  											delOptions : {
-// 												ajaxDelOptions : {
-// 													// url: "deleteGroupMember",
-// 													contentType : 'application/json;charset=utf-8',
-// 													type : 'POST',
-// 													datatype : 'json'
-// 												}
-// 											},
-											editOptions : {
-												url : 'json/updateGroupWorkInstructionRecord',
-												height : 580,
-												width : 540,
-												top : 44,
-												left : 470,
-												dataheight : 490,
-												closeAfterEdit: true,
-												//modal : true,
-												reloadAfterSubmit : true,
-												afterSubmit : function(
-														response, postdata) {
-													var status = false;
-													if (response.responseText === "success")
-														status = true
-													return [ status,
-													         response.responseText ];
-												}}
-										}
+										name : 'id',
+										index : 'id',
+										width : 50,
+										sorttype : "string",
+										search : true,
+										editable : false,
+										formatter: function(cellValue, options, rowObject) {
+											
+										    var id = rowObject.id;
+										    var url = "groupInstructionRecord?girId="+id ;
+										    return "<a href='"+url+"'  class='btn btn-warning btn-mini' >EDIT</a>"
+										    }
 									},
 									{
 										label : 'Job No',
@@ -99,15 +114,7 @@
 										    return "<a href='#' onclick='window.open(\""+url+"\",\"printwindow\",\"toolbar=no , location=no , width=200, height=200, id=printer, top=100, left=400\");'  class='btn btn-warning btn-mini' >"+rowObject.jobNumber+"</a>"
 										    }
 									},
-									{
-										label : 'Order No',
-										name : 'orderNumber',
-										index : 'orderNumber',
-										width : 100,
-										sorttype : "string",
-										search : true,
-										editable : false,
-									},
+									
 									{
 										label : 'Client',
 										name : 'groupClient.clientName',
@@ -203,18 +210,6 @@
 										formatter : formatBoolean,
 										editoptions : {
 											value : "Yes:No"
-										}
-									},
-									{
-										label : 'Email',
-										name : 'email',
-										index : 'email',
-										sorttype : "string",
-										width : 140,
-										editable : true,
-										editrules : {
-											required: false,
-											email : true
 										}
 									},
 									{

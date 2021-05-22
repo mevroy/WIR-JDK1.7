@@ -6,7 +6,7 @@
 	<br />
 	<div class="span12">
 		<div class="row">
-			<form:form commandName="groupMember" action="saveGroupMember"
+			<form:form commandName="groupMember" action="saveGroupMemberGIES"
 				method="post" id="groupMember">
 				<div class="col-lg-5">
 					<div class="form-group" id="firstNameCtl">

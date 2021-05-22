@@ -23,7 +23,7 @@
 							<div class="input-group">
 								<form:select path="groupClient.clientId" data-live-search="true"
 									cssClass="form-control selectpicker" id="clientId"
-									onchange="buildAddress(this.value, 'addressId'); buildAddress(this.value, 'officeAddressId'); buildContact(this.value, 'clientContactId');"
+									onchange="buildAddress(this.value, 'addressId'); buildContact(this.value, 'clientContactId');"
 									placeholder="Select Client">
 									<option
 										value="${groupWorkInstructionRecord.groupClient.clientId}">Select</option>
@@ -964,7 +964,6 @@
 		if(typeof $("select#clientId").val() !== 'undefined') {
 			var clientId = $("select#clientId").val();
 			buildContact(clientId, 'clientContactId');
-			buildAddress(clientId, 'officeAddressId');
 			buildAddress(clientId, 'addressId');
 		}
 		//buildAcceptanceCriteria('acceptanceCriteria');

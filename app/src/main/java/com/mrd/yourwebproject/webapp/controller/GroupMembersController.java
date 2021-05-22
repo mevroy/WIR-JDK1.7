@@ -707,6 +707,36 @@ public class GroupMembersController extends BaseWebAppController {
 
 	}
 
+	@RequestMapping(value = "/saveGroupMemberGIES", method = RequestMethod.POST)
+	public String saveGroupMemberGIES(Locale locale, Model model,
+			@ModelAttribute("groupMember") GroupMember groupMember,
+			BindingResult results) {
+		GroupMember addedGroupMember = new GroupMember();
+		if (results.hasErrors()) {
+			return "addGroupMemberGIES";
+		}
+		try {
+			groupMember.setPrimaryEmailVerified(true);
+			addedGroupMember = groupMembersService.insert(groupMember);
+			addedGroupMember
+					.setMembershipIdentifier(createMembershipIdentifier(addedGroupMember));
+			addedGroupMember.setExternalMembershipIdentifier(addedGroupMember
+					.getSerialNumber());
+			addedGroupMember = groupMembersService.update(addedGroupMember);
+			addSuccess(
+					addedGroupMember.getFirstName() + " "
+							+ addedGroupMember.getLastName()
+							+ " successfully added. Membership ID : "
+							+ addedGroupMember.getMembershipIdentifier(), model);
+			model.addAttribute("groupMember", new GroupMember());
+		} catch (Exception e) {
+			addAlert("Adding GroupMember Failed", model);
+		}
+
+		return "addGroupMemberGIES";
+
+	}
+	
 	@RequestMapping(value = "/updateGroupMember", method = RequestMethod.POST)
 	public @ResponseBody String updateGroupMember(Locale locale, Model model,
 			@ModelAttribute("groupMember") GroupMember groupMember,

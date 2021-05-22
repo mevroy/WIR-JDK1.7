@@ -367,7 +367,11 @@ public class GroupWorkInstructionController extends BaseWebAppController {
 		try {
 			GroupWorkInstructionRecord gwir = groupWorkInstructionRecordService
 					.findById(groupWorkInstructionRecord.getId());
-			gwir.setClientName(gwir.getGroupClient().getClientName());
+			if(StringUtils.isNotBlank(groupWorkInstructionRecord.getGroupClient().getClientId())) {
+				GroupClient gc = groupClientService.findById(groupWorkInstructionRecord.getGroupClient().getClientId());
+				gwir.setClientName(gc.getClientName());
+				gwir.setGroupClient(gc);
+				}			
 			gwir.setAdditionalRequirements(groupWorkInstructionRecord.getAdditionalRequirements());
 			gwir.setEmail(groupWorkInstructionRecord.getEmail());
 			gwir.setEwpAccessEquipment(groupWorkInstructionRecord.isEwpAccessEquipment());
@@ -380,6 +384,7 @@ public class GroupWorkInstructionController extends BaseWebAppController {
 			gwir.setPower(groupWorkInstructionRecord.isPower());
 			gwir.setSuitableAccess(groupWorkInstructionRecord.isSuitableAccess());
 			gwir.setNataEndorsed(groupWorkInstructionRecord.isNataEndorsed());
+			gwir.setLighting(groupWorkInstructionRecord.isLighting());
 			gwir.setUpdatedAt(Calendar.getInstance().getTime());
 			gwir.setGroupMember(groupWorkInstructionRecord.getGroupMember());
 			if("0".equals(groupWorkInstructionRecord.getGroupMember().getSerialNumber())) {
@@ -463,7 +468,12 @@ public class GroupWorkInstructionController extends BaseWebAppController {
 			if(groupWorkInstructionRecord.getId()!=null && groupWorkInstructionRecord.getId()>0) {
 				GroupWorkInstructionRecord gwir = groupWorkInstructionRecordService
 						.findById(groupWorkInstructionRecord.getId());
-				gwir.setClientName(gwir.getGroupClient().getClientName());
+				
+				if(StringUtils.isNotBlank(groupWorkInstructionRecord.getGroupClient().getClientId())) {
+					GroupClient gc = groupClientService.findById(groupWorkInstructionRecord.getGroupClient().getClientId());
+					gwir.setClientName(gc.getClientName());
+					gwir.setGroupClient(gc);
+					}	
 				
 				if(StringUtils.isBlank(groupWorkInstructionRecord.getGroupMember().getSerialNumber())) {
 					gwir.setGroupMember(null);;
@@ -498,18 +508,21 @@ public class GroupWorkInstructionController extends BaseWebAppController {
 					
 				gwir.setAdditionalRequirements(groupWorkInstructionRecord.getAdditionalRequirements());
 				gwir.setEmail(groupWorkInstructionRecord.getEmail());
+				gwir.setQuoteNumber(groupWorkInstructionRecord.getQuoteNumber());
+				gwir.setOrderNumber(groupWorkInstructionRecord.getOrderNumber());
 				gwir.setEwpAccessEquipment(groupWorkInstructionRecord.isEwpAccessEquipment());
 				gwir.setJobEnd(groupWorkInstructionRecord.getJobEnd());
 				gwir.setJobStart(groupWorkInstructionRecord.getJobStart());
+				gwir.setSurfacePrepartion(groupWorkInstructionRecord.getSurfacePrepartion());
 				gwir.setTravelStart(groupWorkInstructionRecord.getTravelStart());
 				gwir.setTravelEnd(groupWorkInstructionRecord.getTravelEnd());
 				gwir.setMaterial(groupWorkInstructionRecord.getMaterial());
 				gwir.setMobilePhone(groupWorkInstructionRecord.getMobilePhone());
 				gwir.setPower(groupWorkInstructionRecord.isPower());
 				gwir.setNataEndorsed(groupWorkInstructionRecord.isNataEndorsed());
+				gwir.setLighting(groupWorkInstructionRecord.isLighting());
 				gwir.setSuitableAccess(groupWorkInstructionRecord.isSuitableAccess());
 				gwir.setUpdatedAt(Calendar.getInstance().getTime());
-
 				gwir.setUpdatedBy(this.getloggedInUser().getName());
 				groupWorkInstructionRecordService.update(gwir);
 			}
