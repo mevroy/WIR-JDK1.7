@@ -165,6 +165,7 @@ public class UserController extends BaseWebAppController {
 						addError(msg.loginBlocked, model);
 						return "login";
 					}
+					
 					request.getSession(true).setAttribute(Key.user, user);
 					// The main links are removed so that pre-login links go away and the new set of
 					// link are reloaded
@@ -175,6 +176,10 @@ public class UserController extends BaseWebAppController {
 					// "+CommonUtils.printDateInHomeTimeZone(user.getCurrentLoginAt()));
 					log.info("Date Time in Australia/Melbourne for Logged in user: "
 							+ CommonUtils.printDateInHomeTimeZone(user.getCurrentLoginAt()));
+					Groups group = groupsService.findByGroupCode(groupCode);
+					if(StringUtils.isNotBlank(group.getCss())) {
+					request.getSession().setAttribute("cssSelector", group.getCss()+".");
+					}
 					return Key.redirect + "/" + groupCode + Route.dashboard;
 				} else {
 					log.info("User Authentication Failed: " + user.getUserName());

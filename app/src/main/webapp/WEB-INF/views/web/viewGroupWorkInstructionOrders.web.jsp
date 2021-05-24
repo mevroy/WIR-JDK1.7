@@ -83,7 +83,7 @@
 // 										}
 // 									},
 									{
-										label : 'Action',
+										label : ' ',
 										name : 'id',
 										index : 'id',
 										width : 50,
@@ -102,7 +102,7 @@
 										name : 'jobNumber',
 										index : 'jobNumber',
 										sorttype : "string",
-										width : 100,
+										width : 80,
 										sorttype : "string",
 										search : true,
 										hidden : false,
@@ -121,7 +121,7 @@
 										index : 'groupClient.clientName',
 										sorttype : "string",
 										//frozen : true,
-										width : 100,
+										width : 140,
 										editable : false,
 										searchoptions : {
 											sopt : [ 'bw', 'eq', 'bn', 'cn',
@@ -134,16 +134,7 @@
 										name : 'quoteNumber',
 										index : 'quoteNumber',
 										width : 80,
-										editable : false,
-										search : true,
-										sorttype : "string",
-
-									},
-									{
-										label : 'Logged By',
-										name : 'createdBy',
-										index : 'createdBy',
-										width : 80,
+										hidden : true,
 										editable : false,
 										search : true,
 										sorttype : "string",
@@ -155,7 +146,7 @@
 										index : 'material',
 										sorttype : "string",
 										width : 80,
-										hidden : false,
+										hidden : true,
 										editable : true,
 
 									},
@@ -164,6 +155,7 @@
 										name : 'suitableAccess',
 										index : 'suitableAccess',
 										width : 50,
+										hidden : true,
 										sortable : true,
 										editable : true,
 										edittype : "checkbox",
@@ -176,7 +168,7 @@
 										label : 'NATA Endorsed',
 										name : 'nataEndorsed',
 										index : 'nataEndorsed',
-										width : 50,
+										width : 70,
 										sortable : true,
 										editable : true,
 										edittype : "checkbox",
@@ -192,6 +184,7 @@
 										width : 50,
 										sortable : true,
 										editable : true,
+										hidden : true,
 										edittype : "checkbox",
 										formatter : formatBoolean,
 										editoptions : {
@@ -204,7 +197,7 @@
 										index : 'ewpAccessEquipment',
 										sorttype : "string",
 										width : 100,
-										hidden : false,
+										hidden : true,
 										editable : true,
 										edittype : "checkbox",
 										formatter : formatBoolean,
@@ -218,7 +211,7 @@
 										index : 'groupMember.serialNumber',
 											sorttype : "string",
 											hidden : false,
-											width : 100,
+											width : 120,
 											formatter: function(cellValue, options, rowObject) {
 												return rowObject.groupMember!= null ? rowObject.groupMember.firstName + ' '+ rowObject.groupMember.lastName : ""
 											},
@@ -245,6 +238,7 @@
 										name : 'mobilePhone',
 										index : 'mobilePhone',
 										width : 80,
+										hidden : true,										
 										sortable : false,
 										sorttype : "string",
 										editable : true
@@ -259,13 +253,13 @@
 										editoptions : {
 											dataInit : datetimePick
 										},
-										width: 100
+										width: 150
 									},
 									{
 										label : 'Job End Time',
 										name : 'jobEnd',
 										index : 'jobEnd',
-										hidden : false,
+										hidden : true,
 										editable : true,
 										formatter : formatDateTime,
 										width : 100,
@@ -281,8 +275,20 @@
 										formatter : formatDateTime,
 										//sorttype : "date",
 										hidden : false,
-										editable : false
+										editable : false,
+										width: 150
+
  									},
+									{
+										label : 'Logged By',
+										name : 'createdBy',
+										index : 'createdBy',
+										width : 82,
+										editable : false,
+										search : true,
+										sorttype : "string",
+
+									},
 // 									{
 // 										label : 'Created By',
 // 										name : 'createdBy',
@@ -361,6 +367,7 @@
 																fixed : true,
 																sortable : false,
 																resize : false,
+																hidden: true,
 																formatter : 'actions',
 																formatoptions : {
 																	keys : true,
@@ -390,7 +397,7 @@
 															{
 																name : "testMethod",
 																index : "testMethod",
-																width : 100,
+																width : 140,
 																editable : true,
 																editrules : {
 																	required : true
@@ -414,7 +421,7 @@
 															{
 																name : "itrDocument",
 																index : "itrDocument",
-																width : 100,
+																width : 130,
 																editable : true,
 																edittype : 'select',
 																editoptions : {
@@ -438,7 +445,7 @@
 															{
 																name : "testStandard",
 																index : "testStandard",
-																width : 100,
+																width : 168,
 																editable : true,
 																edittype : 'select',
 																editoptions : {
@@ -460,7 +467,7 @@
 															{
 																name : "acceptanceCriteria",
 																index : "acceptanceCriteria",
-																width : 150,
+																width : 170,
 																editable : true,
 																edittype : 'select',
 																editoptions : {
@@ -482,7 +489,7 @@
 															{
 																name : "itemProcedure",
 																index : "itemProcedure",
-																width : 100,
+																width : 110,
 																editable : true,																edittype : 'select',
 																editoptions : {
 																	multiple : true,

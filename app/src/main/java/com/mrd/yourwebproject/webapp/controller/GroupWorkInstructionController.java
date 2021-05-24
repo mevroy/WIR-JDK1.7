@@ -524,6 +524,14 @@ public class GroupWorkInstructionController extends BaseWebAppController {
 				gwir.setSuitableAccess(groupWorkInstructionRecord.isSuitableAccess());
 				gwir.setUpdatedAt(Calendar.getInstance().getTime());
 				gwir.setUpdatedBy(this.getloggedInUser().getName());
+				
+				List<GroupWorkItems> gwi = new ArrayList<GroupWorkItems>();
+				for (GroupWorkItems gw : groupWorkInstructionRecord.getGroupWorkItems()) {
+					if (StringUtils.isNotBlank(gw.getTestMethod())) {
+						gwi.add(gw);
+					}
+				}
+				gwir.setGroupWorkItems(gwi);
 				groupWorkInstructionRecordService.update(gwir);
 			}
 			else {

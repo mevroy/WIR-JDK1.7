@@ -310,9 +310,13 @@
 							<div class="controls">
 								<form:select path="groupWorkItems[0].testMethod"
 									data-live-search="true" cssClass="form-control selectpicker"
-									id="testMethod"
-									onchange="buildWIRDropDowns(this.value, 'itrDocument0' ,'itemProcedure0', 'testStandard0', 'acceptanceCriteria0');"
-									placeholder="Test Method" />
+									id="testMethod0"
+									onchange="buildWIRDropDownsByIndex(this.value, 'itrDocument' ,'itemProcedure', 'testStandard', 'acceptanceCriteria','0', false);"
+									placeholder="Test Method" >
+									<option
+										value="${groupWorkInstructionRecord.groupWorkItems[0].testMethod}">Select
+										one</option>
+									</form:select>
 							</div>
 						</div>
 					</div>
@@ -353,7 +357,11 @@
 								<form:select multiple="true" data-live-search="true"
 									path="groupWorkItems[0].testStandard"
 									cssClass="form-control selectpicker" id="testStandard0"
-									placeholder="Enter Test Standard" size="5" />
+									placeholder="Enter Test Standard" size="5" >
+									<option
+										value="${groupWorkInstructionRecord.groupWorkItems[0].testStandard}" selected>Select
+										one</option>									
+									</form:select>
 							</div>
 						</div>
 					</div>
@@ -367,7 +375,11 @@
 								<form:select multiple="true" data-live-search="true"
 									path="groupWorkItems[0].acceptanceCriteria"
 									cssClass="form-control selectpicker" id="acceptanceCriteria0"
-									placeholder="Enter Acceptane Criteria" size="5" />
+									placeholder="Enter Acceptane Criteria" size="5" >
+									<option
+										value="${groupWorkInstructionRecord.groupWorkItems[0].acceptanceCriteria}" selected>Select
+										one</option>										
+									</form:select>
 							</div>
 						</div>
 					</div>
@@ -384,6 +396,8 @@
 							</div>
 						</div>
 					</div>
+					<form:hidden path="groupWorkItems[0].id" id="id0" readonly="true" />
+					
 				</div>
 
 
@@ -391,7 +405,16 @@
 
 			<c:forEach begin="1" end="4" step="1" var="i">
 				<div class="row">
-					<div id="moreDetails${i}" class="moreDetails">
+					<form:hidden path="groupWorkItems[${i}].id" id="id${i}" readonly="true" />				
+				<c:choose>
+  					<c:when test="${not empty groupWorkInstructionRecord.groupWorkItems[i].testMethod}">
+						<c:set var="status" value="show"/>
+  					</c:when>
+  					<c:otherwise>
+						<c:set var="status" value=""/>
+  				</c:otherwise>
+				</c:choose>
+					<div id="moreDetails${i}" class="moreDetails${status}">
 						<hr
 							style="height: 10px; border: 0; box-shadow: 0 10px 10px -10px #337ab7 inset">
 
@@ -402,9 +425,13 @@
 								<div class="controls">
 									<form:select path="groupWorkItems[${i}].testMethod"
 										data-live-search="true"
-										onchange="buildWIRDropDowns(this.value,  'itrDocument'+${i} , 'itemProcedure'+${i}, 'testStandard'+${i}, 'acceptanceCriteria'+${i});"
-										cssClass="form-control" id="testMethod"
-										placeholder="Test Method" />
+										onchange="buildWIRDropDownsByIndex(this.value,  'itrDocument' , 'itemProcedure', 'testStandard', 'acceptanceCriteria', ${i}, false);"
+										cssClass="form-control" id="testMethod${i}"
+										placeholder="Test Method">
+									<option
+										value="${groupWorkInstructionRecord.groupWorkItems[i].testMethod}">Select
+										one</option>										
+										</form:select>
 								</div>
 							</div>
 						</div>
@@ -445,7 +472,11 @@
 										path="groupWorkItems[${i}].testStandard"
 										data-live-search="true" cssClass="form-control selectpicker"
 										id="testStandard${i}" placeholder="Enter Test Standard"
-										size="5" />
+										size="5">
+									<option
+										value="${groupWorkInstructionRecord.groupWorkItems[i].testStandard}" selected>Select
+										one</option>											
+										</form:select>
 								</div>
 							</div>
 						</div>
@@ -459,7 +490,11 @@
 										path="groupWorkItems[${i}].acceptanceCriteria"
 										data-live-search="true" cssClass="form-control selectpicker"
 										id="acceptanceCriteria${i}"
-										placeholder="Enter Acceptane Criteria" size="5" />
+										placeholder="Enter Acceptane Criteria" size="5">
+									<option
+										value="${groupWorkInstructionRecord.groupWorkItems[i].acceptanceCriteria}" selected>Select
+										one</option>										
+										</form:select>
 								</div>
 							</div>
 						</div>
@@ -959,7 +994,9 @@
 	
 	$(function() {
 		buildClients('clientId');
-		buildTestMethods('testMethod');
+		for(var a=0; a<5; a++) {
+			buildTestMethods('testMethod', a, false);
+		}	
 		buildUsers('serialNumber');
 		if(typeof $("select#clientId").val() !== 'undefined') {
 			var clientId = $("select#clientId").val();
@@ -978,8 +1015,9 @@
 	}
 
 	function removeWorkItem() {
-		hideById('moreDetails' + division);
 		division = division - 1;
+		buildTestMethods('testMethod', division, true);
+		hideById('moreDetails' + division);
 	}
 	
 	function showAlert(formId){
