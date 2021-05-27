@@ -28,7 +28,7 @@
 						<label class="control-label" for="confirm">Confirm Password </label>
 
 						<div class="controls">
-							<form:input path="confirm" cssClass="form-control"
+							<form:password path="confirm" cssClass="form-control"
 								id="confirm" placeholder="Confirm Password" />
 						</div>
 					</div>

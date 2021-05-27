@@ -1123,6 +1123,14 @@ function formatDate(cellValue, opts, rwd) {
 	}
 }
 
+function splitStringToLinesByCommas(cellValue, options, rowObject) {
+	var list = cellValue?cellValue.split(","):"";
+	var retVal = ""
+	for(var a=0; a < list.length; a++) {
+		retVal = retVal+ list[a]+"\n";
+	}
+	return retVal
+}
 function formatDateTime(cellValue, opts, rwd) {
 	if (cellValue) {
 		if (typeof cellValue.length != 'undefined') {

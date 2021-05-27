@@ -73,6 +73,27 @@ public interface UserService extends BaseService<User, Long> {
 
 
     /**
+     * Validates whether the given serialNumber already
+     * exists in the system as registered user.
+     *
+     * @param email
+     *
+     * @return
+     */
+    public boolean isUserRegistrationEntryExists(String serialNumber);
+
+    /**
+     * Validates whether the given serialNumber already
+     * exists in the system as valid groupMember.
+     *
+     * @param email
+     *
+     * @return
+     */
+    public boolean isValidEmployee(String serialNumber);
+
+
+    /**
      * Finds a user entity by the given username
      *
      * @param username
@@ -80,7 +101,7 @@ public interface UserService extends BaseService<User, Long> {
      */
     public User findByUsername(String username) throws NotFoundException;
     
-//    public List<User> findUsersByGroupCode(String groupCode);
+    public List<User> findUsersByGroupCode(String groupCode, boolean enableFilter);
     
     public User findByUsernameAndGroupCode(String username, String groupCode,boolean enableFilter) throws NotFoundException;
 }

@@ -8,8 +8,10 @@ import com.mrd.yourwebproject.common.Key;
 import com.mrd.yourwebproject.common.Message;
 import com.mrd.yourwebproject.model.entity.User;
 import com.mrd.yourwebproject.model.repository.UserRepository;
+import com.mrd.yourwebproject.service.GroupMembersService;
 import com.mrd.yourwebproject.service.UserService;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Service impl class to implement services for accessing the User object entity.
@@ -31,6 +34,7 @@ import java.util.Date;
 @Transactional
 public class UserServiceImpl extends BaseJpaServiceImpl<User, Long> implements UserService {
     private @Autowired UserRepository userRepository;
+	private @Autowired GroupMembersService groupMembersService;
     private @Autowired Message msg;
     private @Autowired Key key;
 
@@ -91,12 +95,48 @@ public class UserServiceImpl extends BaseJpaServiceImpl<User, Long> implements U
         } else
             return false;
     }
+     
+     public boolean isUserRegistrationEntryExists(String serialNumber) {
+    	 if(StringUtils.isNotBlank(serialNumber)) {
+    	 if(userRepository.findByGroupMember(serialNumber) != null) {
+    		 System.out.println("User Reg exists");
+    		 return true;
+    	 }
+    	 else {
+    		 return false;
+    	 }
+    	 }
+    	 return false;
+}
 
+     public boolean isValidEmployee(String serialNumber) {
+    	 if(StringUtils.isNotBlank(serialNumber)) {
+    		 try {
+    			 groupMembersService.findById(serialNumber);
+        		 System.out.println("Valid Reg exists");
+
+    			 return true;
+    		 }
+    		 catch(Exception e) {
+    			 return false;
+    		 }
+    	 }
+    	 return false;
+     }
 
      public Validity validate(User user) {
         EntityValidator<User> entityValidator = new EntityValidator<User>();
         Validity validity = entityValidator.validate(user, User.class);
 
+        //Check if serial number is valid or already registered
+        if(!isValidEmployee(user.getSerialNumber())) {
+            validity.addError("Your member ID is not found in the system. Unable to register. Please contact Admin!");
+
+        }
+        
+        if(isUserRegistrationEntryExists(user.getSerialNumber())) {
+            validity.addError("You have already registered before. Please contact admin for your username");
+        }
         // Check for username and email uniqueness
         if (isUsernameExists(user.getUserName())) {
             validity.addError(msg.userExists);
@@ -129,5 +169,11 @@ public class UserServiceImpl extends BaseJpaServiceImpl<User, Long> implements U
         	
             throw new NotFoundException(key.unfMsg, key.unfCode);
         }
+	}
+
+
+	public List<User> findUsersByGroupCode(String groupCode, boolean enableFilter) {
+		// TODO Auto-generated method stub
+		return userRepository.findUsersByGroupCode(groupCode, enableFilter);
 	}
 }

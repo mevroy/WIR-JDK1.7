@@ -68,7 +68,6 @@ public class GroupMembersRepositoryImpl extends BaseHibernateJpaRepository<Group
                 groupCode).setString("emailAddress", "%"+emailAddress+"%").list();
 	}
 
-	@Override
 	public List<GroupMember> findByGroupCodeWithStatus(String groupCode, boolean includeExpired) {
         return (List<GroupMember>) sessionFactory.getCurrentSession().createQuery("from GroupMember g where g.groupCode = ? " + (includeExpired ? "" : " and ((g.membershipEndDate is null or g.membershipEndDate >= NOW()) and (g.membershipStartDate is null or (g.membershipStartDate) <= NOW()))")).setString(0,
                 groupCode).list();	}

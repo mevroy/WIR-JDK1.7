@@ -232,7 +232,7 @@ public class UserController extends BaseWebAppController {
 				model.addAttribute(Key.isRegister, true);
 				return Key.redirect + "/" + groupCode + Route.dashboard;
 			} else {
-				addError(msg.registerError, model);
+				addError(validity.errors(), model);
 				return View.userRegistration;
 			}
 		} catch (Exception e) {

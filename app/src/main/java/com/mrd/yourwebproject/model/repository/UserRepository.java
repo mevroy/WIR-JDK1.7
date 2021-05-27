@@ -32,6 +32,8 @@ public interface UserRepository extends BaseJpaRepository<User, Long> {
     
     public User findByUsernameAndGroupCode(String username, String groupCode, boolean enableFilter);
     
-  //  public List<User> findUsersByGroupCode(String groupCode);
+    public User findByGroupMember(String serialNumber);
+
+    public List<User> findUsersByGroupCode(String groupCode, boolean enableFilter);
 
 }

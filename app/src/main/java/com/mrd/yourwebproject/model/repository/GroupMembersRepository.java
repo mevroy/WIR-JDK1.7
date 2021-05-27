@@ -36,5 +36,5 @@ public interface GroupMembersRepository extends BaseJpaRepository<GroupMember,St
 	public List<GroupMember> findByAssociatedEmailForGroupMemberAndDependents(
 			String emailAddress, String groupCode);
 	
-	List<GroupMember> findByGroupCodeWithStatus(String groupCode, boolean includeExpired);
+	public List<GroupMember> findByGroupCodeWithStatus(String groupCode, boolean includeExpired) ;
 }

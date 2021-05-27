@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mrd.commons.util.CommonUtils;
+import com.mrd.framework.exception.auth.UserPermissionException;
 import com.mrd.yourwebproject.actor.MailSenderActor;
 import com.mrd.yourwebproject.common.CheckPermission;
 import com.mrd.yourwebproject.common.EnableLogging;
@@ -39,7 +40,9 @@ import com.mrd.yourwebproject.model.entity.GroupEvents;
 import com.mrd.yourwebproject.model.entity.GroupMember;
 import com.mrd.yourwebproject.model.entity.GroupMemberCategory;
 import com.mrd.yourwebproject.model.entity.GroupSMS;
+import com.mrd.yourwebproject.model.entity.GroupUserRole;
 import com.mrd.yourwebproject.model.entity.RegisterInterest;
+import com.mrd.yourwebproject.model.entity.User;
 import com.mrd.yourwebproject.model.entity.embedded.Address;
 import com.mrd.yourwebproject.model.entity.enums.Role;
 import com.mrd.yourwebproject.service.FeedbackService;
@@ -52,6 +55,7 @@ import com.mrd.yourwebproject.service.GroupMemberCategoryService;
 import com.mrd.yourwebproject.service.GroupMembersService;
 import com.mrd.yourwebproject.service.GroupSMSService;
 import com.mrd.yourwebproject.service.RegisterInterestService;
+import com.mrd.yourwebproject.service.UserService;
 
 /**
  * @author mevan.d.souza
@@ -74,6 +78,7 @@ public class GroupMembersController extends BaseWebAppController {
 	private @Autowired GroupEventsService groupEventsService;
 	private @Autowired GroupEventPassesService groupEventPassesService;
 	private @Autowired GroupSMSService groupSMSService;
+	private @Autowired UserService userService;
 
 	@RequestMapping(value = { "/addGroupMember" }, method = RequestMethod.GET)
 	public String addGroupMember(Locale locale, Model model,
@@ -1020,5 +1025,40 @@ public class GroupMembersController extends BaseWebAppController {
 					+ gm.getSerialNumber().substring(2, 8).toUpperCase();
 		}
 		return "";
+	}
+	
+	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN})
+	@RequestMapping(value = "/viewGroupUsers", method = RequestMethod.GET)
+	public String viewGroupUsers(Locale locale, Model model,
+			@PathVariable String groupCode) {
+		return "viewGroupUsers";
+	}
+	
+	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN})
+	@RequestMapping(value = "/json/viewGroupUsers", method = RequestMethod.GET)
+	public @ResponseBody List<User> viewJsonGroupUsers(Locale locale, Model model,
+			@PathVariable String groupCode) {
+		return userService.findUsersByGroupCode(groupCode, true);
+	}
+	
+	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN})
+	@RequestMapping(value = "/json/updateGroupUsers", method = RequestMethod.POST)
+	public @ResponseBody String updateGroupUsers(Locale locale, Model model, @ModelAttribute User user,
+			@PathVariable String groupCode) {
+		try {
+			User userDB = userService.findById(user.getId());
+			GroupUserRole gur = user.getGroupUserRoles().get(0);
+			userDB.getGroupUserRoles().get(0).setRole(gur.getRole());
+			userDB.getGroupUserRoles().get(0).setStartDate(gur.getStartDate());
+			userDB.getGroupUserRoles().get(0).setExpiryDate(gur.getExpiryDate());
+			userService.insertOrUpdate(userDB);
+			return "success";
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "error";
+
+		}
 	}
 }

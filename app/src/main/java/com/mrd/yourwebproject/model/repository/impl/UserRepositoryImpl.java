@@ -4,6 +4,8 @@ import com.mrd.framework.data.BaseHibernateJpaRepository;
 import com.mrd.yourwebproject.model.entity.User;
 import com.mrd.yourwebproject.model.repository.UserRepository;
 
+import java.util.List;
+
 import org.hibernate.Filter;
 import org.springframework.stereotype.Repository;
 
@@ -38,4 +40,20 @@ public class UserRepositoryImpl extends BaseHibernateJpaRepository<User, Long> i
          return (User) sessionFactory.getCurrentSession().createQuery("select u from User u left join u.groupUserRoles gur where u.userName = ? and gur.group.groupCode = ? and (gur.expiryDate is null or date(gur.expiryDate) >= NOW()) and (gur.startDate is null or date(gur.startDate) <= NOW())").setString(0,
                  username).setString(1, groupCode).uniqueResult();
      }
+
+
+	public User findByGroupMember(String serialNumber) {
+        return (User) sessionFactory.getCurrentSession().createQuery("from User u where u.serialNumber = ?").setString(0,
+        		serialNumber).uniqueResult();	}
+
+
+	public List<User> findUsersByGroupCode(String groupCode, boolean enableFilter) {
+   	 if(enableFilter)
+   	 {
+   		 Filter filter = sessionFactory.getCurrentSession().enableFilter("filterUserRoles");
+   		 filter.setParameter("groupCode", groupCode);
+   	 }
+        return (List<User>)sessionFactory.getCurrentSession().createQuery("select distinct(u) from User u left join u.groupUserRoles gur where gur.group.groupCode = ?").setString(0,
+        		groupCode).list();
+	}
 }
