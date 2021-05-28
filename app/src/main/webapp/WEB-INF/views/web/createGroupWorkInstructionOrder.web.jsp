@@ -407,12 +407,14 @@
 
 			</div>
 
+			<c:set var="loopCounterInt" value="1"/>						
 			<c:forEach begin="1" end="4" step="1" var="i">
 				<div class="row">
 					<form:hidden path="groupWorkItems[${i}].id" id="id${i}" readonly="true" />				
 				<c:choose>
   					<c:when test="${not empty groupWorkInstructionRecord.groupWorkItems[i].testMethod}">
 						<c:set var="status" value="show"/>
+						<c:set var="loopCounterInt" value="${i+1}"/>						
   					</c:when>
   					<c:otherwise>
 						<c:set var="status" value=""/>
@@ -1015,15 +1017,22 @@
 		
 		$('.moreDetails').hide();
 	});
-	var division = 1;
+	var division = ${loopCounterInt};
 	function displayWorkItem() {
 		showById('moreDetails' + division);
 		division++;
+		if(division>= 5) {
+			division = 5;
+		}
 	}
 
 	function removeWorkItem() {
 		division = division - 1;
 		buildTestMethods('testMethod', division, true);
+		if(division <=1) {
+			division = 1;
+		}
+		alert(division);
 		hideById('moreDetails' + division);
 	}
 	
