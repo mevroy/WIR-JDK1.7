@@ -329,7 +329,9 @@
 								<form:select path="groupWorkItems[0].itrDocument"
 									cssClass="form-control selectpicker" id="itrDocument0"
 									placeholder="ITR Document">
-									<option value="">Select One</option>
+									<option
+										value="${groupWorkInstructionRecord.groupWorkItems[0].itrDocument}">Select
+										one</option>
 								</form:select>
 							</div>
 						</div>
@@ -343,8 +345,10 @@
 								<form:select path="groupWorkItems[0].itemProcedure"
 									cssClass="form-control selectpicker" id="itemProcedure0"
 									placeholder="Item Procedure">
-									<option value="">Select One</option>
-								</form:select>
+									<option
+										value="${groupWorkInstructionRecord.groupWorkItems[0].itemProcedure}">Select
+										one</option>
+																		</form:select>
 							</div>
 						</div>
 					</div>
@@ -443,8 +447,10 @@
 									<form:select path="groupWorkItems[${i}].itrDocument"
 										cssClass="form-control selectpicker" id="itrDocument${i}"
 										placeholder="ITR Document">
-										<option value="">Select One</option>
-									</form:select>
+									<option
+										value="${groupWorkInstructionRecord.groupWorkItems[i].itrDocument}">Select
+										one</option>									
+										</form:select>
 								</div>
 							</div>
 						</div>
@@ -457,8 +463,9 @@
 									<form:select path="groupWorkItems[${i}].itemProcedure"
 										cssClass="form-control selectpicker" id="itemProcedure${i}"
 										placeholder="Item Procedure">
-										<option value="">Select One</option>
-									</form:select>
+									<option
+										value="${groupWorkInstructionRecord.groupWorkItems[i].itemProcedure}">Select
+										one</option>									</form:select>
 								</div>
 							</div>
 						</div>

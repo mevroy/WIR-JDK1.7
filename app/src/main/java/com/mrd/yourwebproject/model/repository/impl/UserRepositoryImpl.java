@@ -53,7 +53,7 @@ public class UserRepositoryImpl extends BaseHibernateJpaRepository<User, Long> i
    		 Filter filter = sessionFactory.getCurrentSession().enableFilter("filterUserRoles");
    		 filter.setParameter("groupCode", groupCode);
    	 }
-        return (List<User>)sessionFactory.getCurrentSession().createQuery("select distinct(u) from User u left join u.groupUserRoles gur where gur.group.groupCode = ?").setString(0,
+        return (List<User>)sessionFactory.getCurrentSession().createQuery("select distinct(u) from User u left join u.groupUserRoles gur where gur.group.groupCode = ? and u.adminUser = 0").setString(0,
         		groupCode).list();
 	}
 }

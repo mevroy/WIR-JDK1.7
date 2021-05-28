@@ -141,13 +141,16 @@
 												var options = '<select>';
 												var j = $.parseJSON(response);
 												for (var i = 0; i < j.length; i++) {
+													if(j[i]!== "SUPER_ADMIN") {
 													options += '<option value="' + j[i] + '">'
 															+ j[i]
 															+ '</option>';
 												}
+												}
 												options += '</select>';
 												return options;
-											}
+											},
+											 editrules:{required:true}
 										}
 									},
 									{
