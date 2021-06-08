@@ -29,7 +29,6 @@ public class GroupClientContactRepositoryImpl extends BaseHibernateJpaRepository
 		return groupClientContact;
 	}
 
-	@Override
 	public List<GroupClientContact> findByGroupClientAndType(String clientId, ContactType type) {
 		Query q = sessionFactory.getCurrentSession()
 				.createQuery("from GroupClientContact g where g.clientId = :clientId and g.contactType = :contactType order by g.createdAt desc")

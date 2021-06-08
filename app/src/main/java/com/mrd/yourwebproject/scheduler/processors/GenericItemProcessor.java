@@ -1,5 +1,7 @@
 package com.mrd.yourwebproject.scheduler.processors;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -147,8 +149,18 @@ public class GenericItemProcessor implements
 		}
         List<GroupWorkInstructionRecord> gwir = groupWorkInstructionRecordService.findByGroupCodeAndGroupMemeber(groupMember.getGroupCode(), groupMember);
 		if(gwir !=null && gwir.size()>0) {
-			model.put("groupWorkInstructionRecord", gwir.get(0));
+			GroupWorkInstructionRecord nextJob = gwir.get(0);
+			model.put("groupWorkInstructionRecord", nextJob);
+			Comparator<GroupWorkInstructionRecord> gcomp =  new Comparator<GroupWorkInstructionRecord>() {
+				public int compare(GroupWorkInstructionRecord o1, GroupWorkInstructionRecord o2) {
+					return Long.valueOf(o2.getCreatedAt().getTime()).compareTo(o1.getCreatedAt().getTime());
+				}
+			};
+
+			Collections.sort(gwir, gcomp);
+			model.put("groupWorkInstructionRecordLatest", gwir.get(0));
 			model.put("groupWorkInstructionRecords", gwir);
+
 		}
         groupEmail.setEmailAddress(groupMember.getPrimaryEmail());
 		groupEmail.setBccEmailAddress(groupMember.getOtherEmail());

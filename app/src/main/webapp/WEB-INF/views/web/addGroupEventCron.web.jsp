@@ -27,8 +27,16 @@
 							<label class="control-label" for="jobName">Job Name</label>
 
 							<div class="controls">
-								<form:input path="jobName" cssClass="input-xlarge" id="jobName"
-									placeholder="Enter Job Name (E.g. genericJob)" />
+								<form:select path="jobName" cssClass="input-xlarge"
+										id="jobName" placeholder="Enter Job Name (E.g. genericJob)">
+										<option value="">Select One</option>
+										<option value="genericJob">genericJob</option>
+										<option value="emailProcessorJob">emailProcessorJob</option>
+										<option value="emailProcessorJobExpress">emailProcessorJobExpress</option>
+										<option value="smsProcessorJobExpress">smsProcessorJobExpress</option>
+										<option value="paymentProcessorJob">paymentProcessorJob</option>
+
+									</form:select>									
 							</div>
 						</div>
 						<div class="control-group" id="jobDescriptionCtl">

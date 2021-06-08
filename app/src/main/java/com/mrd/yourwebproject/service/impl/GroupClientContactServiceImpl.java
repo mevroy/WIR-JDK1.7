@@ -37,7 +37,6 @@ public class GroupClientContactServiceImpl extends BaseJpaServiceImpl<GroupClien
 		return groupClientContactRepository.findByGroupClient(clientId);
 	}
 
-	@Override
 	public List<GroupClientContact> findByGroupClientAndType(String clientId, ContactType type) {
 		return groupClientContactRepository.findByGroupClientAndType(clientId, type);
 	}

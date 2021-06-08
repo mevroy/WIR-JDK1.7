@@ -29,7 +29,6 @@ public class GroupAddressRepositoryImpl extends BaseHibernateJpaRepository<Group
 		return groupAddress;
 	}
 
-	@Override
 	public List<GroupAddress> findByGroupClientAndType(String clientId, AddressType type) {
 		Query q = sessionFactory.getCurrentSession()
 				.createQuery("from GroupAddress g where g.clientId = :clientId and g.addressType = :addresstype order by g.createdAt desc")

@@ -1032,7 +1032,6 @@
 		if(division <=1) {
 			division = 1;
 		}
-		alert(division);
 		hideById('moreDetails' + division);
 	}
 	

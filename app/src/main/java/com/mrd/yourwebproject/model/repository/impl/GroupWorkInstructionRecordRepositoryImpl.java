@@ -33,7 +33,6 @@ public class GroupWorkInstructionRecordRepositoryImpl extends
 				.setParameter("groupCode", groupCode).list();
 	}
 
-	@Override
 	public List<GroupWorkInstructionRecord> findByGroupCodeAndGroupMemeber(String groupCode, GroupMember groupMember) {
 		return (List<GroupWorkInstructionRecord>) sessionFactory.getCurrentSession().createQuery(
 				"select gwir from GroupWorkInstructionRecord gwir where gwir.group.groupCode = :groupCode and gwir.groupMember.serialNumber = :serialNumber order by gwir.jobStart desc")

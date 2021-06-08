@@ -225,15 +225,18 @@ public class GroupWorkInstructionRecordServiceImpl extends BaseJpaServiceImpl<Gr
 
 			}
 
-			
+			if(groupWorkInstructionRecord.getGroupClientContact()!=null) {
 			CommonUtils.setAcroFormField(acroForm, "siteContact", groupWorkInstructionRecord.getGroupClientContact().getFirstName()+" "+groupWorkInstructionRecord.getGroupClientContact().getLastName(), true);
-			CommonUtils.setAcroFormField(acroForm, "siteAddress", groupWorkInstructionRecord.getGroupAddress().getStreetAddress()+ ", "+groupWorkInstructionRecord.getGroupAddress().getSuburb()+" - "+groupWorkInstructionRecord.getGroupAddress().getState()+", "+groupWorkInstructionRecord.getGroupAddress().getZipCode(), true);
 			CommonUtils.setAcroFormField(acroForm, "contactMobile", groupWorkInstructionRecord.getGroupClientContact().getMobilephone());
 			CommonUtils.setAcroFormField(acroForm, "contactPhone", groupWorkInstructionRecord.getGroupClientContact().getMobilephone());
 			CommonUtils.setAcroFormField(acroForm, "contactEmail", groupWorkInstructionRecord.getGroupClientContact().getEmail(), true);
 			CommonUtils.setAcroFormField(acroForm, "contactFax", groupWorkInstructionRecord.getGroupClientContact().getFax());
+			}
 			CommonUtils.setAcroFormField(acroForm, "clientEmail", groupWorkInstructionRecord.getGroupClient().getEmail(), true);
 
+			if(groupWorkInstructionRecord.getGroupAddress() != null) {
+			CommonUtils.setAcroFormField(acroForm, "siteAddress", groupWorkInstructionRecord.getGroupAddress().getStreetAddress()+ ", "+groupWorkInstructionRecord.getGroupAddress().getSuburb()+" - "+groupWorkInstructionRecord.getGroupAddress().getState()+", "+groupWorkInstructionRecord.getGroupAddress().getZipCode(), true);
+			}
 
 //TODO
 //contactHO
@@ -241,6 +244,7 @@ public class GroupWorkInstructionRecordServiceImpl extends BaseJpaServiceImpl<Gr
 
 			CommonUtils.setAcroFormField(acroForm, "power", groupWorkInstructionRecord.isPower() ? "YES" : "NO");
 			CommonUtils.setAcroFormField(acroForm, "lighting", groupWorkInstructionRecord.isLighting() ? "YES" : "NO");
+			CommonUtils.setAcroFormField(acroForm, "nataEndorsed", groupWorkInstructionRecord.isNataEndorsed() ? "YES" : "NO");
 
 			CommonUtils.setAcroFormField(acroForm, "suitableAccess",
 					(groupWorkInstructionRecord.isSuitableAccess() ? "YES" : "NO"));
@@ -305,7 +309,6 @@ public class GroupWorkInstructionRecordServiceImpl extends BaseJpaServiceImpl<Gr
 		return output;
 	}
 
-	@Override
 	public List<GroupWorkInstructionRecord> findByGroupCodeAndGroupMemeber(String groupCode, GroupMember groupMember) {
 		return groupWorkInstructionRecordRepository.findByGroupCodeAndGroupMemeber(groupCode, groupMember);
 	}
