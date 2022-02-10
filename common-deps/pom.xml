@@ -44,7 +44,7 @@
 			<hibernateJavaAssist.version>3.12.1.GA</hibernateJavaAssist.version> <hibernateValidator.version>4.2.0.Final</hibernateValidator.version> 
 			<hibernateValidatorLegacy.version>4.0.2.GA</hibernateValidatorLegacy.version> -->
 
-		<hibernate.version>3.6.0.Final</hibernate.version>
+		<hibernate.version>5.4.24.Final</hibernate.version>
 		<hibernateJpa.version>1.0.0.Final</hibernateJpa.version>
 		<hibernateAnnotations.version>3.2.0-Final</hibernateAnnotations.version>
 		<hibernateJavaAssist.version>3.12.1.GA</hibernateJavaAssist.version>
