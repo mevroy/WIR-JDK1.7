@@ -7,7 +7,7 @@ import com.mrd.yourwebproject.model.entity.embedded.Address;
 import com.mrd.yourwebproject.model.entity.enums.Role;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-import lombok.Data;
+//import lombok.Data;
 
 /**
  * User Request Object
@@ -17,7 +17,7 @@ import lombok.Data;
  * @company: &copy; 2012, Kaleidosoft Labs
  */
 @XStreamAlias(Key.user)
-public @Data class UserRO {
+public class UserRO {
     public String username;
     public String password;
     public String confirm;

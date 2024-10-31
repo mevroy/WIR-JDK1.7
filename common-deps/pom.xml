@@ -78,7 +78,7 @@
 		<cglib.version>2.2.2</cglib.version>
 		<jodaTime.version>2.0</jodaTime.version>
 		<xstream.version>1.4.2</xstream.version>
-		<lombok.version>0.10.6</lombok.version>
+		<lombok.version>1.18.24</lombok.version>
 		<castor.version>1.3.1</castor.version>
 		<xerces.version>2.10.0</xerces.version>
 		<jacksonMapper.version>1.9.2</jacksonMapper.version>
@@ -86,9 +86,9 @@
 		<libphonenumber.version>7.3.2</libphonenumber.version>
 		<pdfbox.version>2.0.2</pdfbox.version>
 		<boxable.version>1.4</boxable.version>
-		<mavenDependency.plugin.version>2.4</mavenDependency.plugin.version>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
+		<mavenDependency.plugin.version>3.8.1</mavenDependency.plugin.version>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
 
 	</properties>
 
@@ -579,12 +579,12 @@
 		</dependency>
 
 
-		<!-- Lombok for Java Boilerplate -->
+		<!-- Lombok for Java Boilerplate
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>${lombok.version}</version>
-		</dependency>
+		</dependency> -->
 
 
 		<!-- Logging -->
@@ -650,6 +650,21 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!--<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.13.0</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>3.0.0</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>3.1.1</version>
+			</plugin> -->
 		</plugins>
 	</build>
 </project>
