@@ -34,9 +34,9 @@ public abstract class BaseMongoServiceImpl<T extends Entity, ID extends Serializ
     }
 
 
-     public T findById(ID id) throws Exception {
-        return (T) baseCrudRepository.findOne(id);
-    }
+/*     public T findById(ID id) throws Exception {
+        return (T) baseCrudRepository.findById(id);
+    }*/
 
 
      public Validity validate(T object) {

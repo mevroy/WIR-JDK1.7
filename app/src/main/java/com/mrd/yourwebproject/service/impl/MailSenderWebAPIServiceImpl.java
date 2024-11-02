@@ -3,34 +3,6 @@
  */
 package com.mrd.yourwebproject.service.impl;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Arrays;
-
-import javax.activation.URLDataSource;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.ByteArrayHttpMessageConverter;
-import org.springframework.http.converter.FormHttpMessageConverter;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
-import org.springframework.mail.MailAuthenticationException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
-
 import com.mrd.commons.util.CommonUtils;
 import com.mrd.yourwebproject.model.entity.GroupEmail;
 import com.mrd.yourwebproject.model.entity.GroupEmailAccount;
@@ -38,6 +10,21 @@ import com.mrd.yourwebproject.model.entity.GroupMember;
 import com.mrd.yourwebproject.model.entity.User;
 import com.mrd.yourwebproject.service.GroupMembersService;
 import com.mrd.yourwebproject.service.MailSenderWebAPIService;
+import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.mail.MailAuthenticationException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
 
 /**
  * @author mevan.d.souza
@@ -70,7 +57,7 @@ public class MailSenderWebAPIServiceImpl implements MailSenderWebAPIService {
 		restTemplate.setMessageConverters(Arrays.asList(
 				new StringHttpMessageConverter(),
 				new FormHttpMessageConverter(),
-				new MappingJacksonHttpMessageConverter(),
+				//new MappingJacksonHttpMessageConverter(),
 				new ByteArrayHttpMessageConverter()));
 		MultiValueMap<String, Object> params = new LinkedMultiValueMap<String, Object>();
 		params.set("api_user", groupEmailAccount.getUsername());

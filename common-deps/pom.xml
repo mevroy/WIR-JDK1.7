@@ -23,17 +23,18 @@
 		<velocity.version>1.7</velocity.version>
 		<velocityTools.version>2.0</velocityTools.version>
 		<freemarker.version>2.3.19</freemarker.version>
-		<springBatch.version>2.1.9.RELEASE</springBatch.version>
-		<springIntegration.version>3.0.6.RELEASE</springIntegration.version>
-		<springBatchAdmin.version>1.2.2.RELEASE</springBatchAdmin.version>
-		<spring.version>3.1.1.RELEASE</spring.version>
-		<spring.security.version>3.1.1.RELEASE</spring.security.version>
+		<springBatch.version>4.3.9</springBatch.version>
+		<springIntegration.version>5.5.17</springIntegration.version>
+		<springBatchAdmin.version>1.3.0.RELEASE</springBatchAdmin.version>
+		<spring.version>5.3.29</spring.version>
+		<spring.security.version>5.3.29</spring.security.version>
 
 		<!-- quartz.version>2.1.3</quartz.version> -->
 		<quartz.version>1.8.5</quartz.version>
 		<camel.version>2.9.1</camel.version>
 		<!-- <activemq.version>5.5.1</activemq.version> <springSocial.version>1.0.1.RELEASE</springSocial.version> -->
-		<springData.version>1.0.1.RELEASE</springData.version>
+		<springData.version>2.7.13</springData.version>
+		<springMongoDB.version>2.2.13.RELEASE</springMongoDB.version>
 		<!--Use latest. This is pshycho <akka.version>1.3.1</akka.version> -->
 		<!-- <akka.version>2.1.0</akka.version> -->
 		<eaioUuid.version>3.3</eaioUuid.version>
@@ -81,8 +82,8 @@
 		<lombok.version>1.18.24</lombok.version>
 		<castor.version>1.3.1</castor.version>
 		<xerces.version>2.10.0</xerces.version>
-		<jacksonMapper.version>1.9.2</jacksonMapper.version>
-		<jacksonCore.version>1.9.2</jacksonCore.version>
+		<jacksonMapper.version>2.12.7</jacksonMapper.version>
+		<jacksonCore.version>2.12.7</jacksonCore.version>
 		<libphonenumber.version>7.3.2</libphonenumber.version>
 		<pdfbox.version>2.0.2</pdfbox.version>
 		<boxable.version>1.4</boxable.version>
@@ -191,14 +192,28 @@
 	</pluginRepositories>
 
 	<dependencies>
-		<!-- Java EE 6 -->
+		<!-- Java EE 6
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-web-api</artifactId>
 			<version>${jee.version}</version>
-		</dependency>
+		</dependency> -->
 
 		<!-- Required only for JDK 1.9 / JDK 9 and above -->
+		<!-- below for Tomcat 9 Start-->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.annotation</groupId>
+			<artifactId>jakarta.annotation-api</artifactId>
+			<version>1.3.5</version> <!-- or the latest compatible version -->
+			<scope>provided</scope>
+		</dependency>
+		<!-- below for Tomcat 9 end-->
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
@@ -212,7 +227,7 @@
 		</dependency>
 		<!-- Required only for JDK 1.9 and above -->
 		<!-- JSF Impl -->
-
+<!-- may be deprecated and replaced below
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
@@ -222,6 +237,19 @@
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-impl</artifactId>
 			<version>${jsfImpl.version}</version>
+		</dependency>
+-->
+		<!-- New JSF -->
+		<dependency>
+			<groupId>jakarta.faces</groupId>
+			<artifactId>jakarta.faces-api</artifactId>
+			<version>4.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.faces</artifactId>
+			<version>2.3.9</version>
 		</dependency>
 
 		<!-- JSTL -->
@@ -361,7 +389,7 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
-			<version>${springData.version}</version>
+			<version>${springMongoDB.version}</version>
 		</dependency>
 
 
@@ -549,6 +577,7 @@
 			<version>${cglib.version}</version> </dependency> -->
 
 		<!-- Jackson JSON Processor -->
+		<!-- Below are now replaced
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
@@ -558,8 +587,17 @@
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-core-asl</artifactId>
 			<version>${jacksonCore.version}</version>
+		</dependency> -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jacksonCore.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jacksonMapper.version}</version>
+		</dependency>
 
 		<!-- Xerces -->
 		<!-- Packaging - Mevan <dependency> <groupId>xerces</groupId> <artifactId>xercesImpl</artifactId> 

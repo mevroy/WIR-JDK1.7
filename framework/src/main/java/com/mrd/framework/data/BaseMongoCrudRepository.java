@@ -33,7 +33,7 @@ public abstract class BaseMongoCrudRepository<T extends MongoEntity, ID extends 
      public Iterable<T> save(Iterable<? extends T> entities) {
         Collection<T> savedEntities = new ArrayList<T>();
         for (T entity : entities) {
-            entity = save(entity);
+            entity = mongoOperations.save(entity);
             savedEntities.add(entity);
         }
 
