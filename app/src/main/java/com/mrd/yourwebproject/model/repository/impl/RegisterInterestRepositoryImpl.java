@@ -22,7 +22,7 @@ public class RegisterInterestRepositoryImpl extends
 
 	public List<RegisterInterest> findByGroupCode(String groupCode,
 			boolean includeAll) {
-		Query q = sessionFactory.getCurrentSession().createQuery("from RegisterInterest r where r.groupCode = ? "+(includeAll?" or r.groupCode is null or r.groupCode = '' ":"")+" order by r.createdAt desc").setString(0,
+		Query q = sessionFactory.getCurrentSession().createQuery("from RegisterInterest r where r.groupCode = ?1 "+(includeAll?" or r.groupCode is null or r.groupCode = '' ":"")+" order by r.createdAt desc").setParameter(1,
         		groupCode);
 		List<RegisterInterest> registeredInterests = (List<RegisterInterest>)q.list();
         return  registeredInterests;

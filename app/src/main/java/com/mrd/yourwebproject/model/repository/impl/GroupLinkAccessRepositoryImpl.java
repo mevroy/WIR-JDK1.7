@@ -61,7 +61,7 @@ public class GroupLinkAccessRepositoryImpl extends BaseHibernateJpaRepository<Gr
 			sessionFactory.getCurrentSession().enableFilter("filterLinkAccessRoles").setParameter("roleType", role.toString());
 			
 		}
-		return (List<GroupLinkAccess>)sessionFactory.getCurrentSession().createQuery("select gla from GroupLinkAccess gla , GroupLinkAccessRole glar where glar.groupLinkAccess = gla and gla.linkHref = ? and  gla.group = ? and glar.role= ? "+(includeExpired?"":" and ((gla.expiryDate is null or (gla.expiryDate) >= NOW()) and (gla.startDate is null or (gla.startDate) <= NOW())) and ((glar.expiryDate is null or (glar.expiryDate) >= NOW()) and (glar.startDate is null or (glar.startDate) <= NOW()))")).setParameter(0, url).setParameter(1, group).setParameter(2, role).list();
+		return (List<GroupLinkAccess>)sessionFactory.getCurrentSession().createQuery("select gla from GroupLinkAccess gla , GroupLinkAccessRole glar where glar.groupLinkAccess = gla and gla.linkHref = ?1 and  gla.group = ?2 and glar.role= ?3 "+(includeExpired?"":" and ((gla.expiryDate is null or (gla.expiryDate) >= NOW()) and (gla.startDate is null or (gla.startDate) <= NOW())) and ((glar.expiryDate is null or (glar.expiryDate) >= NOW()) and (glar.startDate is null or (glar.startDate) <= NOW()))")).setParameter(1, url).setParameter(2, group).setParameter(3, role).list();
 	}
 
 

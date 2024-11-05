@@ -19,7 +19,7 @@ import com.mrd.yourwebproject.model.repository.GroupContentRepository;
 public class GroupContentRepositoryImpl extends BaseHibernateJpaRepository<GroupContent, String> implements GroupContentRepository{
 
 	public List<GroupContent> findByGroupCode(String groupCode, boolean includeExpired) {
-		return (List<GroupContent>)sessionFactory.getCurrentSession().createQuery("from GroupContent g where g.group.groupCode = ? "+(includeExpired?"":" and ((g.expiryDate is null or g.expiryDate >= NOW()) and (g.startDate is null or (g.startDate) <= NOW()))")).setString(0,
+		return (List<GroupContent>)sessionFactory.getCurrentSession().createQuery("from GroupContent g where g.group.groupCode = ?1 "+(includeExpired?"":" and ((g.expiryDate is null or g.expiryDate >= NOW()) and (g.startDate is null or (g.startDate) <= NOW()))")).setParameter(1,
                 groupCode).list();
 	}
 

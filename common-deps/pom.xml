@@ -11,47 +11,47 @@
 	<artifactId>common-deps</artifactId>
 	<packaging>pom</packaging>
 	<properties>
-		<java.version>1.6</java.version>
+		<java.version>1.8</java.version>
 		<scala.version>2.9.2</scala.version>
 		<jee.version>6.0</jee.version>
 		<jaxbApi.version>2.3.0</jaxbApi.version>
 		<jaxbRuntime.version>2.3.1</jaxbRuntime.version>
 		<jsfApi.version>2.1.2</jsfApi.version>
 		<jsfImpl.version>2.1.2</jsfImpl.version>
-		<jspApi.version>2.1</jspApi.version>
+		<jspApi.version>2.3.1</jspApi.version>
 		<jstl.version>1.2</jstl.version>
 		<velocity.version>1.7</velocity.version>
 		<velocityTools.version>2.0</velocityTools.version>
 		<freemarker.version>2.3.19</freemarker.version>
-		<springBatch.version>2.1.9.RELEASE</springBatch.version>
+		<springData.version>1.13.18.RELEASE</springData.version> <!-- Latest for Spring 4.x -->
+		<springBatch.version>3.0.10.RELEASE</springBatch.version>
 		<springIntegration.version>3.0.6.RELEASE</springIntegration.version>
-		<springBatchAdmin.version>1.2.2.RELEASE</springBatchAdmin.version>
-		<spring.version>3.1.1.RELEASE</spring.version>
+		<springBatchAdmin.version>1.3.0.RELEASE</springBatchAdmin.version>
+		<spring.version>4.3.30.RELEASE</spring.version>
 		<spring.security.version>3.1.1.RELEASE</spring.security.version>
 
 		<!-- quartz.version>2.1.3</quartz.version> -->
 		<quartz.version>1.8.5</quartz.version>
 		<camel.version>2.9.1</camel.version>
 		<!-- <activemq.version>5.5.1</activemq.version> <springSocial.version>1.0.1.RELEASE</springSocial.version> -->
-		<springData.version>1.0.1.RELEASE</springData.version>
 		<!--Use latest. This is pshycho <akka.version>1.3.1</akka.version> -->
 		<!-- <akka.version>2.1.0</akka.version> -->
 		<eaioUuid.version>3.3</eaioUuid.version>
 		<!-- restFB.version>1.14.1</restFB.version> -->
 
-		<!-- <hibernate.version>4.0.0.Final</hibernate.version> <hibernateJpa.version>1.0.1.Final</hibernateJpa.version> 
-			<hibernateAnnotations.version>3.5.6-Final</hibernateAnnotations.version> 
-			<hibernateJavaAssist.version>3.12.1.GA</hibernateJavaAssist.version> <hibernateValidator.version>4.2.0.Final</hibernateValidator.version> 
+		<!-- <hibernate.version>4.0.0.Final</hibernate.version> <hibernateJpa.version>1.0.1.Final</hibernateJpa.version>
+			<hibernateAnnotations.version>3.5.6-Final</hibernateAnnotations.version>
+			<hibernateJavaAssist.version>3.12.1.GA</hibernateJavaAssist.version> <hibernateValidator.version>4.2.0.Final</hibernateValidator.version>
 			<hibernateValidatorLegacy.version>4.0.2.GA</hibernateValidatorLegacy.version> -->
 
-		<hibernate.version>3.6.0.Final</hibernate.version>
+		<hibernate.version>5.4.32.Final</hibernate.version>
 		<hibernateJpa.version>1.0.0.Final</hibernateJpa.version>
 		<hibernateAnnotations.version>3.2.0-Final</hibernateAnnotations.version>
 		<hibernateJavaAssist.version>3.12.1.GA</hibernateJavaAssist.version>
-		<hibernateValidator.version>4.1.0.Final</hibernateValidator.version>
-		<hibernateValidatorLegacy.version>4.0.2.GA</hibernateValidatorLegacy.version>
+		<hibernateValidator.version>5.4.3.Final</hibernateValidator.version>
+		<!--<hibernateValidatorLegacy.version>4.0.2.GA</hibernateValidatorLegacy.version>-->
 
-		<mysql.version>5.1.18</mysql.version>
+		<mysql.version>8.0.29</mysql.version>
 		<c3p0.version>0.9.1.2</c3p0.version>
 		<mongoJava.version>2.7.3</mongoJava.version>
 
@@ -69,7 +69,7 @@
 		<apacheDbcp.version>1.4</apacheDbcp.version>
 		<apacheFileUpload.version>1.2.2</apacheFileUpload.version>
 		<apacheIo.version>2.1</apacheIo.version>
-		<apacheTiles.version>2.2.2</apacheTiles.version>
+		<apacheTiles.version>3.0.8</apacheTiles.version>
 		<apacheJcs.version>1.3</apacheJcs.version>
 		<apacheShiro.version>1.2.0</apacheShiro.version>
 		<apacheMail.version>1.1</apacheMail.version>
@@ -77,18 +77,19 @@
 
 		<cglib.version>2.2.2</cglib.version>
 		<jodaTime.version>2.0</jodaTime.version>
-		<xstream.version>1.4.2</xstream.version>
+		<xstream.version>1.4.18</xstream.version>
 		<lombok.version>1.18.24</lombok.version>
 		<castor.version>1.3.1</castor.version>
 		<xerces.version>2.10.0</xerces.version>
-		<jacksonMapper.version>1.9.2</jacksonMapper.version>
-		<jacksonCore.version>1.9.2</jacksonCore.version>
+		<jacksonMapper.version>1.9.13</jacksonMapper.version>
+		<jacksonCore.version>1.9.13</jacksonCore.version>
 		<libphonenumber.version>7.3.2</libphonenumber.version>
 		<pdfbox.version>2.0.2</pdfbox.version>
 		<boxable.version>1.4</boxable.version>
-		<mavenDependency.plugin.version>3.8.1</mavenDependency.plugin.version>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
+		<!-- <mavenDependency.plugin.version>3.8.1</mavenDependency.plugin.version> -->
+		<mavenDependency.plugin.version>2.4</mavenDependency.plugin.version>
+		<!--<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target> -->
 
 	</properties>
 
@@ -153,7 +154,7 @@
 			<url>http://repo.typesafe.com/typesafe/releases/</url>
 		</repository>
 
-		<!-- Akka Repository <repository> <id>akkaio</id> <name>Akka IO Repository</name> 
+		<!-- Akka Repository <repository> <id>akkaio</id> <name>Akka IO Repository</name>
 			<url>http://repo.akka.io/releases</url> </repository> -->
 
 		<!-- Spring Releases -->
@@ -191,14 +192,14 @@
 	</pluginRepositories>
 
 	<dependencies>
-		<!-- Java EE 6 -->
+		<!-- Java EE 6
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-web-api</artifactId>
 			<version>${jee.version}</version>
-		</dependency>
+		</dependency> -->
 
-		<!-- Required only for JDK 1.9 / JDK 9 and above -->
+		<!-- Required only for JDK 1.9 / JDK 9 and above
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
@@ -209,7 +210,7 @@
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
 			<version>${jaxbRuntime.version}</version>
-		</dependency>
+		</dependency> -->
 		<!-- Required only for JDK 1.9 and above -->
 		<!-- JSF Impl -->
 
@@ -227,15 +228,21 @@
 		<!-- JSTL -->
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jsp-api</artifactId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
 			<version>${jspApi.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>${jstl.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<!-- Velocity -->
 		<dependency>
@@ -253,10 +260,15 @@
 
 		<!-- Freemarker -->
 		<!-- Latest 2.3.x (not 2.4.x), at least 2.3.19 -->
-		<!-- Packaging - Mevan <dependency> <groupId>org.freemarker</groupId> <artifactId>freemarker</artifactId> 
+		<!-- Packaging - Mevan <dependency> <groupId>org.freemarker</groupId> <artifactId>freemarker</artifactId>
 			<version>${freemarker.version}</version> </dependency> -->
 
 		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -290,8 +302,8 @@
 			<artifactId>spring-web</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		<!-- Packaging - Mevan <dependency> <groupId>org.springframework</groupId> 
-			<artifactId>spring-aop</artifactId> <version>${spring.version}</version> 
+		<!-- Packaging - Mevan <dependency> <groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId> <version>${spring.version}</version>
 			</dependency> -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -303,9 +315,11 @@
 			<artifactId>spring-orm</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		<!-- Packaging - Mevan <dependency> <groupId>org.springframework</groupId> 
-			<artifactId>spring-jdbc</artifactId> <version>${spring.version}</version> 
-			</dependency> -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+			</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-oxm</artifactId>
@@ -316,8 +330,8 @@
 			<artifactId>spring-beans</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		<!-- Packaging - Mevan <dependency> <groupId>org.springframework</groupId> 
-			<artifactId>spring-jms</artifactId> <version>${spring.version}</version> 
+		<!-- Packaging - Mevan <dependency> <groupId>org.springframework</groupId>
+			<artifactId>spring-jms</artifactId> <version>${spring.version}</version>
 			</dependency> -->
 		<dependency>
 			<groupId>org.springframework.batch</groupId>
@@ -343,17 +357,17 @@
 		<!-- Spring batch admin -->
 
 
-		<!-- Spring Security <dependency> <groupId>org.springframework.security</groupId> 
-			<artifactId>spring-security-web</artifactId> <version>${spring.security.version}</version> 
-			</dependency> <dependency> <groupId>org.springframework.security</groupId> 
-			<artifactId>spring-security-config</artifactId> <version>${spring.security.version}</version> 
+		<!-- Spring Security <dependency> <groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId> <version>${spring.security.version}</version>
+			</dependency> <dependency> <groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId> <version>${spring.security.version}</version>
 			</dependency> -->
 		<!-- Spring Security -->
 
-		<!-- Spring Social <dependency> <groupId>org.springframework.social</groupId> 
-			<artifactId>spring-social-core</artifactId> <version>${springSocial.version}</version> 
+		<!-- Spring Social <dependency> <groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-core</artifactId> <version>${springSocial.version}</version>
 			</dependency> -->
-		<!-- dependency> <groupId>com.restfb</groupId> <artifactId>restfb</artifactId> 
+		<!-- dependency> <groupId>com.restfb</groupId> <artifactId>restfb</artifactId>
 			<version>${restFB.version}</version> </dependency> -->
 
 
@@ -361,7 +375,7 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
-			<version>${springData.version}</version>
+			<version>1.9.9.RELEASE</version>
 		</dependency>
 
 
@@ -388,9 +402,9 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
-		<!-- Packaging - Mevan <dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-c3p0</artifactId> 
-			<version>${hibernate.version}</version> </dependency> <dependency> <groupId>javassist</groupId> 
-			<artifactId>javassist</artifactId> <version>${hibernateJavaAssist.version}</version> 
+		<!-- Packaging - Mevan <dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-c3p0</artifactId>
+			<version>${hibernate.version}</version> </dependency> <dependency> <groupId>javassist</groupId>
+			<artifactId>javassist</artifactId> <version>${hibernateJavaAssist.version}</version>
 			</dependency> -->
 
 		<!-- MySql Connector -->
@@ -411,7 +425,7 @@
 
 
 		<!-- Mongo Java Driver -->
-		<!-- Packaging - Mevan <dependency> <groupId>org.mongodb</groupId> <artifactId>mongo-java-driver</artifactId> 
+		<!-- Packaging - Mevan <dependency> <groupId>org.mongodb</groupId> <artifactId>mongo-java-driver</artifactId>
 			<version>${mongoJava.version}</version> </dependency> -->
 
 		<!-- JSR 303 with Hibernate EntityValidator -->
@@ -434,7 +448,11 @@
 			<artifactId>tiles-jsp</artifactId>
 			<version>${apacheTiles.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-api</artifactId>
+			<version>${apacheTiles.version}</version>
+		</dependency>
 
 		<!-- Quartz -->
 		<dependency>
@@ -445,41 +463,41 @@
 
 
 		<!-- Camel -->
-		<!-- Packaging - Mevan <dependency> <groupId>org.apache.camel</groupId> 
-			<artifactId>camel-core</artifactId> <version>${camel.version}</version> </dependency> 
-			<dependency> <groupId>org.apache.camel</groupId> <artifactId>camel-quartz</artifactId> 
+		<!-- Packaging - Mevan <dependency> <groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId> <version>${camel.version}</version> </dependency>
+			<dependency> <groupId>org.apache.camel</groupId> <artifactId>camel-quartz</artifactId>
 			<version>${camel.version}</version> </dependency> -->
-		<!-- Packaging - Mevan <dependency> <groupId>org.apache.camel</groupId> 
-			<artifactId>camel-jms</artifactId> <version>${camel.version}</version> </dependency> 
-			<dependency> <groupId>org.apache.camel</groupId> <artifactId>camel-shiro</artifactId> 
+		<!-- Packaging - Mevan <dependency> <groupId>org.apache.camel</groupId>
+			<artifactId>camel-jms</artifactId> <version>${camel.version}</version> </dependency>
+			<dependency> <groupId>org.apache.camel</groupId> <artifactId>camel-shiro</artifactId>
 			<version>${camel.version}</version> </dependency> -->
 
-		<!-- Apache ActiveMQ <dependency> <groupId>org.apache.activemq</groupId> 
-			<artifactId>activemq-core</artifactId> <version>${activemq.version}</version> 
+		<!-- Apache ActiveMQ <dependency> <groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-core</artifactId> <version>${activemq.version}</version>
 			</dependency> -->
 
-		<!-- Apache Shiro <dependency> <groupId>org.apache.shiro</groupId> <artifactId>shiro-core</artifactId> 
-			<version>${apacheShiro.version}</version> </dependency> <dependency> <groupId>org.apache.shiro</groupId> 
-			<artifactId>shiro-web</artifactId> <version>${apacheShiro.version}</version> 
-			</dependency> <dependency> <groupId>org.apache.shiro</groupId> <artifactId>shiro-spring</artifactId> 
+		<!-- Apache Shiro <dependency> <groupId>org.apache.shiro</groupId> <artifactId>shiro-core</artifactId>
+			<version>${apacheShiro.version}</version> </dependency> <dependency> <groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-web</artifactId> <version>${apacheShiro.version}</version>
+			</dependency> <dependency> <groupId>org.apache.shiro</groupId> <artifactId>shiro-spring</artifactId>
 			<version>${apacheShiro.version}</version> </dependency> -->
-		<!-- Akka Old <dependency> <groupId>se.scalablesolutions.akka</groupId> 
-			<artifactId>akka-actor</artifactId> <version>${akka.version}</version> </dependency> 
-			<dependency> <groupId>se.scalablesolutions.akka</groupId> <artifactId>akka-spring</artifactId> 
-			<version>${akka.version}</version> </dependency> <dependency> <groupId>se.scalablesolutions.akka</groupId> 
+		<!-- Akka Old <dependency> <groupId>se.scalablesolutions.akka</groupId>
+			<artifactId>akka-actor</artifactId> <version>${akka.version}</version> </dependency>
+			<dependency> <groupId>se.scalablesolutions.akka</groupId> <artifactId>akka-spring</artifactId>
+			<version>${akka.version}</version> </dependency> <dependency> <groupId>se.scalablesolutions.akka</groupId>
 			<artifactId>akka-camel</artifactId> <version>${akka.version}</version> </dependency> -->
 
-		<!-- Akka New <dependency> <groupId>com.typesafe.akka</groupId> <artifactId>akka-actor_2.10</artifactId> 
-			<version>${akka.version}</version> </dependency> <dependency> <groupId>com.typesafe.akka</groupId> 
-			<artifactId>akka-camel_2.10</artifactId> <version>${akka.version}</version> 
+		<!-- Akka New <dependency> <groupId>com.typesafe.akka</groupId> <artifactId>akka-actor_2.10</artifactId>
+			<version>${akka.version}</version> </dependency> <dependency> <groupId>com.typesafe.akka</groupId>
+			<artifactId>akka-camel_2.10</artifactId> <version>${akka.version}</version>
 			</dependency> -->
 
 		<!-- Scala Library -->
-		<!-- Packaging - Mevan <dependency> <groupId>org.scala-lang</groupId> <artifactId>scala-library</artifactId> 
+		<!-- Packaging - Mevan <dependency> <groupId>org.scala-lang</groupId> <artifactId>scala-library</artifactId>
 			<version>${scala.version}</version> </dependency> -->
 
 		<!-- UUID library -->
-		<!-- Packaging - Mevan <dependency> <groupId>com.eaio.uuid</groupId> <artifactId>uuid</artifactId> 
+		<!-- Packaging - Mevan <dependency> <groupId>com.eaio.uuid</groupId> <artifactId>uuid</artifactId>
 			<version>${eaioUuid.version}</version> </dependency> -->
 
 		<!-- Joda Time Library -->
@@ -491,9 +509,9 @@
 
 
 		<!-- File Upload -->
-		<!-- Packaging - Mevan <dependency> <groupId>commons-fileupload</groupId> 
-			<artifactId>commons-fileupload</artifactId> <version>${apacheFileUpload.version}</version> 
-			</dependency> <dependency> <groupId>commons-io</groupId> <artifactId>commons-io</artifactId> 
+		<!-- Packaging - Mevan <dependency> <groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId> <version>${apacheFileUpload.version}</version>
+			</dependency> <dependency> <groupId>commons-io</groupId> <artifactId>commons-io</artifactId>
 			<version>${apacheIo.version}</version> </dependency> -->
 
 		<!-- Java Mail API -->
@@ -506,7 +524,7 @@
 
 
 		<!-- JMS -->
-		<!-- Packaging - Mevan <dependency> <groupId>javax.jms</groupId> <artifactId>jms</artifactId> 
+		<!-- Packaging - Mevan <dependency> <groupId>javax.jms</groupId> <artifactId>jms</artifactId>
 			<version>${javaJms.version}</version> </dependency> -->
 
 		<!-- Apache JCS -->
@@ -519,10 +537,10 @@
 
 
 		<!-- Apache Commons -->
-		<!-- Packaging - Mevan <dependency> <groupId>org.apache.commons</groupId> 
-			<artifactId>commons-digester3</artifactId> <version>${apacheDigester.version}</version> 
-			<type>jar</type> </dependency> <dependency> <groupId>commons-collections</groupId> 
-			<artifactId>commons-collections</artifactId> <version>${apacheCollections.version}</version> 
+		<!-- Packaging - Mevan <dependency> <groupId>org.apache.commons</groupId>
+			<artifactId>commons-digester3</artifactId> <version>${apacheDigester.version}</version>
+			<type>jar</type> </dependency> <dependency> <groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId> <version>${apacheCollections.version}</version>
 			<type>jar</type> </dependency> -->
 
 		<dependency>
@@ -530,22 +548,22 @@
 			<artifactId>commons-httpclient</artifactId>
 			<version>${apacheHttp.version}</version>
 		</dependency>
-		<!-- Packaging - Mevan <dependency> <groupId>commons-dbcp</groupId> <artifactId>commons-dbcp</artifactId> 
-			<version>${apacheDbcp.version}</version> </dependency> <dependency> <groupId>commons-email</groupId> 
-			<artifactId>commons-email</artifactId> <version>${apacheMail.version}</version> 
-			</dependency> <dependency> <groupId>commons-math</groupId> <artifactId>commons-math</artifactId> 
+		<!-- Packaging - Mevan <dependency> <groupId>commons-dbcp</groupId> <artifactId>commons-dbcp</artifactId>
+			<version>${apacheDbcp.version}</version> </dependency> <dependency> <groupId>commons-email</groupId>
+			<artifactId>commons-email</artifactId> <version>${apacheMail.version}</version>
+			</dependency> <dependency> <groupId>commons-math</groupId> <artifactId>commons-math</artifactId>
 			<version>${apacheMath.version}</version> </dependency> -->
 
 		<!-- AspectJ -->
-		<!-- Packaging - Mevan <dependency> <groupId>org.aspectj</groupId> <artifactId>aspectjrt</artifactId> 
-			<version>${aspectj.version}</version> </dependency> <dependency> <groupId>org.aspectj</groupId> 
-			<artifactId>aspectjtools</artifactId> <version>${aspectj.version}</version> 
-			</dependency> <dependency> <groupId>org.aspectj</groupId> <artifactId>aspectjweaver</artifactId> 
+		<!-- Packaging - Mevan <dependency> <groupId>org.aspectj</groupId> <artifactId>aspectjrt</artifactId>
+			<version>${aspectj.version}</version> </dependency> <dependency> <groupId>org.aspectj</groupId>
+			<artifactId>aspectjtools</artifactId> <version>${aspectj.version}</version>
+			</dependency> <dependency> <groupId>org.aspectj</groupId> <artifactId>aspectjweaver</artifactId>
 			<version>${aspectj.version}</version> </dependency> -->
 
 
 		<!-- Spring configuration required dependency: CGLIB -->
-		<!-- Packaging - Mevan <dependency> <groupId>cglib</groupId> <artifactId>cglib</artifactId> 
+		<!-- Packaging - Mevan <dependency> <groupId>cglib</groupId> <artifactId>cglib</artifactId>
 			<version>${cglib.version}</version> </dependency> -->
 
 		<!-- Jackson JSON Processor -->
@@ -560,15 +578,31 @@
 			<version>${jacksonCore.version}</version>
 		</dependency>
 
+		<!-- Jackson JSON Processor -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.10.5</version> <!-- Use the latest compatible version -->
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.10.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.10.0</version> <!-- Use the latest compatible version -->
+		</dependency>
 
 		<!-- Xerces -->
-		<!-- Packaging - Mevan <dependency> <groupId>xerces</groupId> <artifactId>xercesImpl</artifactId> 
+		<!-- Packaging - Mevan <dependency> <groupId>xerces</groupId> <artifactId>xercesImpl</artifactId>
 			<version>${xerces.version}</version> </dependency> -->
 
 
 		<!-- Castor -->
-		<!-- Packaging - Mevan <dependency> <groupId>org.codehaus.castor</groupId> 
-			<artifactId>castor-xml</artifactId> <version>${castor.version}</version> 
+		<!-- Packaging - Mevan <dependency> <groupId>org.codehaus.castor</groupId>
+			<artifactId>castor-xml</artifactId> <version>${castor.version}</version>
 			</dependency> -->
 
 		<!-- XStream -->
@@ -610,7 +644,7 @@
 		</dependency>
 
 		<!-- Test -->
-		<!-- Packaging - Mevan <dependency> <groupId>junit</groupId> <artifactId>junit</artifactId> 
+		<!-- Packaging - Mevan <dependency> <groupId>junit</groupId> <artifactId>junit</artifactId>
 			<version>${junit.version}</version> </dependency> -->
 
 		<!-- Google Lib Phone -->

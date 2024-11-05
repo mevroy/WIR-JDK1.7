@@ -17,7 +17,6 @@
     <import resource="applicationContext-service.xml"/>
 
     <!-- Request xml, json and form marshalling / unmarshalling config -->
-    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
 
     <bean id="xStreamMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
         <property name="encoding" value="UTF-8"/>
@@ -29,7 +28,7 @@
         </property>
     </bean>
 
-    <bean id="jsonMarshaller" class="org.codehaus.jackson.map.ObjectMapper"/>
+    <bean id="jsonMarshaller" class="com.fasterxml.jackson.databind.ObjectMapper"/>
 
     <bean id="requestMappingAdapter"
           class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
@@ -39,7 +38,7 @@
                     <property name="marshaller" ref="xStreamMarshaller"/>
                     <property name="unmarshaller" ref="xStreamMarshaller"/>
                 </bean>
-                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
                     <property name="objectMapper" ref="jsonMarshaller"/>
                 </bean>
             </list>
@@ -47,18 +46,24 @@
     </bean>
 
     <!-- Configuring the API response views -->
-    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-        <property name="order" value="1"/>
+    <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
         <property name="mediaTypes">
             <map>
                 <entry key="xml" value="application/xml"/>
                 <entry key="json" value="application/json"/>
             </map>
         </property>
+        <property name="defaultContentType" value="application/xml"/>
+        <property name="favorPathExtension" value="true"/>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="order" value="1"/>
+        <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
         <property name="defaultViews">
             <list>
                 <!-- Json View -->
-                <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+                <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
                     <property name="modelKey" value="response"/>
                 </bean>
 
@@ -73,8 +78,7 @@
                 </bean>
             </list>
         </property>
-        <property name="defaultContentType" value="application/xml"/>
-        <property name="favorPathExtension" value="true"/>
+
     </bean>
 
     <!-- Add controller package to be scanned for this path -->

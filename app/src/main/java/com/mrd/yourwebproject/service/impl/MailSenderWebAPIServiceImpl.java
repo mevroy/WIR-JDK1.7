@@ -15,7 +15,7 @@ import javax.activation.URLDataSource;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
@@ -23,7 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mail.MailAuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,7 +70,7 @@ public class MailSenderWebAPIServiceImpl implements MailSenderWebAPIService {
 		restTemplate.setMessageConverters(Arrays.asList(
 				new StringHttpMessageConverter(),
 				new FormHttpMessageConverter(),
-				new MappingJacksonHttpMessageConverter(),
+				new MappingJackson2HttpMessageConverter(),
 				new ByteArrayHttpMessageConverter()));
 		MultiValueMap<String, Object> params = new LinkedMultiValueMap<String, Object>();
 		params.set("api_user", groupEmailAccount.getUsername());

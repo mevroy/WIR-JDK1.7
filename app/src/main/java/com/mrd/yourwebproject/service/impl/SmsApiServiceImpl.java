@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -58,7 +58,7 @@ public class SmsApiServiceImpl implements SmsApiService {
 		restTemplate.setMessageConverters(Arrays.asList(
 				new StringHttpMessageConverter(),
 				new FormHttpMessageConverter(),
-				new MappingJacksonHttpMessageConverter(),
+				new MappingJackson2HttpMessageConverter(),
 				new ByteArrayHttpMessageConverter()));
 
 		if (content.length() > 160) {
@@ -90,7 +90,7 @@ public class SmsApiServiceImpl implements SmsApiService {
 		restTemplate.setMessageConverters(Arrays.asList(
 				new StringHttpMessageConverter(),
 				new FormHttpMessageConverter(),
-				new MappingJacksonHttpMessageConverter(),
+				new MappingJackson2HttpMessageConverter(),
 				new ByteArrayHttpMessageConverter()));
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 		params.set("client_id", CLIENT_ID);
@@ -112,7 +112,7 @@ public class SmsApiServiceImpl implements SmsApiService {
 		restTemplate.setMessageConverters(Arrays.asList(
 				new StringHttpMessageConverter(),
 				new FormHttpMessageConverter(),
-				new MappingJacksonHttpMessageConverter(),
+				new MappingJackson2HttpMessageConverter(),
 				new ByteArrayHttpMessageConverter()));
 
 		SmsApiResponseEntity token = this.obtainAuthorisationToken();

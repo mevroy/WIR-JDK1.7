@@ -6,7 +6,7 @@ package com.mrd.yourwebproject.model.entity.request;
 import java.util.HashMap;
 import java.util.List;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * @author mevan.d.souza

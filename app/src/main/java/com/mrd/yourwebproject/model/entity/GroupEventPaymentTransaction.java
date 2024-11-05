@@ -30,7 +30,7 @@ import com.mrd.yourwebproject.model.entity.enums.PaymentStatus;
  *
  */
 @Entity
-@Table(name = "groupEventPaymentTransaction")
+@Table(name = "group_event_payment_transaction")
 public class GroupEventPaymentTransaction extends NoIDEntity implements Serializable {
 
 	/**

@@ -18,7 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -30,7 +30,7 @@ import com.mrd.framework.data.SqlEntity;
  *
  */
 @Entity
-@Table(name = "groups")
+@Table(name = "group_master")
 public class Groups extends SqlEntity<Long> implements Serializable {
 
 	/**

@@ -7,7 +7,7 @@ import com.mrd.yourwebproject.model.entity.enums.Role;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.GenericGenerator;
@@ -62,7 +62,7 @@ public class User extends JpaEntity<Long> implements Serializable {
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@Filter(
 			name = "filterUserRoles",
-			condition="group_code = :groupCode"
+			condition="groupCode = :groupCode"
 		)
 	@JoinColumn(name = "userId", referencedColumnName = "id")
 	private List<GroupUserRole> groupUserRoles;

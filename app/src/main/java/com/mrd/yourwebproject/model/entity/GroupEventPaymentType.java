@@ -32,7 +32,7 @@ import com.mrd.yourwebproject.model.entity.enums.PaymentTypes;
  *
  */
 @Entity
-@Table(name = "groupEventPaymentType")
+@Table(name = "group_event_payment_type")
 public class GroupEventPaymentType extends JpaEntity<Long> implements Serializable{
 
 	

@@ -6,8 +6,7 @@ package com.mrd.yourwebproject.model.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mrd.yourwebproject.model.entity.enums.SmsStatus;
 
 /**

@@ -15,8 +15,8 @@
 		<module>app</module>
 	</modules>
 	<name>Your Parent Project</name>
-	<properties>
+	<!-- <properties>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
-	</properties>
+	</properties> -->
 </project>

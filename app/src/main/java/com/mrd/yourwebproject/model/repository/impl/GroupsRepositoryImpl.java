@@ -21,7 +21,7 @@ import com.mrd.yourwebproject.model.repository.GroupsRepository;
 public class GroupsRepositoryImpl extends BaseHibernateJpaRepository<Groups, Long> implements GroupsRepository {
 
 	public Groups findByGroupCode(String groupCode) {
-		Query q = sessionFactory.getCurrentSession().createQuery("from Groups g where g.groupCode = ?").setString(0,
+		Query q = sessionFactory.getCurrentSession().createQuery("from Groups g where g.groupCode = ?1").setParameter(1,
         		groupCode);
 		Groups groups = (Groups)q.uniqueResult();
         return  groups;
@@ -29,7 +29,7 @@ public class GroupsRepositoryImpl extends BaseHibernateJpaRepository<Groups, Lon
 
 	public Groups findByGroupCodeActive(String groupCode)
 	{
-		Query q = sessionFactory.getCurrentSession().createQuery("from Groups g where g.groupCode = ? and g.startDate<=NOW() and g.expiryDate>=NOW()").setString(0,
+		Query q = sessionFactory.getCurrentSession().createQuery("from Groups g where g.groupCode = ?1 and g.startDate<=NOW() and g.expiryDate>=NOW()").setParameter(1,
         		groupCode);
 		Groups groups = (Groups)q.uniqueResult();
         return  groups;

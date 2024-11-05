@@ -3,7 +3,7 @@ package com.mrd.framework.response;
 import com.mrd.framework.common.Key;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
