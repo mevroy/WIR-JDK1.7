@@ -20,19 +20,19 @@ public class GroupEmailTemplateRepositoryImpl extends
 		BaseHibernateJpaRepository<GroupEmailTemplate, Long> implements GroupEmailTemplateRepository{
 
 	public GroupEmailTemplate findbyTemplateName(String templateName) {
-		return (GroupEmailTemplate)sessionFactory.getCurrentSession().createQuery("from GroupEmailTemplate get where get.templateName = ?").setString(0,
+		return (GroupEmailTemplate)sessionFactory.getCurrentSession().createQuery("from GroupEmailTemplate get where get.templateName = ?1").setParameter(1,
                 templateName).uniqueResult();
 	}
 
 	public List<GroupEmailTemplate> findbyGroupCode(String groupCode) {
-		return (List<GroupEmailTemplate>)sessionFactory.getCurrentSession().createQuery("from GroupEmailTemplate get where get.groupCode = ? order by get.groupEventCode , get.templateName asc").setString(0,
+		return (List<GroupEmailTemplate>)sessionFactory.getCurrentSession().createQuery("from GroupEmailTemplate get where get.groupCode = ?1 order by get.groupEventCode , get.templateName asc").setParameter(1,
 				groupCode).list();
 	}
 
 	public List<GroupEmailTemplate> findbyGroupCodeAndGroupEventCode(
 			String groupCode, String groupEventCode) {
-		return (List<GroupEmailTemplate>)sessionFactory.getCurrentSession().createQuery("from GroupEmailTemplate get where get.groupCode = ? and (get.groupEventCode = ? or get.groupEventCode is null or get.groupEventCode = '') order by get.groupEventCode , get.templateName asc").setString(0,
-				groupCode).setString(1, groupEventCode).list();
+		return (List<GroupEmailTemplate>)sessionFactory.getCurrentSession().createQuery("from GroupEmailTemplate get where get.groupCode = ?1 and (get.groupEventCode = ?2 or get.groupEventCode is null or get.groupEventCode = '') order by get.groupEventCode , get.templateName asc").setParameter(1,
+				groupCode).setParameter(2, groupEventCode).list();
 	}
 
 }

@@ -20,12 +20,12 @@ public class GroupInboundSMSRepositoryImpl extends BaseHibernateJpaRepository<Gr
 
 
 	public List<GroupInboundSMS> findByGroupCode(String groupCode) {
-		return (List<GroupInboundSMS>)sessionFactory.getCurrentSession().createQuery("from GroupInboundSMS gsms where gsms.groupCode = ? group by gsms.providerMessageId").setString(0,
+		return (List<GroupInboundSMS>)sessionFactory.getCurrentSession().createQuery("from GroupInboundSMS gsms where gsms.groupCode = ?1 group by gsms.providerMessageId").setParameter(1,
                 groupCode).list();
 	}
 
 	public List<GroupInboundSMS> findByMessageId(String messageId) {
-		return (List<GroupInboundSMS>)sessionFactory.getCurrentSession().createQuery("from GroupInboundSMS gsms where gsms.providerMessageId = ? ").setString(0,
+		return (List<GroupInboundSMS>)sessionFactory.getCurrentSession().createQuery("from GroupInboundSMS gsms where gsms.providerMessageId = ?1 ").setParameter(1,
 				messageId).list();
 	}
 

@@ -22,8 +22,8 @@ public class GroupEventPassCategoryRepositoryImpl extends
 
 	public List<GroupEventPassCategory> findByGroupCodeAndGroupEventCode(
 			String groupCode, String groupEventCode, boolean includeNotAvailableForPurchase) {
-		return(List<GroupEventPassCategory>)sessionFactory.getCurrentSession().createQuery("from GroupEventPassCategory gpc where gpc.group.groupCode = ? and gpc.groupEvent.eventCode = ? "+(includeNotAvailableForPurchase?"":" and (gpc.purchaseStartDateTime is null or gpc.purchaseStartDateTime<=NOW()) and (gpc.purchaseExpiryDateTime is null or gpc.purchaseExpiryDateTime>=NOW())")+" order by gpc.displayOrder asc").setString(0,
-				groupCode).setString(1, groupEventCode).list();
+		return(List<GroupEventPassCategory>)sessionFactory.getCurrentSession().createQuery("from GroupEventPassCategory gpc where gpc.group.groupCode = ?1 and gpc.groupEvent.eventCode = ?2 "+(includeNotAvailableForPurchase?"":" and (gpc.purchaseStartDateTime is null or gpc.purchaseStartDateTime<=NOW()) and (gpc.purchaseExpiryDateTime is null or gpc.purchaseExpiryDateTime>=NOW())")+" order by gpc.displayOrder asc").setParameter(1,
+				groupCode).setParameter(2, groupEventCode).list();
 	}
 
 

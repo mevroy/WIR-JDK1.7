@@ -28,25 +28,25 @@ public class GroupEmailsRepositoryImpl extends BaseHibernateJpaRepository<GroupE
 
 	public List<GroupEmail> findEmailsByGroupCode(String groupCode) {
 		
-		return (List<GroupEmail>)sessionFactory.getCurrentSession().createQuery("from GroupEmail ge where ge.groupMember.groupCode = ?").setParameter(0, groupCode).list();
+		return (List<GroupEmail>)sessionFactory.getCurrentSession().createQuery("from GroupEmail ge where ge.groupMember.groupCode = ?1").setParameter(1, groupCode).list();
 	}
 
 	public List<GroupEmail> findEmailsByMemberCategoryCodeAndGroupEventCode(
 			String memberCategoryCode, String groupEventCode) {
-		return (List<GroupEmail>)sessionFactory.getCurrentSession().createQuery("select ge from GroupEmail ge, GroupEventInvite gei where ge.groupMember.memberCategoryCode = ? and ge.groupEventInviteId = gei.groupEventInviteId and gei.groupEventCode = ? and ge.groupMember.memberCategoryCode = gei.memberCategoryCode").setParameter(0, memberCategoryCode).setParameter(1, groupEventCode).list();
+		return (List<GroupEmail>)sessionFactory.getCurrentSession().createQuery("select ge from GroupEmail ge, GroupEventInvite gei where ge.groupMember.memberCategoryCode = ?1 and ge.groupEventInviteId = gei.groupEventInviteId and gei.groupEventCode = ?2 and ge.groupMember.memberCategoryCode = gei.memberCategoryCode").setParameter(1, memberCategoryCode).setParameter(2, groupEventCode).list();
 	}
 	public List<GroupEmail> findEmailsByGroupEventCode(String groupEventCode) {
 		// TODO Auto-generated method stub
-		return (List<GroupEmail>)sessionFactory.getCurrentSession().createQuery("select ge from GroupEmail ge, GroupEventInvite gei where  ge.groupEventInviteId = gei.groupEventInviteId and gei.groupEventCode = ?").setParameter(0, groupEventCode).list();
+		return (List<GroupEmail>)sessionFactory.getCurrentSession().createQuery("select ge from GroupEmail ge, GroupEventInvite gei where  ge.groupEventInviteId = gei.groupEventInviteId and gei.groupEventCode = ?1").setParameter(1, groupEventCode).list();
 	}
 
 	public List<GroupEmail> findUnassignedEmailsByGroupCode(String groupCode) {
-		return (List<GroupEmail>)sessionFactory.getCurrentSession().createQuery("from GroupEmail ge where ge.emailAccountCode in (select gea.emailAccountCode from GroupEmailAccount gea where gea.groupCode = ? ) and ( ge.groupEventInviteId = null or ge.groupEventInviteId = '')").setParameter(0, groupCode).list();
+		return (List<GroupEmail>)sessionFactory.getCurrentSession().createQuery("from GroupEmail ge where ge.emailAccountCode in (select gea.emailAccountCode from GroupEmailAccount gea where gea.groupCode = ?1 ) and ( ge.groupEventInviteId = null or ge.groupEventInviteId = '')").setParameter(1, groupCode).list();
 	}
 
 	public List<GroupEmail> findEmailsByGroupEventCodeAndSerialNumber(
 			String groupEventCode, String serialNumber) {
-		return (List<GroupEmail>)sessionFactory.getCurrentSession().createQuery("select ge from GroupEmail ge, GroupEventInvite gei where  ge.groupEventInviteId = gei.groupEventInviteId and gei.groupEventCode = ? and gei.groupMember.serialNumber = ?").setParameter(0, groupEventCode).setParameter(1, serialNumber).list();
+		return (List<GroupEmail>)sessionFactory.getCurrentSession().createQuery("select ge from GroupEmail ge, GroupEventInvite gei where  ge.groupEventInviteId = gei.groupEventInviteId and gei.groupEventCode = ?1 and gei.groupMember.serialNumber = ?2").setParameter(1, groupEventCode).setParameter(2, serialNumber).list();
 	}
 
 }

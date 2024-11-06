@@ -22,13 +22,13 @@ public class GroupMembersRepositoryImpl extends BaseHibernateJpaRepository<Group
 
     @SuppressWarnings("unchecked")
 	public List<GroupMember> findByGroupCodeAndMemberCategoryCode(String groupCode, String membercategoryCode) {
-        return (List<GroupMember>) sessionFactory.getCurrentSession().createQuery("from GroupMember g where g.groupCode = ? and g.memberCategoryCode=?").setString(0,
-                groupCode).setString(1, membercategoryCode).list();
+        return (List<GroupMember>) sessionFactory.getCurrentSession().createQuery("from GroupMember g where g.groupCode = ?1 and g.memberCategoryCode=?2").setParameter(1,
+                groupCode).setParameter(2, membercategoryCode).list();
     }
 
     @SuppressWarnings("unchecked")
 	public List<GroupMember> findByGroupCode(String groupCode) {
-        return (List<GroupMember>) sessionFactory.getCurrentSession().createQuery("from GroupMember g where g.groupCode = ?").setString(0,
+        return (List<GroupMember>) sessionFactory.getCurrentSession().createQuery("from GroupMember g where g.groupCode = ?1").setParameter(1,
                 groupCode).list();
     }
 
@@ -38,15 +38,15 @@ public class GroupMembersRepositoryImpl extends BaseHibernateJpaRepository<Group
 
 	public List<GroupMember> findByGroupCodeAndMemberCategoryCodeNotExitingInGroupEventInvite(
 			String groupCode, String membercategoryCode, String groupEventCode) {
-        return (List<GroupMember>) sessionFactory.getCurrentSession().createQuery("from GroupMember g where g.groupCode = ? and g.memberCategoryCode=? and not exists (select gei.groupEventInviteId from GroupEventInvite gei where gei.groupMember.serialNumber = g.serialNumber and g.groupCode = gei.groupCode and g.memberCategoryCode=gei.memberCategoryCode and gei.groupEventCode = ?)").setString(0,
-                groupCode).setString(1, membercategoryCode).setString(2, groupEventCode).list();
+        return (List<GroupMember>) sessionFactory.getCurrentSession().createQuery("from GroupMember g where g.groupCode = ?1 and g.memberCategoryCode=?2 and not exists (select gei.groupEventInviteId from GroupEventInvite gei where gei.groupMember.serialNumber = g.serialNumber and g.groupCode = gei.groupCode and g.memberCategoryCode=gei.memberCategoryCode and gei.groupEventCode = ?3)").setParameter(1,
+                groupCode).setParameter(2, membercategoryCode).setParameter(3, groupEventCode).list();
 
 	}
 	
 	public List<GroupMember> findByGroupCodeNotExitingInGroupEventInvite(
 			String groupCode, String groupEventCode) {
-        return (List<GroupMember>) sessionFactory.getCurrentSession().createQuery("from GroupMember g where g.groupCode = ? and not exists (select gei.groupEventInviteId from GroupEventInvite gei where gei.groupMember.serialNumber = g.serialNumber and g.groupCode = gei.groupCode and g.memberCategoryCode=gei.memberCategoryCode and gei.groupEventCode=?)").setString(0,
-                groupCode).setString(1, groupEventCode).list();
+        return (List<GroupMember>) sessionFactory.getCurrentSession().createQuery("from GroupMember g where g.groupCode = ?1 and not exists (select gei.groupEventInviteId from GroupEventInvite gei where gei.groupMember.serialNumber = g.serialNumber and g.groupCode = gei.groupCode and g.memberCategoryCode=gei.memberCategoryCode and gei.groupEventCode=?2)").setParameter(1,
+                groupCode).setParameter(2, groupEventCode).list();
 
 	}
 
@@ -59,7 +59,7 @@ public class GroupMembersRepositoryImpl extends BaseHibernateJpaRepository<Group
 	}
 
 	public List<GroupMember> findByAssociatedEmailForGroupMember(String emailAddress, String groupCode) {
-		return (List<GroupMember>) sessionFactory.getCurrentSession().createQuery("select distinct g from GroupMember g, GroupDependents gd where g.groupCode = ? and ((g.primaryEmail like :emailAddress or g.otherEmail like :emailAddress) or (g.serialNumber=gd.groupMember.serialNumber and gd.email like :emailAddress))").setString(0,
+		return (List<GroupMember>) sessionFactory.getCurrentSession().createQuery("select distinct g from GroupMember g, GroupDependents gd where g.groupCode = ?1 and ((g.primaryEmail like :emailAddress or g.otherEmail like :emailAddress) or (g.serialNumber=gd.groupMember.serialNumber and gd.email like :emailAddress))").setParameter(1,
                 groupCode).setString("emailAddress", "%"+emailAddress+"%").list();
 	}
 

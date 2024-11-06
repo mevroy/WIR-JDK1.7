@@ -21,13 +21,13 @@ public class GroupDependentsRepositoryImpl extends
 		BaseHibernateJpaRepository<GroupDependents, String> implements GroupDependentsRepository {
 
 	public List<GroupDependents> findByGroupMember(GroupMember groupMember) {
-        return (List<GroupDependents>) sessionFactory.getCurrentSession().createQuery("from GroupDependents g where g.serialNumber = ?").setString(0,
+        return (List<GroupDependents>) sessionFactory.getCurrentSession().createQuery("from GroupDependents g where g.serialNumber = ?1").setParameter(1,
                 groupMember.getSerialNumber()).list();
 	}
 
 	public List<GroupDependents> findByGroupMemberSerialNumber(
 			String serialNumber) {
-        return (List<GroupDependents>) sessionFactory.getCurrentSession().createQuery("from GroupDependents g where g.serialNumber = ?").setString(0,
+        return (List<GroupDependents>) sessionFactory.getCurrentSession().createQuery("from GroupDependents g where g.serialNumber = ?1").setParameter(1,
                 serialNumber).list();
 	}
 

@@ -27,8 +27,8 @@ public class GroupEventInviteRSVPRepositoryImpl extends
 		return (List<GroupEventInviteRSVP>) sessionFactory
 				.getCurrentSession()
 				.createQuery(
-						"from GroupEventInviteRSVP gei where gei.groupCode = ? and gei.groupEventCode= ? order by gei.rsvpDateTime desc")
-				.setString(0, groupCode).setString(1, eventCode).list();
+						"from GroupEventInviteRSVP gei where gei.groupCode = ?1 and gei.groupEventCode= ?2 order by gei.rsvpDateTime desc")
+				.setParameter(1, groupCode).setParameter(2, eventCode).list();
 	}
 
 	public List<GroupEventInviteRSVP> findByGroupMemberAndGroupEventInvite(
@@ -55,8 +55,8 @@ public class GroupEventInviteRSVPRepositoryImpl extends
 		return (List<GroupEventInviteRSVP>) sessionFactory
 				.getCurrentSession()
 				.createQuery(
-						"select gei from GroupEventInviteRSVP gei inner join (  select groupMember.serialNumber as serialNumber, max(rsvpDateTime) as latest from GroupEventInviteRSVP group by serialNumber) r where  gei.rsvpDateTime = r.latest and gei.groupMember.serialNumber = r.serialNumber and gei.groupCode= ? and gei.memberCategoryCode=? and gei.groupEventCode=? group by gei.rsvpDateTime desc")
-				.setParameter(0, groupCode).setParameter(1, memberCategoryCode).setParameter(2, groupEventCode).list();
+						"select gei from GroupEventInviteRSVP gei inner join (  select groupMember.serialNumber as serialNumber, max(rsvpDateTime) as latest from GroupEventInviteRSVP group by serialNumber) r where  gei.rsvpDateTime = r.latest and gei.groupMember.serialNumber = r.serialNumber and gei.groupCode= ?1 and gei.memberCategoryCode=?2 and gei.groupEventCode=?3 group by gei.rsvpDateTime desc")
+				.setParameter(1, groupCode).setParameter(2, memberCategoryCode).setParameter(3, groupEventCode).list();
 				
 	}
 	public List<GroupEventInviteRSVP> findLatestRSVPsByGroupCodeAndEventCode(
@@ -64,7 +64,7 @@ public class GroupEventInviteRSVPRepositoryImpl extends
 		return (List<GroupEventInviteRSVP>) sessionFactory
 				.getCurrentSession()
 				.createQuery(
-						"from GroupEventInviteRSVP gei inner join (select g.groupMember.serialNumber as serialNumber, max(g.rsvpDateTime) as latest from GroupEventInviteRSVP g group by g.groupMember.serialNumber) r where  gei.rsvpDateTime = r.latest and gei.groupMember.serialNumber = r.serialNumber and gei.groupCode = ? and gei.groupEventCode= ? order by gei.rsvpDateTime desc")
-				.setString(0, groupCode).setString(1, eventCode).list();
+						"from GroupEventInviteRSVP gei inner join (select g.groupMember.serialNumber as serialNumber, max(g.rsvpDateTime) as latest from GroupEventInviteRSVP g group by g.groupMember.serialNumber) r where  gei.rsvpDateTime = r.latest and gei.groupMember.serialNumber = r.serialNumber and gei.groupCode = ?1 and gei.groupEventCode= ?2 order by gei.rsvpDateTime desc")
+				.setParameter(1, groupCode).setParameter(2, eventCode).list();
 	}
 }

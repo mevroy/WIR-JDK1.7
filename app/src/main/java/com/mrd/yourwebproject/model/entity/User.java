@@ -36,6 +36,7 @@ import java.util.List;
  * @company: &copy; 2012, Kaleidosoft Labs
  */
 @Entity
+@Table(name = "group_user")
 @FilterDef(name="filterUserRoles", 
 parameters=@ParamDef( name="groupCode", type="string" ) )
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

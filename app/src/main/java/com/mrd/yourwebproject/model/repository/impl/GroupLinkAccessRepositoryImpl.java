@@ -33,7 +33,7 @@ public class GroupLinkAccessRepositoryImpl extends BaseHibernateJpaRepository<Gr
 			sessionFactory.getCurrentSession().enableFilter("filterLinkAccessRoles").setParameter("roleType", role.toString());
 			
 		}
-		return (List<GroupLinkAccess>)sessionFactory.getCurrentSession().createQuery("select gla from GroupLinkAccess gla , GroupLinkAccessRole glar where glar.groupLinkAccess = gla and gla.groupSubLinkId = ? and  gla.group = ? and glar.role= ? "+(includeExpired?"":" and ((gla.expiryDate is null or (gla.expiryDate) >= NOW()) and (gla.startDate is null or (gla.startDate) <= NOW())) and ((glar.expiryDate is null or (glar.expiryDate) >= NOW()) and (glar.startDate is null or (glar.startDate) <= NOW()))")).setParameter(0, groupSubLink.getId()).setParameter(1, group).setParameter(2, role).list();
+		return (List<GroupLinkAccess>)sessionFactory.getCurrentSession().createQuery("select gla from GroupLinkAccess gla , GroupLinkAccessRole glar where glar.groupLinkAccess = gla and gla.groupSubLinkId = :groupSubLinkId and  gla.group = :group and glar.role= :role "+(includeExpired?"":" and ((gla.expiryDate is null or (gla.expiryDate) >= NOW()) and (gla.startDate is null or (gla.startDate) <= NOW())) and ((glar.expiryDate is null or (glar.expiryDate) >= NOW()) and (glar.startDate is null or (glar.startDate) <= NOW()))")).setParameter("groupSubLinkId", groupSubLink.getId()).setParameter("group", group).setParameter("role", role).list();
 	}
 
 	public List<GroupLinkAccess> findByGroupMainLinkAndGroupAndRole(
@@ -45,12 +45,12 @@ public class GroupLinkAccessRepositoryImpl extends BaseHibernateJpaRepository<Gr
 			sessionFactory.getCurrentSession().enableFilter("filterLinkAccessRoles").setParameter("roleType", role);
 			
 		}
-		return (List<GroupLinkAccess>)sessionFactory.getCurrentSession().createQuery("select gla from GroupLinkAccess gla , GroupLinkAccessRole glar where glar.groupLinkAccess = gla and gla.groupSubLink.groupMainLink = ? and  gla.group = ? and glar.role= ? "+(includeExpired?"":"and ((gla.expiryDate is null or (gla.expiryDate) >= NOW()) and (gla.startDate is null or (gla.startDate) <= NOW()))  and ((glar.expiryDate is null or (glar.expiryDate) >= NOW()) and (glar.startDate is null or (glar.startDate) <= NOW()))")).setParameter(0, groupMainLink).setParameter(1, group).setParameter(2, role).list();
+		return (List<GroupLinkAccess>)sessionFactory.getCurrentSession().createQuery("select gla from GroupLinkAccess gla , GroupLinkAccessRole glar where glar.groupLinkAccess = gla and gla.groupSubLink.groupMainLink = ?1 and  gla.group = ?2 and glar.role= ?3 "+(includeExpired?"":"and ((gla.expiryDate is null or (gla.expiryDate) >= NOW()) and (gla.startDate is null or (gla.startDate) <= NOW()))  and ((glar.expiryDate is null or (glar.expiryDate) >= NOW()) and (glar.startDate is null or (glar.startDate) <= NOW()))")).setParameter(1, groupMainLink).setParameter(2, group).setParameter(3, role).list();
 	}
 
 	public List<GroupLinkAccess> findByGroupSubLinkAndGroup(
 			GroupSubLink groupSubLink, Groups group, boolean includeExpired) {
-		return (List<GroupLinkAccess>)sessionFactory.getCurrentSession().createQuery("select gla from GroupLinkAccess gla where gla.groupSubLinkId = ? and  gla.group = ? "+(includeExpired?"":" and ((gla.expiryDate is null or (gla.expiryDate) >= NOW()) and (gla.startDate is null or (gla.startDate) <= NOW()))")).setParameter(0, groupSubLink.getId()).setParameter(1, group).list();
+		return (List<GroupLinkAccess>)sessionFactory.getCurrentSession().createQuery("select gla from GroupLinkAccess gla where gla.groupSubLinkId = ?1 and  gla.group = ?2 "+(includeExpired?"":" and ((gla.expiryDate is null or (gla.expiryDate) >= NOW()) and (gla.startDate is null or (gla.startDate) <= NOW()))")).setParameter(1, groupSubLink.getId()).setParameter(2, group).list();
 	}
 
 	public List<GroupLinkAccess> findByLinkURLAndGroupAndRole(String url,

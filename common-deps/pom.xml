@@ -416,6 +416,13 @@
 		</dependency>
 
 
+		<!-- PostgreSQL JDBC Driver -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.6.0</version>
+		</dependency>
+
 		<!-- MySQL C3P0 Data Pool -->
 		<dependency>
 			<groupId>c3p0</groupId>

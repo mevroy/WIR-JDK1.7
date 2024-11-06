@@ -21,11 +21,11 @@ import com.mrd.yourwebproject.model.repository.GroupEventInviteRepository;
 public class GroupEventInviteRepositoryImpl extends
 		BaseHibernateJpaRepository<GroupEventInvite, String> implements GroupEventInviteRepository{
 public List<GroupEventInvite> findByGroupCodeAndCategoryCodeAndEventCode(String groupCode, String memberCategoryCode, String eventCode){
-	return (List<GroupEventInvite>)sessionFactory.getCurrentSession().createQuery("from GroupEventInvite gei where gei.groupCode = ? and gei.memberCategoryCode = ? and gei.groupEventCode= ?").setString(0, groupCode).setString(1, memberCategoryCode).setString(2, eventCode).list();}
+	return (List<GroupEventInvite>)sessionFactory.getCurrentSession().createQuery("from GroupEventInvite gei where gei.groupCode = ?1 and gei.memberCategoryCode = ?2 and gei.groupEventCode= ?3").setParameter(1, groupCode).setParameter(2, memberCategoryCode).setParameter(3, eventCode).list();}
 
 public List<GroupEventInvite> findByGroupCodeAndEventCode(String groupCode,
 		String eventCode) {
-	return (List<GroupEventInvite>)sessionFactory.getCurrentSession().createQuery("from GroupEventInvite gei where gei.groupCode = ? and gei.groupEventCode= ?").setString(0, groupCode).setString(1, eventCode ).list();
+	return (List<GroupEventInvite>)sessionFactory.getCurrentSession().createQuery("from GroupEventInvite gei where gei.groupCode = ?1 and gei.groupEventCode= ?2").setParameter(1, groupCode).setParameter(2, eventCode ).list();
 }
 
 public List<GroupEventInvite> findByGroupMember(GroupMember groupMember) {

@@ -21,7 +21,7 @@ public class GroupEventsRepositoryImpl extends
 		BaseHibernateJpaRepository<GroupEvents, Long> implements GroupEventsRepository {
 
 	public List<GroupEvents> findByGroupCode(String groupCode) {
-		Query q = sessionFactory.getCurrentSession().createQuery("from GroupEvents ge where ge.groupCode = ? and (ge.expiryDate is null or date(ge.expiryDate) >= CURDATE()) order by ge.eventDate desc").setString(0,
+		Query q = sessionFactory.getCurrentSession().createQuery("from GroupEvents ge where ge.groupCode = :groupCode and (ge.expiryDate is null or date(ge.expiryDate) >= CURDATE()) order by ge.eventDate desc").setParameter("groupCode",
         		groupCode);
 		List<GroupEvents> groupEvents = q.list();
         return  groupEvents;
@@ -29,14 +29,14 @@ public class GroupEventsRepositoryImpl extends
 
 	public List<GroupEvents> findByGroupCodeAndMemberCategoryCode(
 			String groupCode, String memberCategoryCode) {
-		Query q = sessionFactory.getCurrentSession().createQuery("from GroupEvents ge where ge.groupCode = ? and (ge.memberCategoryCode = ? or ge.memberCategoryCode is null or ge.memberCategoryCode = '') and (ge.expiryDate is null or date(ge.expiryDate) >= CURDATE())  order by ge.eventDate desc").setString(0,
-        		groupCode).setString(1, memberCategoryCode);
+		Query q = sessionFactory.getCurrentSession().createQuery("from GroupEvents ge where ge.groupCode = :groupCode and (ge.memberCategoryCode = :memberCategoryCode or ge.memberCategoryCode is null or ge.memberCategoryCode = '') and (ge.expiryDate is null or date(ge.expiryDate) >= CURDATE())  order by ge.eventDate desc").setParameter("groupCode",
+        		groupCode).setParameter("memberCategoryCode", memberCategoryCode);
 		List<GroupEvents> groupEvents = q.list();
         return  groupEvents;
 	}
 
 	public GroupEvents findByGroupEventCode(String groupEventCode) {
-		Query q = sessionFactory.getCurrentSession().createQuery("from GroupEvents ge where ge.eventCode = ? order by ge.eventDate desc").setString(0,
+		Query q = sessionFactory.getCurrentSession().createQuery("from GroupEvents ge where ge.eventCode = :eventCode order by ge.eventDate desc").setParameter("eventCode",
 				groupEventCode);
 		GroupEvents groupEvent = (GroupEvents)q.uniqueResult();
         return  groupEvent;
@@ -44,7 +44,7 @@ public class GroupEventsRepositoryImpl extends
 
 	public List<GroupEvents> findByGroupCode(String groupCode,
 			boolean includeExpired) {
-		Query q = sessionFactory.getCurrentSession().createQuery("from GroupEvents ge where ge.groupCode = ?  "+(includeExpired? "":" and (ge.expiryDate is null or date(ge.expiryDate) >= CURDATE())")+ " order by ge.eventDate desc").setString(0,
+		Query q = sessionFactory.getCurrentSession().createQuery("from GroupEvents ge where ge.groupCode = :groupCode  "+(includeExpired? "":" and (ge.expiryDate is null or date(ge.expiryDate) >= CURDATE())")+ " order by ge.eventDate desc").setParameter("groupCode",
         		groupCode);
 		List<GroupEvents> groupEvents = q.list();
         return  groupEvents;
@@ -52,8 +52,8 @@ public class GroupEventsRepositoryImpl extends
 
 	public List<GroupEvents> findByGroupCodeAndMemberCategoryCode(
 			String groupCode, String memberCategoryCode, boolean includeExpired) {
-		Query q = sessionFactory.getCurrentSession().createQuery("from GroupEvents ge where ge.groupCode = ? and (ge.memberCategoryCode = ? or ge.memberCategoryCode is null or ge.memberCategoryCode = '') "+(includeExpired? "":" and (ge.expiryDate is null or date(ge.expiryDate) >= CURDATE())")+" order by ge.eventDate desc").setString(0,
-        		groupCode).setString(1, memberCategoryCode);
+		Query q = sessionFactory.getCurrentSession().createQuery("from GroupEvents ge where ge.groupCode = :groupCode and (ge.memberCategoryCode = :memberCategoryCode or ge.memberCategoryCode is null or ge.memberCategoryCode = '') "+(includeExpired? "":" and (ge.expiryDate is null or date(ge.expiryDate) >= CURDATE())")+" order by ge.eventDate desc").setParameter("groupCode",
+        		groupCode).setParameter("memberCategoryCode", memberCategoryCode);
 		List<GroupEvents> groupEvents = q.list();
         return  groupEvents;
 	}

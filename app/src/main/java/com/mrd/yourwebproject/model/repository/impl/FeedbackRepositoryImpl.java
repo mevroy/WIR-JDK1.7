@@ -21,7 +21,7 @@ import com.mrd.yourwebproject.model.repository.FeedbackRepository;
 public class FeedbackRepositoryImpl extends BaseHibernateJpaRepository<Feedback, Long> implements FeedbackRepository{
 
 	public List<Feedback> findByGroupEventCode(String groupEventCode) {
-		return (List<Feedback>)sessionFactory.getCurrentSession().createQuery("from Feedback f where f.groupEventCode = ?").setString(0,
+		return (List<Feedback>)sessionFactory.getCurrentSession().createQuery("from Feedback f where f.groupEventCode = ?1").setParameter(1,
                 groupEventCode).list();
 	}
 
@@ -30,14 +30,14 @@ public class FeedbackRepositoryImpl extends BaseHibernateJpaRepository<Feedback,
 	}
 
 	public List<Feedback> findByGroupMember(GroupMember groupMember) {
-		return (List<Feedback>)sessionFactory.getCurrentSession().createQuery("from Feedback f where f.serialNumber = ?").setString(0,
+		return (List<Feedback>)sessionFactory.getCurrentSession().createQuery("from Feedback f where f.serialNumber = ?1").setParameter(1,
 				groupMember.getSerialNumber()).list();
 	}
 
 	public List<Feedback> findByMemberCategoryCodeAndGroupEventCode(
 			String memberCategoryCode, String groupEventCode) {
-		return (List<Feedback>)sessionFactory.getCurrentSession().createQuery("select f from Feedback f, GroupMember gm where f.groupEventCode = ? and f.serialNumber=gm.serialNumber and gm.memberCategoryCode = ?").setString(0,
-                groupEventCode).setParameter(1, memberCategoryCode).list();
+		return (List<Feedback>)sessionFactory.getCurrentSession().createQuery("select f from Feedback f, GroupMember gm where f.groupEventCode = ?1 and f.serialNumber=gm.serialNumber and gm.memberCategoryCode = ?2").setParameter(1,
+                groupEventCode).setParameter(2, memberCategoryCode).list();
 	}
 
 }

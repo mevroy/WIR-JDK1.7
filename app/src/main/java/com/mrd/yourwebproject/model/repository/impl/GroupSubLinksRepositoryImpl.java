@@ -24,11 +24,11 @@ public class GroupSubLinksRepositoryImpl extends BaseHibernateJpaRepository<Grou
 	public List<GroupSubLink> findByGroupMainLink(GroupMainLink groupMainLink,
 			boolean includeDisabled) {
 
-		return (List<GroupSubLink>)sessionFactory.getCurrentSession().createQuery("from GroupSubLink g where g.groupMainLink = :groupMainLink "+(includeDisabled?"":" and g.disabled = 0")).setParameter("groupMainLink", groupMainLink).list();
+		return (List<GroupSubLink>)sessionFactory.getCurrentSession().createQuery("from GroupSubLink g where g.groupMainLink = :groupMainLink "+(includeDisabled?"":" and g.disabled = false ")).setParameter("groupMainLink", groupMainLink).list();
 	}
 
 	public List<GroupSubLink> findByURL(String url, boolean includeDisabled) {
-		return (List<GroupSubLink>)sessionFactory.getCurrentSession().createQuery("from GroupSubLink g where g.linkHref = :url "+(includeDisabled?"":" and g.disabled = 0")).setParameter("url", url).list();
+		return (List<GroupSubLink>)sessionFactory.getCurrentSession().createQuery("from GroupSubLink g where g.linkHref = :url "+(includeDisabled?"":" and g.disabled = false ")).setParameter("url", url).list();
 	}
 
 }
