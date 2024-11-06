@@ -119,7 +119,7 @@
 										hidden : false,
 										edittype : 'select',
 										editoptions : {
-											dataUrl : 'json/viewGroupEvents?memberCategoryCode=NULL',
+											dataUrl : 'json/viewGroupEvents?memberCategoryCode=ALL',
 											buildSelect : function(response) {
 												var options = '<select><option value="">Select One</option>"';
 												
