@@ -20,7 +20,7 @@ public class GroupMemberCategoryRespositoryImpl extends
 		BaseHibernateJpaRepository<GroupMemberCategory, Long> implements GroupMemberCategoryRepository {
 
 	public List<GroupMemberCategory> findByGroupCode(String groupCode) {
-		return(List<GroupMemberCategory>)sessionFactory.getCurrentSession().createQuery("from GroupMemberCategory gmc where gmc.groupCode = ?1 and (gmc.startDate is null or gmc.startDate<=CURDATE()) and (gmc.expiryDate is null or gmc.expiryDate>=CURDATE())").setParameter(1,
+		return(List<GroupMemberCategory>)sessionFactory.getCurrentSession().createQuery("from GroupMemberCategory gmc where gmc.groupCode = ?1 and (gmc.startDate is null or gmc.startDate<=CURRENT_DATE) and (gmc.expiryDate is null or gmc.expiryDate>=CURRENT_DATE)").setParameter(1,
 				groupCode).list();
 	}
 

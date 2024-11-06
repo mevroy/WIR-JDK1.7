@@ -21,7 +21,7 @@ public class GroupEventsRepositoryImpl extends
 		BaseHibernateJpaRepository<GroupEvents, Long> implements GroupEventsRepository {
 
 	public List<GroupEvents> findByGroupCode(String groupCode) {
-		Query q = sessionFactory.getCurrentSession().createQuery("from GroupEvents ge where ge.groupCode = :groupCode and (ge.expiryDate is null or date(ge.expiryDate) >= CURDATE()) order by ge.eventDate desc").setParameter("groupCode",
+		Query q = sessionFactory.getCurrentSession().createQuery("from GroupEvents ge where ge.groupCode = :groupCode and (ge.expiryDate is null or date(ge.expiryDate) >= NOW()) order by ge.eventDate desc").setParameter("groupCode",
         		groupCode);
 		List<GroupEvents> groupEvents = q.list();
         return  groupEvents;
@@ -29,7 +29,7 @@ public class GroupEventsRepositoryImpl extends
 
 	public List<GroupEvents> findByGroupCodeAndMemberCategoryCode(
 			String groupCode, String memberCategoryCode) {
-		Query q = sessionFactory.getCurrentSession().createQuery("from GroupEvents ge where ge.groupCode = :groupCode and (ge.memberCategoryCode = :memberCategoryCode or ge.memberCategoryCode is null or ge.memberCategoryCode = '') and (ge.expiryDate is null or date(ge.expiryDate) >= CURDATE())  order by ge.eventDate desc").setParameter("groupCode",
+		Query q = sessionFactory.getCurrentSession().createQuery("from GroupEvents ge where ge.groupCode = :groupCode and (ge.memberCategoryCode = :memberCategoryCode or ge.memberCategoryCode is null or ge.memberCategoryCode = '') and (ge.expiryDate is null or date(ge.expiryDate) >= NOW())  order by ge.eventDate desc").setParameter("groupCode",
         		groupCode).setParameter("memberCategoryCode", memberCategoryCode);
 		List<GroupEvents> groupEvents = q.list();
         return  groupEvents;
@@ -44,7 +44,7 @@ public class GroupEventsRepositoryImpl extends
 
 	public List<GroupEvents> findByGroupCode(String groupCode,
 			boolean includeExpired) {
-		Query q = sessionFactory.getCurrentSession().createQuery("from GroupEvents ge where ge.groupCode = :groupCode  "+(includeExpired? "":" and (ge.expiryDate is null or date(ge.expiryDate) >= CURDATE())")+ " order by ge.eventDate desc").setParameter("groupCode",
+		Query q = sessionFactory.getCurrentSession().createQuery("from GroupEvents ge where ge.groupCode = :groupCode  "+(includeExpired? "":" and (ge.expiryDate is null or date(ge.expiryDate) >= NOW())")+ " order by ge.eventDate desc").setParameter("groupCode",
         		groupCode);
 		List<GroupEvents> groupEvents = q.list();
         return  groupEvents;
@@ -52,7 +52,7 @@ public class GroupEventsRepositoryImpl extends
 
 	public List<GroupEvents> findByGroupCodeAndMemberCategoryCode(
 			String groupCode, String memberCategoryCode, boolean includeExpired) {
-		Query q = sessionFactory.getCurrentSession().createQuery("from GroupEvents ge where ge.groupCode = :groupCode and (ge.memberCategoryCode = :memberCategoryCode or ge.memberCategoryCode is null or ge.memberCategoryCode = '') "+(includeExpired? "":" and (ge.expiryDate is null or date(ge.expiryDate) >= CURDATE())")+" order by ge.eventDate desc").setParameter("groupCode",
+		Query q = sessionFactory.getCurrentSession().createQuery("from GroupEvents ge where ge.groupCode = :groupCode and (ge.memberCategoryCode = :memberCategoryCode or ge.memberCategoryCode is null or ge.memberCategoryCode = '') "+(includeExpired? "":" and (ge.expiryDate is null or date(ge.expiryDate) >= NOW())")+" order by ge.eventDate desc").setParameter("groupCode",
         		groupCode).setParameter("memberCategoryCode", memberCategoryCode);
 		List<GroupEvents> groupEvents = q.list();
         return  groupEvents;
