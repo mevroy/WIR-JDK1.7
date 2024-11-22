@@ -23,7 +23,7 @@
 		<velocity.version>1.7</velocity.version>
 		<velocityTools.version>2.0</velocityTools.version>
 		<freemarker.version>2.3.19</freemarker.version>
-		<springBatch.version>2.1.9.RELEASE</springBatch.version>
+		<springBatch.version>4.2.1.RELEASE</springBatch.version>
 		<springIntegration.version>3.0.6.RELEASE</springIntegration.version>
 		<springBatchAdmin.version>1.2.2.RELEASE</springBatchAdmin.version>
 		<spring.version>3.1.1.RELEASE</spring.version>
