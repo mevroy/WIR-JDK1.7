@@ -58,7 +58,7 @@ public class GroupSMS extends NoIDEntity implements Serializable {
 	private String mobileNumber;
 	
 	
-	@Column @NotNull @NotEmpty
+	@Column(columnDefinition="TEXT") @NotNull @NotEmpty
 	private String body;
 	
 	

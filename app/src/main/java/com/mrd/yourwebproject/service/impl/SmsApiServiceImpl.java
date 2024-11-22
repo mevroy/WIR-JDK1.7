@@ -7,6 +7,7 @@ package com.mrd.yourwebproject.service.impl;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -24,6 +25,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.mrd.commons.util.CommonUtils;
+import com.mrd.yourwebproject.common.Props;
 import com.mrd.yourwebproject.model.entity.SmsApiResponseEntity;
 import com.mrd.yourwebproject.model.entity.SmsMessageEntity;
 import com.mrd.yourwebproject.service.SmsApiService;
@@ -43,10 +45,11 @@ public class SmsApiServiceImpl implements SmsApiService {
 //	public static final String CLIENT_SECRET = "VVwgmq9uGzIGCTxD";
 	public static final String FROM = "61472880395";
 
-	public static final String CLIENT_ID = "yOGCxeErz2CZ3nDLa5wfb1Dxu9AwLAPK";
-	public static final String CLIENT_SECRET = "v4hYQE9QZ1U9ZgTX";
-	
-	public static final String SMS_STATUS_URL = "http://www.mevroy.online/app/MRD/postSmsStatusEvent";
+	//public static final String CLIENT_ID = "yOGCxeErz2CZ3nDLa5wfb1Dxu9AwLAPK";
+	//public static final String CLIENT_SECRET = "v4hYQE9QZ1U9ZgTX";
+	private @Autowired Props props;
+
+	//public static final String SMS_STATUS_URL = "http://www.mevroy.online/app/MRD/postSmsStatusEvent";
 	// public static final String EMAIL_URL =
 	// "http://reminders-mrdapp.rhcloud.com/app/loadEmailWebversion/";
 
@@ -65,7 +68,7 @@ public class SmsApiServiceImpl implements SmsApiService {
 			content = content.substring(0, 157) + "...";
 		}
 		
-		SmsMessageEntity sms = new SmsMessageEntity(phoneNumber, content, FROM, SMS_STATUS_URL);
+		SmsMessageEntity sms = new SmsMessageEntity(phoneNumber, content, FROM, props.smsStatusUrl);
 		sms.setReplyRequest(true);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", token.getToken_type()+" " + token.getAccess_token());
@@ -93,8 +96,8 @@ public class SmsApiServiceImpl implements SmsApiService {
 				new MappingJacksonHttpMessageConverter(),
 				new ByteArrayHttpMessageConverter()));
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-		params.set("client_id", CLIENT_ID);
-		params.set("client_secret", CLIENT_SECRET);
+		params.set("client_id", props.smsClientId);
+		params.set("client_secret", props.smsClientSecret);
 		params.set("grant_type", "client_credentials");
 		params.set("scope", "NSMS");
 		HttpHeaders headers = new HttpHeaders();

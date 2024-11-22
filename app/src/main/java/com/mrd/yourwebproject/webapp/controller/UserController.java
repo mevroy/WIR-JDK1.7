@@ -150,15 +150,22 @@ public class UserController extends BaseWebAppController {
 					// Update the login count and other info
 					userService.loginUser(user, request);
 					// smsApiService.sendSmsNotification("0481370821", "Hello Mevan");
-
+                    user.setName(user.getUserName());
 					// Store the user in session
+                    boolean loginAllowed = true;
 					if (StringUtils.isNotBlank(user.getSerialNumber())) {
 						try {
 							GroupMember gm = groupMembersService.findById(user.getSerialNumber());
 							user.setName(gm.getFirstName() + " " + gm.getLastName());
+							loginAllowed = CommonUtils.isValidDates(gm.getMembershipStartDate(), gm.getMembershipEndDate()) ;
 						} catch (Exception e) {
 						}
 					}
+					if(!loginAllowed) {
+						addError(msg.loginBlocked, model);
+						return "login";
+					}
+					
 					request.getSession(true).setAttribute(Key.user, user);
 					// The main links are removed so that pre-login links go away and the new set of
 					// link are reloaded
@@ -169,6 +176,10 @@ public class UserController extends BaseWebAppController {
 					// "+CommonUtils.printDateInHomeTimeZone(user.getCurrentLoginAt()));
 					log.info("Date Time in Australia/Melbourne for Logged in user: "
 							+ CommonUtils.printDateInHomeTimeZone(user.getCurrentLoginAt()));
+					Groups group = groupsService.findByGroupCode(groupCode);
+					if(StringUtils.isNotBlank(group.getCss())) {
+					request.getSession().setAttribute("cssSelector", group.getCss()+".");
+					}
 					return Key.redirect + "/" + groupCode + Route.dashboard;
 				} else {
 					log.info("User Authentication Failed: " + user.getUserName());
@@ -221,7 +232,7 @@ public class UserController extends BaseWebAppController {
 				model.addAttribute(Key.isRegister, true);
 				return Key.redirect + "/" + groupCode + Route.dashboard;
 			} else {
-				addError(msg.registerError, model);
+				addError(validity.errors(), model);
 				return View.userRegistration;
 			}
 		} catch (Exception e) {

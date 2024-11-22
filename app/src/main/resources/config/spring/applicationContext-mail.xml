@@ -22,7 +22,7 @@
  
  
  <!-- Uncomment to poll email -->
-<!-- 
+
    <mail:inbound-channel-adapter id="imapAdapter" 
                                       store-uri="imaps://${mail.user}:${mail.pass}@imap.googlemail.com:993/INBOX"                                     
                                       channel="recieveEmailChannel"                                          
@@ -30,12 +30,12 @@
                                       should-mark-messages-as-read="true"                                      
                                       auto-startup="true"
                                       java-mail-properties="javaMailProperties"
-                                    mail-filter-expression="(subject matches '(?i)Membership') or (subject matches '(?i)membership' ) or (subject matches '(?i)MEMBERSHIP')">
+                                    mail-filter-expression="(subject matches '(?i)Job') or (subject matches '(?i)job' ) or (subject matches '(?i)JOB')">
  
        <int:poller max-messages-per-poll="5" cron="30 0/1 * 1/1 * ?"/>
   		</mail:inbound-channel-adapter>    
   
-   -->
+ 
    
    		
      <!--  <int:poller fixed-delay="6000" time-unit="SECONDS"/>  -->
@@ -73,7 +73,7 @@
   -->
  
  <!-- Uncomment to Poll Email  -->
- <!-- 
+ 
     <int:channel id="recieveEmailChannel">        
         <int:interceptors>
             <int:wire-tap channel="logger"/>
@@ -86,7 +86,7 @@
 
     <bean id="emailReceiverService" class="com.mrd.yourwebproject.service.EmailReceiverService">
     </bean>
-   -->
+  
        
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="protocol" value="${mail.transport.protocol}" />

@@ -97,7 +97,8 @@ public class GroupCronJob extends JpaEntity<Long> implements Serializable {
 	@Column
 	private String jobStatusContactEmail;
 	
-	
+	@Column
+	private String smsTemplateName;	
 	/**
 	 * @return the jobStatusContactEmail
 	 */
@@ -373,6 +374,14 @@ public class GroupCronJob extends JpaEntity<Long> implements Serializable {
 	 */
 	public void setJobScheduleDate(Date jobScheduleDate) {
 		this.jobScheduleDate = jobScheduleDate;
+	}
+
+	public String getSmsTemplateName() {
+		return smsTemplateName;
+	}
+
+	public void setSmsTemplateName(String smsTemplateName) {
+		this.smsTemplateName = smsTemplateName;
 	}
 
 	/*

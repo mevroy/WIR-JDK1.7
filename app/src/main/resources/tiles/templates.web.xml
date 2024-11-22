@@ -35,13 +35,13 @@
 		<put-attribute name="content" value="/WEB-INF/views/web/home.web.jsp" />
 	</definition>
 
-	<definition name="userRegistration" extends="base">
+	<definition name="userRegistration" extends="mobilebase">
 		<put-attribute name="title" value="User Registration" />
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/userRegistration.web.jsp" />
 	</definition>
 
-	<definition name="dashboard" extends="base">
+	<definition name="dashboard" extends="mobilebase">
 		<put-attribute name="title" value="Dashboard" />
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/dashboard.web.jsp" />
@@ -50,6 +50,11 @@
 		<put-attribute name="title" value="Add Group Member" />
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/addGroupMember.web.jsp" />
+	</definition>
+		<definition name="addGroupMemberGIES" extends="mobilebase">
+		<put-attribute name="title" value="Add Employee" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/addGroupMemberGIES.web.jsp" />
 	</definition>
 
 	<definition name="loadUpdateGroupMember" extends="mobilebase">
@@ -79,6 +84,18 @@
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/viewGroupMembers.web.jsp" />
 	</definition>
+	<definition name="viewGroupMembersGIES" extends="base">
+		<put-attribute name="title" value="View Members" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/viewGroupMembersGIES.web.jsp" />
+	</definition>	
+
+	<definition name="viewGroupUsers" extends="mobilebase">
+		<put-attribute name="title" value="View Users" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/viewGroupUsers.web.jsp" />
+	</definition>	
+		
 	<definition name="addGroupEvent" extends="base">
 		<put-attribute name="title" value="Add Group Event" />
 		<put-attribute name="content"
@@ -306,7 +323,7 @@
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/createGroupWorkInstructionOrder.web.jsp" />
 	</definition>
-	<definition name="viewGroupWorkInstructionRecords" extends="base">
+	<definition name="viewGroupWorkInstructionRecords" extends="mobilebase">
 		<put-attribute name="title" value="View Work Instruction Order Records" />
 		<!-- <put-attribute name="header" value="/WEB-INF/views/common/headerPreLogin.web.jsp" 
 			/> -->

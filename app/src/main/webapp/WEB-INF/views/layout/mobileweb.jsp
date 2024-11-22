@@ -10,12 +10,19 @@
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/res/custom/images/email/generic/${sessionScope.groupCode}Logo.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     
-    <link href="${pageContext.request.contextPath}/res/bootstrap/3.3.6/css/${sessionScope.cssSelector}bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/res/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link href="data:text/css;charset=utf-8," data-href="${pageContext.request.contextPath}/res/bootstrap/3.3.6/css/bootstrap-theme.min.css" rel="stylesheet" id="bs-theme-stylesheet">
     <link href="${pageContext.request.contextPath}/res/bootstrap/3.3.6/css/docs.min.css" rel="stylesheet">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/res/bootstrap/css/datepicker.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/res/bootstrap/css/datetimepicker.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/res/js/css/jquery-ui.min.css"/>
+    
+    <!-- JQ Grid CSS Start -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/res/jqGrid/css/ui.jqgrid.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/res/js/css/jquery-ui.structure.min.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/res/js/css/jquery-ui.theme.min.css"/>
+    <!-- JQ Grid CSS End -->
+    
     <link rel="stylesheet" href="${pageContext.request.contextPath}/res/css/app.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/res/css/sticky.css"/>
     
@@ -34,6 +41,11 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/res/js/jquery/jquery.countdown.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/res/js/notify/notify.js"></script>
 
+	<!-- JQ Grid JS start -->
+    <script type="text/javascript" src="${pageContext.request.contextPath}/res/jqGrid/js/jquery.jqGrid.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/res/jqGrid/js/grid.locale-en.js"></script>
+	
+	<!-- JQ Grid JS end -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/res/custom/js/custom.js"></script>
     
     

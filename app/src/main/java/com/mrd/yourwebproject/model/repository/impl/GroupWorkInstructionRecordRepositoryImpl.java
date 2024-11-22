@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.mrd.framework.data.BaseHibernateJpaRepository;
+import com.mrd.yourwebproject.model.entity.GroupMember;
 import com.mrd.yourwebproject.model.entity.GroupWorkInstructionRecord;
 import com.mrd.yourwebproject.model.entity.User;
 import com.mrd.yourwebproject.model.repository.GroupWorkInstructionRecordRepository;
@@ -30,6 +31,12 @@ public class GroupWorkInstructionRecordRepositoryImpl extends
 		return (List<GroupWorkInstructionRecord>) sessionFactory.getCurrentSession()
 				.createQuery("select gwir from GroupWorkInstructionRecord gwir where gwir.group.groupCode = :groupCode")
 				.setParameter("groupCode", groupCode).list();
+	}
+
+	public List<GroupWorkInstructionRecord> findByGroupCodeAndGroupMemeber(String groupCode, GroupMember groupMember) {
+		return (List<GroupWorkInstructionRecord>) sessionFactory.getCurrentSession().createQuery(
+				"select gwir from GroupWorkInstructionRecord gwir where gwir.group.groupCode = :groupCode and gwir.groupMember.serialNumber = :serialNumber order by gwir.jobStart desc")
+				.setParameter("groupCode", groupCode).setParameter("serialNumber", groupMember.getSerialNumber()).list();
 	}
 
 }

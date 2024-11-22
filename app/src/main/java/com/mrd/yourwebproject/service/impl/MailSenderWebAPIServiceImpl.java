@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Base64;
 
 import javax.activation.URLDataSource;
 
@@ -74,7 +75,7 @@ public class MailSenderWebAPIServiceImpl implements MailSenderWebAPIService {
 				new ByteArrayHttpMessageConverter()));
 		MultiValueMap<String, Object> params = new LinkedMultiValueMap<String, Object>();
 		params.set("api_user", groupEmailAccount.getUsername());
-		params.set("api_key", groupEmailAccount.getPassword());
+		params.set("api_key", new String(Base64.getDecoder().decode(groupEmailAccount.getPassword())));
 		if (StringUtils.isNotBlank(groupEmail.getEmailAddress())) {
 			for (String email : groupEmail.getEmailAddress().split(",")) {
 				params.set("to[]", email);
@@ -155,7 +156,7 @@ public class MailSenderWebAPIServiceImpl implements MailSenderWebAPIService {
 				new FormHttpMessageConverter()));
 		MultiValueMap<String, Object> params = new LinkedMultiValueMap<String, Object>();
 		params.set("api_user", groupEmailAccount.getUsername());
-		params.set("api_key", groupEmailAccount.getPassword());
+		params.set("api_key", new String(Base64.getDecoder().decode(groupEmailAccount.getPassword())));
 
 		params.set("to", user.getEmail());
 
@@ -187,7 +188,7 @@ public class MailSenderWebAPIServiceImpl implements MailSenderWebAPIService {
 				new FormHttpMessageConverter()));
 		MultiValueMap<String, Object> params = new LinkedMultiValueMap<String, Object>();
 		params.set("api_user", groupEmailAccount.getUsername());
-		params.set("api_key", groupEmailAccount.getPassword());
+		params.set("api_key", new String(Base64.getDecoder().decode(groupEmailAccount.getPassword())));
 
 		params.set("to", "mevroy@gmail.com");
 

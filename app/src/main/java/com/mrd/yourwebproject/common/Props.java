@@ -46,6 +46,11 @@ public class Props {
     public @Value("${membershipFilePath}") String membershipFilePath;
     public @Value("${application.url}") String applicationUrl;
     public @Value("${application.project}") String applicationProject;
+    public @Value("${application.smsClientId}") String smsClientId;
+    public @Value("${application.smsClientSecret}") String smsClientSecret;
+    public @Value("${application.smsStatusUrl}") String smsStatusUrl;
+
+    
     @PostConstruct
     public void init() {
         webAuthRoutes = Arrays.asList(

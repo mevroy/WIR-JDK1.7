@@ -76,6 +76,10 @@ public class GroupMembersServiceImpl extends BaseJpaServiceImpl<GroupMember, Str
 		return groupMembersRespoistory.findByGroupCode(groupCode);
 	}
 
+	public List<GroupMember> findByGroupCodeWithStatus(String groupCode, boolean includeExpired) {
+		return groupMembersRespoistory.findByGroupCodeWithStatus(groupCode, includeExpired);
+	}
+
 	public List<GroupMember> executeGenericQuery(String hibernateQuery) {
 		return groupMembersRespoistory.executeGenericQuery(hibernateQuery);
 	}
@@ -106,6 +110,11 @@ public class GroupMembersServiceImpl extends BaseJpaServiceImpl<GroupMember, Str
 	public List<GroupMember> findByAssociatedEmailForGroupMember(
 			String emailAddress, String groupCode) {
 		return groupMembersRespoistory.findByAssociatedEmailForGroupMember(emailAddress, groupCode);
+	}
+	
+	public List<GroupMember> findByAssociatedEmailForGroupMemberAndDependents(
+			String emailAddress, String groupCode) {
+		return groupMembersRespoistory.findByAssociatedEmailForGroupMemberAndDependents(emailAddress, groupCode);
 	}
 
 	public  ByteArrayOutputStream prefillPDF(GroupMember groupMember) throws IOException {
@@ -721,6 +730,7 @@ public class GroupMembersServiceImpl extends BaseJpaServiceImpl<GroupMember, Str
 
 		return facts;
 	}
+
 	
 	
 	

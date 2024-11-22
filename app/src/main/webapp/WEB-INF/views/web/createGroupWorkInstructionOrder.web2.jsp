@@ -13,7 +13,7 @@
 			<div class="row">
 				<div class="col-lg-5">
 					<div class="form-group" id="clientNameCtl">
-						<label class="control-label" for="clientName">Client </label>
+						<label class="control-label" for="clientName">Clients </label>
 
 						<div class="controls">
 							<form:input path="clientName" cssClass="form-control"

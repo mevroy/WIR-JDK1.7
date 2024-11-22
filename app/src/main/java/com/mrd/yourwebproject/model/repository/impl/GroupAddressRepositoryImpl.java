@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mrd.framework.data.BaseHibernateJpaRepository;
 import com.mrd.yourwebproject.model.entity.GroupAddress;
+import com.mrd.yourwebproject.model.entity.enums.AddressType;
 import com.mrd.yourwebproject.model.repository.GroupAddressRepository;
 
 /**
@@ -24,6 +25,14 @@ public class GroupAddressRepositoryImpl extends BaseHibernateJpaRepository<Group
 		Query q = sessionFactory.getCurrentSession()
 				.createQuery("from GroupAddress g where g.clientId = :clientId")
 				.setParameter("clientId", clientId);
+		List<GroupAddress> groupAddress = q.list();
+		return groupAddress;
+	}
+
+	public List<GroupAddress> findByGroupClientAndType(String clientId, AddressType type) {
+		Query q = sessionFactory.getCurrentSession()
+				.createQuery("from GroupAddress g where g.clientId = :clientId and g.addressType = :addresstype order by g.createdAt desc")
+				.setParameter("clientId", clientId).setParameter("addresstype", type);
 		List<GroupAddress> groupAddress = q.list();
 		return groupAddress;
 	}

@@ -15,10 +15,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -108,6 +111,9 @@ public class Groups extends SqlEntity<Long> implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = GroupCronJob.class)
 	@JoinColumn(name = "groupId", referencedColumnName = "id")
 	private List<GroupCronJob> groupCronJob;
+	
+	@Column
+	private String homePageContent;
 	/**
 	 * @return the groupCode
 	 */
@@ -374,5 +380,14 @@ public class Groups extends SqlEntity<Long> implements Serializable {
 	public void setCss(String css) {
 		this.css = css;
 	}
+
+	public String getHomePageContent() {
+		return homePageContent;
+	}
+
+	public void setHomePageContent(String homePageContent) {
+		this.homePageContent = homePageContent;
+	}
+
 
 }

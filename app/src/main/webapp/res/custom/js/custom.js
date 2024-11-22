@@ -22,13 +22,11 @@ $(function() {
 		minuteStep : 5
 	});
 	$('[data-toggle="popover"]').popover();
-	/*		 $('[data-toggle="popover"]').popover({
-	 html: true,
-	 trigger: 'click',
-	 content: loadEmailActivity,
-	 }).click(function(e) {
-	 //$(this).popover('toggle');
-	 });*/
+	/*
+	 * $('[data-toggle="popover"]').popover({ html: true, trigger: 'click',
+	 * content: loadEmailActivity, }).click(function(e) {
+	 * //$(this).popover('toggle'); });
+	 */
 	$('[data-toggle="tooltip"]').tooltip();
 
 })
@@ -141,31 +139,51 @@ function buildGroupEventsOptionsByMemberCategory(memberCategoryCode,
 	});
 };
 
-/*The below would fetch a template from GroupEmailTemplates Table assuming its a JSON response*/
+/*
+ * The below would fetch a template from GroupEmailTemplates Table assuming its
+ * a JSON response
+ */
 
-function buildTestMethods(
-		htmlSelectId) {
-	$("select#" + htmlSelectId).attr("disabled", "disabled");
+function buildTestMethods(htmlSelectId, index, reset) {
+	var $select = $("select#" + htmlSelectId+index);
+	var selectedValue = $("select#" + htmlSelectId+index).val();
+	$select.attr("disabled", "disabled");
 	$.ajax({
 		type : 'GET',
 		url : "loadEmailTemplate/TestMethods",
-		success : function(j) {
-			var options = '<option value="">Select One</option>"';
-			if (typeof j !== 'undefined' && typeof j[0] !== 'undefined') {
+		success : function(jsonData) {
+			$select.html('');
+			var $defaultOption = $("<option>", {
+				text : 'Select One',
+				value : ''
+			});
+			$defaultOption.appendTo($select);
+				$.each(jsonData, function(j, option) {
+					select = false;
+					if(option.TestMethod === selectedValue) {
+						buildWIRDropDownsByIndex(selectedValue, 'itrDocument' ,'itemProcedure', 'testStandard', 'acceptanceCriteria', index, reset);
+						if(!reset) {
+						select = true;
+						}
+					}
+					var $option = $("<option>", {
+						text : option.TestMethodLabel,
+						value : option.TestMethod,
+						selected: select
+					});
+					$option.appendTo($select);
+				});
 
-				for (var i = 0; i < j.length; i++) {
-					options += '<option value="' + j[i].TestMethod + '">'
-							+ j[i].TestMethodLabel + '</option>';
-				}
-			}
-			$("select#" + htmlSelectId).html(options);
-			$("select#" + htmlSelectId).removeAttr("disabled");
-			$("select#" + htmlSelectId).selectpicker();
+			$select.removeAttr("disabled");
+			// $("select#" + htmlSelectId).val(selectedDef);
+			$select.selectpicker("refresh");
+
 		},
 		dataType : 'json',
 		async : false
 	});
-};
+}
+
 
 function buildWIRDropDowns(testMethod, htmlSelectIdITRDocument,htmlSelectIdItemProcedure, htmlSelectIdTestMethodStandard  , htmlSelectIdAcceptanceCriteria) {
 	$.ajax({
@@ -183,10 +201,29 @@ function buildWIRDropDowns(testMethod, htmlSelectIdITRDocument,htmlSelectIdItemP
 	
 
 }
-function buildITRDocuments(htmlSelectId, testMethod, j) {	
+
+function buildWIRDropDownsByIndex(testMethod, htmlSelectIdITRDocument,htmlSelectIdItemProcedure, htmlSelectIdTestMethodStandard  , htmlSelectIdAcceptanceCriteria, index, reset) {
+	$.ajax({
+		type : 'GET',
+		url : "loadEmailTemplate/TestMethods",
+		success : function(j) {
+			buildITRDocuments(htmlSelectIdITRDocument+index, testMethod, j, reset);
+			buildProcedures(htmlSelectIdItemProcedure+index, testMethod, j, reset);
+			buildTestMethodStandards(htmlSelectIdTestMethodStandard+index, testMethod, j, reset);
+			buildAcceptanceCriteria(htmlSelectIdAcceptanceCriteria+index, testMethod, j, reset);
+		},
+		dataType : 'json',
+		async : true
+	});
+	
+
+}
+
+function buildITRDocumentsOld(htmlSelectId, testMethod, j, reset) {	
 	$("select#" + htmlSelectId).attr("disabled", "disabled");
-			//var options = '<option value="">Select One</option>"';
+			// var options = '<option value="">Select One</option>"';
 			var options = '';
+			
 			if (typeof j !== 'undefined' && typeof j[0] !== 'undefined') {
 
 				for (var i = 0; i < j.length; i++) {
@@ -203,52 +240,131 @@ function buildITRDocuments(htmlSelectId, testMethod, j) {
 			$("select#" + htmlSelectId).selectpicker('refresh');
 }
 
+function buildITRDocuments(
+		htmlSelectId, testMethod, j, reset) {
+	var $select = $("select#" + htmlSelectId);
+	var selectedValue = $("select#" + htmlSelectId).val();
+	$select.attr("disabled", "disabled");
+	var selectVal = false;
+	$select.html('');
+	var $defaultOption = $("<option>", {
+		text : 'Select One',
+		value : ''
+	});
+	if (typeof j !== 'undefined' && typeof j[0] !== 'undefined') {
+
+				for (var i = 0; i < j.length; i++) {
+					if(j[i].TestMethod === testMethod && !reset) {
+					for(var a = 0; a < j[i].ITRDocument.length; a++) {
+						selectVal = false;
+						if(selectedValue !== 'undefined' && selectedValue) {
+							if(j[i].ITRDocument[a].ITRDocumentValue == selectedValue){
+							selectVal = true;
+							}
+						
+					}
+						var $option = $("<option>", {
+							text : j[i].ITRDocument[a].ITRDocumentLabel,
+							value : j[i].ITRDocument[a].ITRDocumentValue,
+							selected: selectVal
+						});
+						$option.appendTo($select);
+					}
+				}
+				}
+			}
+	$select.removeAttr("disabled");
+	$select.selectpicker("refresh");
+
+};
+
 function buildTestMethodStandards(
-		htmlSelectId, testMethod, j) {
-	$("select#" + htmlSelectId).attr("disabled", "disabled");
-		//	var options = '<option value="">Select One</option>"';
-			var options = '';
-			if (typeof j !== 'undefined' && typeof j[0] !== 'undefined') {
+		htmlSelectId, testMethod, j, reset) {
+	var $select = $("select#" + htmlSelectId);
+	var selectedValue = $("select#" + htmlSelectId).val();
+	$select.attr("disabled", "disabled");
+	var selectVal = false;
+	$select.html('');
+	var $defaultOption = $("<option>", {
+		text : 'Select One',
+		value : ''
+	});
+	if (typeof j !== 'undefined' && typeof j[0] !== 'undefined') {
 
 				for (var i = 0; i < j.length; i++) {
 					if(j[i].TestMethod === testMethod) {
 					for(var a = 0; a < j[i].TestMethodStandard.length; a++) {
-					options += '<option value="' + j[i].TestMethodStandard[a].TestMethodStandardValue + '">'
-							+ j[i].TestMethodStandard[a].TestMethodStandardLabel + '</option>';
+						selectVal = false;
+						if(selectedValue !== 'undefined' && selectedValue && !reset) {
+						var splitSelectedValues = selectedValue.toString().split(",");
+						for(var z = 0; z < splitSelectedValues.length; z++) {
+							if(j[i].TestMethodStandard[a].TestMethodStandardValue == splitSelectedValues[z]){
+							selectVal = true;
+							}
+						}
+					}
+						var $option = $("<option>", {
+							text : j[i].TestMethodStandard[a].TestMethodStandardLabel,
+							value : j[i].TestMethodStandard[a].TestMethodStandardValue,
+							selected: selectVal
+						});
+						$option.appendTo($select);
 					}
 				}
 				}
 			}
-			$("select#" + htmlSelectId).html(options);
-			$("select#" + htmlSelectId).removeAttr("disabled");
-			$("select#" + htmlSelectId).selectpicker('refresh');
+	$select.removeAttr("disabled");
+	$select.selectpicker("refresh");
 
 };
+/*
+ * The below would fetch a template from GroupEmailTemplates Table assuming its
+ * a JSON response
+ */
 
-/*The below would fetch a template from GroupEmailTemplates Table assuming its a JSON response*/
 
 function buildAcceptanceCriteria(
-		htmlSelectId, testMethod, j) {
-	$("select#" + htmlSelectId).attr("disabled", "disabled");
-		//	var options = '<option value="">Select One</option>"';
-			var options = '';
-			if (typeof j !== 'undefined' && typeof j[0] !== 'undefined') {
+		htmlSelectId, testMethod, j, reset) {
+	var $select = $("select#" + htmlSelectId);
+	var selectedValue = $("select#" + htmlSelectId).val();
+	$select.attr("disabled", "disabled");
+	var selectVal = false;
+	$select.html('');
+	var $defaultOption = $("<option>", {
+		text : 'Select One',
+		value : ''
+	});
+	if (typeof j !== 'undefined' && typeof j[0] !== 'undefined') {
 
 				for (var i = 0; i < j.length; i++) {
 					if(j[i].TestMethod === testMethod) {
 					for(var a = 0; a < j[i].AcceptanceCriteria.length; a++) {
-					options += '<option value="' + j[i].AcceptanceCriteria[a].AcceptanceCriteriaValue + '">'
-							+ j[i].AcceptanceCriteria[a].AcceptanceCriteriaLabel + '</option>';
+						selectVal = false;
+						if(selectedValue !== 'undefined' && selectedValue && !reset) {
+						var splitSelectedValues = selectedValue.toString().split(",");
+						for(var z = 0; z < splitSelectedValues.length; z++) {
+							if(j[i].AcceptanceCriteria[a].AcceptanceCriteriaValue == splitSelectedValues[z]){
+							selectVal = true;
+							}
+						}
+					}
+						var $option = $("<option>", {
+							text : j[i].AcceptanceCriteria[a].AcceptanceCriteriaLabel,
+							value : j[i].AcceptanceCriteria[a].AcceptanceCriteriaValue,
+							selected: selectVal
+						});
+						$option.appendTo($select);
 					}
 				}
 				}
 			}
-			$("select#" + htmlSelectId).html(options);
-			$("select#" + htmlSelectId).removeAttr("disabled");
-			$("select#" + htmlSelectId).selectpicker('refresh');
+	$select.removeAttr("disabled");
+	$select.selectpicker("refresh");
+
 };
-function buildProcedures(
-		htmlSelectId, testMethod, j) {
+
+function buildProceduresOld(
+		htmlSelectId, testMethod, j, reset) {
 	$("select#" + htmlSelectId).attr("disabled", "disabled");
 			var options = '';
 			if (typeof j !== 'undefined' && typeof j[0] !== 'undefined') {
@@ -267,6 +383,44 @@ function buildProcedures(
 			$("select#" + htmlSelectId).selectpicker('refresh');
 };
 
+
+function buildProcedures(
+		htmlSelectId, testMethod, j, reset) {
+	var $select = $("select#" + htmlSelectId);
+	var selectedValue = $("select#" + htmlSelectId).val();
+	$select.attr("disabled", "disabled");
+	var selectVal = false;
+	$select.html('');
+	var $defaultOption = $("<option>", {
+		text : 'Select One',
+		value : ''
+	});
+	if (typeof j !== 'undefined' && typeof j[0] !== 'undefined') {
+
+				for (var i = 0; i < j.length; i++) {
+					if(j[i].TestMethod === testMethod && !reset) {
+					for(var a = 0; a < j[i].ItemProcedure.length; a++) {
+						selectVal = false;
+						if(selectedValue !== 'undefined' && selectedValue) {
+							if(j[i].ItemProcedure[a].ProcedureValue == selectedValue){
+							selectVal = true;
+							}
+						
+					}
+						var $option = $("<option>", {
+							text : j[i].ItemProcedure[a].ProcedureLabel,
+							value : j[i].ItemProcedure[a].ProcedureValue,
+							selected: selectVal
+						});
+						$option.appendTo($select);
+					}
+				}
+				}
+			}
+	$select.removeAttr("disabled");
+	$select.selectpicker("refresh");
+
+};
 /*
  * Note: The below function should be used only to get all events including the
  * expired events for something like evaluating feedback etc. Do not use this
@@ -346,8 +500,46 @@ function buildGroupMemberCategoriesOptions(htmlSelectId) {
  * $("select#"+htmlSelectId).removeAttr("disabled"); }, dataType : 'json', async :
  * true }); }
  */
+function buildUsers(htmlSelectId) {
+	var $select = $("select#" + htmlSelectId);
+	var selectedValue = $("select#" + htmlSelectId).val();
+	$select.attr("disabled", "disabled");
+	$.ajax({
+		type : 'GET',
+		url : "json/viewAllActiveGroupMembers",
+		success : function(jsonData) {
+			$select.html('');
+			var $defaultOption = $("<option>", {
+				text : 'Select One',
+				value : ''
+			});
+			$defaultOption.appendTo($select);
+				$.each(jsonData, function(j, option) {
+					select = false;
+					if(option.serialNumber === selectedValue) {
+						select = true;
+					}
+					var $option = $("<option>", {
+						text : option.firstName+" "+option.lastName,
+						value : option.serialNumber,
+						selected: select
+					});
+					$option.appendTo($select);
+				});
+
+			$select.removeAttr("disabled");
+			$select.selectpicker("refresh");
+
+		},
+		dataType : 'json',
+		async : true
+	});
+}
+
+
 function buildClients(htmlSelectId) {
 	var $select = $("select#" + htmlSelectId);
+	var selectedValue = $("select#" + htmlSelectId).val();
 	$select.attr("disabled", "disabled");
 	$.ajax({
 		type : 'GET',
@@ -356,26 +548,35 @@ function buildClients(htmlSelectId) {
 			$select.html('');
 			var $defaultOption = $("<option>", {
 				text : 'Select One',
-				value : '0'
+				value : ''
 			});
 			$defaultOption.appendTo($select);
 				$.each(jsonData, function(j, option) {
+					select = false;
+					if(option.clientId === selectedValue) {
+						select = true;
+					}
 					var $option = $("<option>", {
 						text : option.clientName,
-						value : option.clientId
+						value : option.clientId,
+						selected: select
 					});
 					$option.appendTo($select);
 				});
 
 			$select.removeAttr("disabled");
+			// $("select#" + htmlSelectId).val(selectedDef);
+			$select.selectpicker("refresh");
+
 		},
 		dataType : 'json',
-		async : true
+		async : false
 	});
 }
 
 function buildContact(clientId, htmlSelectId) {
 	var $select = $("select#" + htmlSelectId);
+	var selectedValue = $("select#" + htmlSelectId).val();
 	$select.attr("disabled", "disabled");
 	$.ajax({
 		type : 'GET',
@@ -387,26 +588,34 @@ function buildContact(clientId, htmlSelectId) {
 			$select.html('');
 			var $defaultOption = $("<option>", {
 				text : 'Select One',
-				value : '0'
+				value : ''
 			});
 			$defaultOption.appendTo($select);
 				$.each(jsonData, function(j, option) {
+					select = false;
+					if(option.clientContactId === selectedValue) {
+						select = true;
+					}
 					var $option = $("<option>", {
-						text : option.firstName+" "+option.lastName,
-						value : option.clientContactId
+						text : option.firstName+" "+option.lastName+" ("+option.contactType+")",
+						value : option.clientContactId,
+						selected: select
 					});
 					$option.appendTo($select);
 				});
 
 			$select.removeAttr("disabled");
+			$select.selectpicker("refresh");
+
 		},
 		dataType : 'json',
-		async : true
+		async : false
 	});
 }
 
 function buildAddress(clientId, htmlSelectId) {
 	var $select = $("select#" + htmlSelectId);
+	var selectedValue = $("select#" + htmlSelectId).val();
 	$select.attr("disabled", "disabled");
 	$.ajax({
 		type : 'GET',
@@ -418,21 +627,28 @@ function buildAddress(clientId, htmlSelectId) {
 			$select.html('');
 			var $defaultOption = $("<option>", {
 				text : 'Select One',
-				value : '0'
+				value : ''
 			});
 			$defaultOption.appendTo($select);
 				$.each(jsonData, function(j, option) {
+					select = false;
+					if(option.addressId === selectedValue) {
+						select = true;
+					}
 					var $option = $("<option>", {
 						text : option.streetAddress+", "+option.suburb+", "+option.state+" ("+option.addressType+")",
-						value : option.addressId
+						value : option.addressId,
+						selected: select						
 					});
 					$option.appendTo($select);
 				});
 
 			$select.removeAttr("disabled");
+			$select.selectpicker("refresh");
+
 		},
 		dataType : 'json',
-		async : true
+		async : false
 	});
 }
 
@@ -671,14 +887,16 @@ function postFormToggleErrorModal(formId, url, hideElementOnSuccess, showElement
 		type : "POST",
 		url : url,
 		data : data,
+		async : false,
 		// contentType: "application/json; charset=utf-8",
 		success : function(response, textStatus, jqXHR) {
 			if ("success" !== response) {
 				loadAlertMessageById(response, "modalalertMessage", "modalalertBlock");
 			}
 			else {
-			//hideById(hideElementOnSuccess);
-			//showById(showElementOnSuccess)
+			// hideById(hideElementOnSuccess);
+			// showById(showElementOnSuccess)
+				loadInfoMessageById("Record added successfully!","modalalertInfoMessage","modalalertBlock");
 				}
 			resetButton();
 			// $('input[type="submit"]').button('reset');
@@ -686,6 +904,44 @@ function postFormToggleErrorModal(formId, url, hideElementOnSuccess, showElement
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
 			loadAlertMessage(textStatus+":"+errorThrown, "modalalertMessage", "modalalertBlock");
+			resetButton();
+			// $('input[type="submit"]').button('loading');
+		}
+	});
+
+	
+}
+
+function postFormToggleErrorModalResetForm(formId, url, hideElementOnSuccess, showElementOnSuccess,modalId ){
+
+	hideByRef($('#'+modalId).find('#modalalertBlock'));
+	var data = $('#' + formId).serialize();
+	toggleButton();
+	$.ajax({
+		type : "POST",
+		url : url,
+		data : data,
+		async : false,
+		// contentType: "application/json; charset=utf-8",
+		success : function(response, textStatus, jqXHR) {
+			if ("success" !== response) {
+				
+				loadAlertMessageByIdRef(response, $('#'+modalId).find('#modalalertMessage'), $('#'+modalId).find('#modalalertBlock'));
+			}
+			else {
+			// hideById(hideElementOnSuccess);
+			// showById(showElementOnSuccess)
+				loadInfoMessageByIdRef("Record added successfully!",$('#'+modalId).find('#modalalertInfoMessage'),$('#'+modalId).find('#modalalertBlock'));
+				}
+			resetButton();
+			// $('input[type="submit"]').button('reset');
+
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			// loadAlertMessage(textStatus+":"+errorThrown, "modalalertMessage",
+			// "modalalertBlock");
+			loadAlertMessageByIdRef(textStatus+":"+errorThrown, $('#'+modalId).find('#modalalertMessage'), $('#'+modalId).find('#modalalertBlock'));
+
 			resetButton();
 			// $('input[type="submit"]').button('loading');
 		}
@@ -776,6 +1032,25 @@ function loadAlertMessageById(message,messageId, htmlId) {
 	$("#"+htmlId).slideDown(400, "linear");
 }
 
+function loadInfoMessageById(message,messageId, htmlId) {
+
+	$("#"+messageId).html("<p class='text-left'><i class='icon-exclamation-sign'> </i>" + message + "</p>");
+	$("#"+htmlId).slideDown(400, "linear");
+}
+
+function loadAlertMessageByIdRef(message,messageId, htmlId) {
+	messageId.html("<p class='text-left'><i class='icon-exclamation-sign'> </i>" + message + "</p>");
+	
+	htmlId.slideDown(400, "linear");
+}
+
+function loadInfoMessageByIdRef(message,messageId, htmlId) {
+
+	messageId.html("<p class='text-left'><i class='icon-exclamation-sign'> </i>" + message + "</p>");
+	htmlId.slideDown(400, "linear");
+}
+
+
 function fetchContentTemplateList(includeExpired) {
 	var dropDown = '';
 	$.ajax({
@@ -848,6 +1123,14 @@ function formatDate(cellValue, opts, rwd) {
 	}
 }
 
+function splitStringToLinesByCommas(cellValue, options, rowObject) {
+	var list = cellValue?cellValue.split(","):"";
+	var retVal = ""
+	for(var a=0; a < list.length; a++) {
+		retVal = retVal+ list[a]+"\n";
+	}
+	return retVal
+}
 function formatDateTime(cellValue, opts, rwd) {
 	if (cellValue) {
 		if (typeof cellValue.length != 'undefined') {
@@ -919,6 +1202,13 @@ function hideById(id) {
 	}
 }
 
+function hideByRef(ref) {
+	try {
+		ref.hide();
+	} catch (Exception) {
+
+	}
+}
 
 function loadTotalSoldCountForEvent(cssSelector, groupEventCode) {
  	$.ajax({

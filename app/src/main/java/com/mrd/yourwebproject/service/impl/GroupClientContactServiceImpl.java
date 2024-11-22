@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mrd.framework.data.BaseJpaServiceImpl;
 import com.mrd.yourwebproject.model.entity.GroupClientContact;
+import com.mrd.yourwebproject.model.entity.enums.ContactType;
 import com.mrd.yourwebproject.model.repository.GroupClientContactRepository;
 import com.mrd.yourwebproject.service.GroupClientContactService;
 
@@ -34,6 +35,10 @@ public class GroupClientContactServiceImpl extends BaseJpaServiceImpl<GroupClien
 
 	public List<GroupClientContact> findByGroupClient(String clientId) {
 		return groupClientContactRepository.findByGroupClient(clientId);
+	}
+
+	public List<GroupClientContact> findByGroupClientAndType(String clientId, ContactType type) {
+		return groupClientContactRepository.findByGroupClientAndType(clientId, type);
 	}
 
 }

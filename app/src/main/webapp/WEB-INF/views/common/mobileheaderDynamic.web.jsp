@@ -14,6 +14,7 @@
 			<a class="navbar-brand active" href="#"> <c:choose>
 					<c:when test="${sessionScope.group ne null and sessionScope.group.description ne null}">
 						<c:out value="${sessionScope.group.description}"></c:out>
+						
 					</c:when>
 					<c:otherwise>
 			Portal
@@ -86,7 +87,7 @@
 							<c:when
 								test="${sessionScope.user ne null || not empty sessionScope.user}">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome,
-									${user.userName}<b class="caret"></b>
+									${user.name}<b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu">
 									<li><a href="logoutUser">Logout</a></li>

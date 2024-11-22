@@ -27,8 +27,16 @@
 							<label class="control-label" for="jobName">Job Name</label>
 
 							<div class="controls">
-								<form:input path="jobName" cssClass="input-xlarge" id="jobName"
-									placeholder="Enter Job Name (E.g. genericJob)" />
+								<form:select path="jobName" cssClass="input-xlarge"
+										id="jobName" placeholder="Enter Job Name (E.g. genericJob)">
+										<option value="">Select One</option>
+										<option value="genericJob">genericJob</option>
+										<option value="emailProcessorJob">emailProcessorJob</option>
+										<option value="emailProcessorJobExpress">emailProcessorJobExpress</option>
+										<option value="smsProcessorJobExpress">smsProcessorJobExpress</option>
+										<option value="paymentProcessorJob">paymentProcessorJob</option>
+
+									</form:select>									
 							</div>
 						</div>
 						<div class="control-group" id="jobDescriptionCtl">
@@ -86,6 +94,16 @@
 							</div>
 						</div>
 
+							<div class="control-group" id="commentsCtl">
+								<label class="control-label" for="comments">Comments</label>
+
+								<div class="controls">
+
+									<form:textarea path="comments" cssClass="input-xlarge"
+										id="comments" placeholder="Enter Comments" />
+
+								</div>
+							</div>
 					</div>
 
 
@@ -173,18 +191,21 @@
 									</form:select>
 								</div>
 							</div>
-
-
-							<div class="control-group" id="commentsCtl">
-								<label class="control-label" for="comments">Comments</label>
+							<div class="control-group" id="smsTemplateNameCtl">
+								<label class="control-label" for="smsTemplateName">SMS
+									Template Name</label>
 
 								<div class="controls">
 
-									<form:textarea path="comments" cssClass="input-xlarge"
-										id="comments" placeholder="Enter Comments" />
 
+									<form:select path="smsTemplateName" cssClass="input-xlarge"
+										id="smsTemplateName">
+										<option value="">Select One</option>
+									</form:select>
 								</div>
 							</div>
+
+
 						</div>
 
 
@@ -272,6 +293,7 @@
 		buildGroupMemberCategoriesOptions('memberCategoryCode');
 		buildGroupEventsOptionsByMemberCategory("NULL","groupEventCode");
 		buildGroupEmailTemplateOptionsByEventCode("NULL",'templateName');
+		buildGroupSMSTemplateOptionsByEventCode("NULL",'smsTemplateName');
 	});
 
 

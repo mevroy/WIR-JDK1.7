@@ -61,6 +61,7 @@ public class AdhocScheduler {
 						cronJob.getJobQueryString(), cronJob.getGroupCode(),
 						cronJob.getMemberCategoryCode()));
 				jdm.put("templateName", cronJob.getTemplateName());
+				jdm.put("smsTemplateName", cronJob.getSmsTemplateName());
 				jdm.put("jobCode", cronJob.getJobCode());
 				jdm.put("emailAddress", cronJob.getJobStatusContactEmail());
 				jdm.put("groupEventCode", cronJob.getGroupEventCode());

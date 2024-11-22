@@ -68,6 +68,9 @@ public class GroupWorkInstructionRecord extends JpaEntity<Long> implements Seria
 	private boolean suitableAccess;
 
 	@Column
+	private boolean nataEndorsed;
+	
+	@Column
 	private String email;
 	
 	@Column
@@ -84,6 +87,7 @@ public class GroupWorkInstructionRecord extends JpaEntity<Long> implements Seria
 	
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinColumn(name = "serialNumber")
 	private GroupMember groupMember;
 	
@@ -110,6 +114,15 @@ public class GroupWorkInstructionRecord extends JpaEntity<Long> implements Seria
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinColumn(name = "addressId")
 	private GroupAddress groupAddress;
+
+	/*
+	 * @ManyToOne(fetch = FetchType.EAGER)
+	 * 
+	 * @LazyCollection(LazyCollectionOption.FALSE)
+	 * 
+	 * @JoinColumn(name = "clientOfficeAddressId", referencedColumnName =
+	 * "addressId") private GroupAddress groupClientOfficeAddress;
+	 */
 	
 	@Column(columnDefinition = "TEXT")
 	private String additionalRequirements;
@@ -468,5 +481,18 @@ public class GroupWorkInstructionRecord extends JpaEntity<Long> implements Seria
 		this.lighting = lighting;
 	}
 
+	/**
+	 * @return the nataEndorsed
+	 */
+	public boolean isNataEndorsed() {
+		return nataEndorsed;
+	}
+
+	/**
+	 * @param nataEndorsed the nataEndorsed to set
+	 */
+	public void setNataEndorsed(boolean nataEndorsed) {
+		this.nataEndorsed = nataEndorsed;
+	}
 
 }

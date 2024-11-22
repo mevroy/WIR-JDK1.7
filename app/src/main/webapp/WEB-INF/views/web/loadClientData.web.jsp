@@ -2,15 +2,41 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/res/js/css/bootstrap-select.css" />
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/res/bootstrap/js/bootstrap-select.js"></script>
+
+<div>
+<div class="jumbotron">
+<h2>Please search for a Client</h2>
+<div class="row">
+				<div class="col-lg-5">
+					<div class="form-group" id="clientIdCtl">
+						<label class="control-label" for="clientId">Select Client to Load </label>
+
+						<div class="controls">
+							<div class="input-group">
+						<select name="clientIdSelected" data-live-search="true" class="form-control selectpicker"
+							id="clientIdSelected">
+							<option value="">Select One</option>
+						</select>
+								<div class="input-group-addon">
+									<span><a href="loadClientData?clientId=" onclick="addClientId(this);"><i
+											class="glyphicon glyphicon-search"></i></a></span>
+								</div>
+							</div>
+						</div>
+
+					</div>
+</div></div></div>
+</div>
 
 <div id="1" style="display: none;">
 	<div class="jumbotron">
 		<h2>Update Client</h2>
-		
 		<div class="row">
 			<div>
-
-
 				<form:form commandName="groupClient" action="json/groupClient"
 					method="post" id="groupClient"
 					onsubmit="event.preventDefault(); javascript:postFormAndToggleError('groupClient','json/groupClient','1', '20');">
@@ -21,7 +47,7 @@
 
 							<div class="controls">
 								<form:input path="clientName" cssClass="form-control"
-									id="firstName" placeholder="Enter Client Name" />
+									id="clientName" placeholder="Enter Client Name" />
 							</div>
 						</div>
 						<div class="form-group" id="clientABNCtl">
@@ -29,7 +55,7 @@
 
 							<div class="controls">
 								<form:input path="clientABN" cssClass="form-control"
-									id="lastName" placeholder="Enter Client ABN" />
+									id="clientABN" placeholder="Enter Client ABN" />
 							</div>
 						</div>
 						<div class="form-group" id="emailCtl">
@@ -38,7 +64,7 @@
 							<div class="controls">
 								<div class="input-group">
 									<form:input path="email" cssClass="form-control"
-										id="primaryEmail" placeholder="Enter Email" />
+										id="email" placeholder="Enter Email" />
 									<div class="input-group-addon">
 										<span><i class="glyphicon glyphicon-envelope"></i></span>
 									</div>
@@ -80,13 +106,20 @@
 						<div class="form-group">
 							<form:hidden path="clientId" id="clientId" />
 							<button class="btn btn-primary btn-lg btn-block has-spinner"
-								type="submit" onclick="return $('#groupMember').valid();"
+								type="submit" onclick="return $('#groupClient').valid();"
 								data-loading-text="<span class='spinner'><i class='icon-spin glyphicon glyphicon-repeat'></i></span> Loading..">SAVE
 								AND CONTINUE</button>
 						</div>
 					</div>
 
-
+					<div class="col-lg-12">
+						<div class="form-group">
+							<button class="btn btn-primary btn-lg btn-block has-spinner"
+								type="submit"
+								onclick="hideById('1'); showById('0'); return false;"
+								data-loading-text="<span class='spinner'><i class='icon-spin glyphicon glyphicon-repeat'></i></span> Loading..">CANCEL</button>
+						</div>
+					</div>
 
 
 				</form:form>
@@ -99,6 +132,7 @@
 
 <c:set var="contactCount" value="20"></c:set>
 <c:set var="previous" value="1"></c:set>
+
 <c:forEach items="${groupClient.groupClientContact}" var="contacts"
 	varStatus="counter">
 	<c:set var="contactCount" value="${contactCount + 1}"></c:set>
@@ -116,11 +150,24 @@
 						id="contact${contactCount - 1}"
 						onsubmit="event.preventDefault(); javascript:postFormAndToggleError('contact${contactCount - 1}','json/groupClientContact','${contactCount - 1}','${contactCount}');">
 						<div class="col-lg-5">
+						<div class="form-group" id="groupClientContact[${counter.index}].contactTypeCtl">
+							<label class="control-label" for="groupClientContact[${counter.index}].contactType">Contact Type</label>
+
+							<div class="controls">
+								<form:select path="groupClientContact[${counter.index}].contactType"
+									cssClass="form-control" id="contactType"
+									placeholder="Enter Contact Type">
+									<form:option value="">Select One</form:option>
+									<form:option value="CLIENT">CLIENT</form:option>
+									<form:option value="SITE">SITE</form:option>
+									<form:option value="OTHER">OTHER</form:option>
+								</form:select>
+							</div>
+						</div>								
 							<div class="form-group"
 								id="groupClientContact[${counter.index}].firstNameCtl">
 								<label class="control-label"
-									for="groupClientContact[${counter.index}].firstName">Contact
-									First Name</label>
+									for="groupClientContact[${counter.index}].firstName">Contact First Name</label>
 
 								<div class="controls">
 									<form:input
@@ -132,8 +179,7 @@
 							<div class="form-group"
 								id="groupClientContact[${counter.index}].lastNameCtl">
 								<label class="control-label"
-									for="groupClientContact[${counter.index}].lastName">Contact
-									Last Name</label>
+									for="groupClientContact[${counter.index}].lastName">Contact Last Name</label>
 
 								<div class="controls">
 									<form:input
@@ -163,8 +209,7 @@
 							<div class="form-group"
 								id="groupClientContact[${counter.index}].mobilephoneCtl">
 								<label class="control-label"
-									for="groupClientContact[${counter.index}].mobilephone">Mobile
-									No.</label>
+									for="groupClientContact[${counter.index}].mobilephone">Mobile No.</label>
 
 								<div class="controls">
 									<div class="input-group">
@@ -231,8 +276,7 @@
 							<div class="form-group"
 								id="groupAddress[${counter.index}].addressTypeCtl">
 								<label class="control-label"
-									for="groupAddress[${counter.index}].addressType">Address
-									Type</label>
+									for="groupAddress[${counter.index}].addressType">Address Type</label>
 
 								<div class="controls">
 									<form:select path="groupAddress[${counter.index}].addressType"
@@ -260,8 +304,7 @@
 							<div class="form-group"
 								id="groupAddress[${counter.index}].streetAddressCtl">
 								<label class="control-label"
-									for="groupAddress[${counter.index}].streetAddress">Street
-									Address</label>
+									for="groupAddress[${counter.index}].streetAddress">Street Address</label>
 
 								<div class="controls">
 									<div class="input-group">
@@ -281,7 +324,7 @@
 							<div class="form-group"
 								id="groupAddress[${counter.index}].suburbCtl">
 								<label class="control-label"
-									for="groupAddress[${counter.index}].suburb">Suburb No.</label>
+									for="groupAddress[${counter.index}].suburb">Suburb</label>
 
 								<div class="controls">
 									<div class="input-group">
@@ -298,7 +341,7 @@
 							<div class="form-group"
 								id="groupAddress[${counter.index}].stateCtl">
 								<label class="control-label"
-									for="groupAddress[${counter.index}].state">State No.</label>
+									for="groupAddress[${counter.index}].state">State</label>
 
 								<div class="controls">
 									<div class="input-group">
@@ -314,7 +357,7 @@
 							<div class="form-group"
 								id="groupAddress[${counter.index}].zipCodeCtl">
 								<label class="control-label"
-									for="groupAddress[${counter.index}].zipCode">ZIP No.</label>
+									for="groupAddress[${counter.index}].zipCode">ZIP</label>
 
 								<div class="controls">
 									<div class="input-group">
@@ -356,9 +399,8 @@
 			</div>
 		</div>
 	</div>
-	<c:set var="previous" value="2${contactCount - 1}"></c:set>
+	<c:set var="previous" value="${contactCount - 1}"></c:set>
 </c:forEach>
-
 
 
 <div id="${contactCount}" style="display: none;">
@@ -368,16 +410,27 @@
 		<div class="row">
 
 
-			<div id="newDependent" style="display: none;">
+			<div id="newContact" style="display: none;">
 
-				<form:form commandName="groupClientContacts"
-					action="json/groupClientContact?clientId=${groupClient.clientId}"
-					method="post" id="dependentx"
-					onsubmit="event.preventDefault(); javascript:postFormAndToggleError('dependentx','json/groupClientContact?clientId=${groupClient.clientId}','newDependent','addDepButton'); ">
+				<form:form commandName="groupClientContacts" action="json/groupClientContact?clientId=${groupClient.clientId}"
+					method="post" id="contactx" onsubmit="event.preventDefault(); javascript:postFormAndToggleError('contactx','json/groupClientContact?clientId=${groupClient.clientId}','newContact','addDepButton'); ">
 					<div class="col-lg-5">
+											<div class="form-group" id="contactTypeCtl">
+							<label class="control-label" for="contactType">Contact Type</label>
+
+							<div class="controls">
+								<form:select path="contactType"
+									cssClass="form-control" id="contactType"
+									placeholder="Enter Contact Type">
+									<form:option value="">Select One</form:option>
+									<form:option value="CLIENT">CLIENT</form:option>
+									<form:option value="SITE">SITE</form:option>
+									<form:option value="OTHER">OTHER</form:option>
+								</form:select>
+							</div>
+						</div>		
 						<div class="form-group" id="firstNameCtl">
-							<label class="control-label" for="firstName">Contact
-								First Name</label>
+							<label class="control-label" for="firstName">Contact First Name</label>
 
 							<div class="controls">
 								<form:input path="firstName" cssClass="form-control"
@@ -385,8 +438,7 @@
 							</div>
 						</div>
 						<div class="form-group" id="lastNameCtl">
-							<label class="control-label" for="lastName">Contact Last
-								Name</label>
+							<label class="control-label" for="lastName">Contact Last Name</label>
 
 							<div class="controls">
 								<form:input path="lastName" cssClass="form-control"
@@ -397,38 +449,37 @@
 
 					</div>
 					<div class="col-lg-offset-2 col-lg-5">
-						<div class="form-group" id="emailCtl">
-							<label class="control-label" for="email">Email</label>
+
+						<div class="form-group" id="mobilephoneCtl">
+							<label class="control-label" for="mobilephone">Mobile No.</label>
+
 							<div class="controls">
 								<div class="input-group">
-									<form:input path="email" cssClass="form-control" id="email"
-										placeholder="Enter Email" />
+									<form:input path="mobilephone" cssClass="form-control" id="mobilephone" placeholder="Enter Mobile Phone Number" />
+									<div class="input-group-addon">	<span><i class='glyphicon glyphicon-phone'></i></span>
+									
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group" id="emailCtl">
+							<label class="control-label" for="email">Email</label>
+
+							<div class="controls">
+								<div class="input-group">
+									<form:input path="email" cssClass="form-control" id="email" placeholder="Enter Email" />
 									<div class="input-group-addon">
 										<span><i class="glyphicon glyphicon-envelope"></i></span>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="form-group" id="mobilephoneCtl">
-							<label class="control-label" for="mobilephone">Mobile No.</label>
-
-							<div class="controls">
-								<div class="input-group">
-									<form:input path="mobilephone" cssClass="form-control"
-										id="mobilephone" placeholder="Enter Mobile Phone Number" />
-									<div class="input-group-addon">
-										<span><i class='glyphicon glyphicon-phone'></i></span>
-									</div>
-								</div>
-							</div>
-						</div>
-
 					</div>
 
 					<div class="col-lg-12">
 						<div class="form-group">
 							<button class="btn btn-primary btn-lg btn-block has-spinner"
-								type="submit" onclick="return $('#dependentx').valid();"
+								type="submit" onclick="return $('#contactx').valid();"
 								data-loading-text="<span class='spinner'><i class='icon-spin glyphicon glyphicon-repeat'></i></span> Loading..">SAVE
 								AND CONTINUE</button>
 						</div>
@@ -449,12 +500,11 @@
 
 				<form:form commandName="groupAddress"
 					action="json/groupAddress?clientId=${groupClient.clientId}"
-					method="post" id="dependenty"
-					onsubmit="event.preventDefault(); javascript:postFormAndToggleError('dependenty','json/groupAddress?clientId=${groupClient.clientId}','newAddress','addDepButton'); ">
+					method="post" id="addressx"
+					onsubmit="event.preventDefault(); javascript:postFormAndToggleError('addressx','json/groupAddress?clientId=${groupClient.clientId}','newAddress','addDepButton'); ">
 					<div class="col-lg-5">
 						<div class="form-group" id="addressTypeCtl">
-							<label class="control-label" for="addressType">Address
-								Type</label>
+							<label class="control-label" for="addressType">AddressType</label>
 
 							<div class="controls">
 								<form:select path="addressType" cssClass="form-control"
@@ -465,7 +515,6 @@
 									<form:option value="MAILING">MAILING</form:option>
 									<form:option value="SITE">SITE</form:option>
 									<form:option value="OTHER">OTHER</form:option>
-
 								</form:select>
 							</div>
 						</div>
@@ -478,61 +527,41 @@
 							</div>
 						</div>
 						<div class="form-group" id="streetAddressCtl">
-							<label class="control-label" for="streetAddress">Street
-								Address</label>
-
+							<label class="control-label" for="streetAddress">StreetAddress</label>
+								
 							<div class="controls">
-								<div class="input-group">
 									<form:input path="streetAddress" cssClass="form-control"
 										id="streetAddress" placeholder="Enter Street Address" />
-									<div class="input-group-addon">
-										<span><i class="glyphicon glyphicon-envelope"></i></span>
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>
 					<div class="col-lg-offset-2 col-lg-5">
 
 						<div class="form-group" id="suburbCtl">
-							<label class="control-label" for="suburb">Suburb No.</label>
+							<label class="control-label" for="suburb">Suburb</label>
 
 							<div class="controls">
-								<div class="input-group">
 									<form:input path="suburb" cssClass="form-control" id="suburb"
 										placeholder="Enter Suburb" />
-									<div class="input-group-addon">
-										<span><i class='glyphicon glyphicon-phone'></i></span>
-									</div>
-								</div>
+
 							</div>
 						</div>
 
 						<div class="form-group" id="stateCtl">
-							<label class="control-label" for="state">State No.</label>
+							<label class="control-label" for="state">State</label>
 
 							<div class="controls">
-								<div class="input-group">
 									<form:input path="state" cssClass="form-control" id="state"
 										placeholder="Enter State" />
-									<div class="input-group-addon">
-										<span><i class='glyphicon glyphicon-phone'></i></span>
-									</div>
-								</div>
 							</div>
 						</div>
 
 						<div class="form-group" id="zipCodeCtl">
-							<label class="control-label" for="zipCode">ZIP No.</label>
+							<label class="control-label" for="zipCode">ZIP</label>
 
 							<div class="controls">
-								<div class="input-group">
 									<form:input path="zipCode" cssClass="form-control" id="zipCode"
 										placeholder="Enter ZIP code" />
-									<div class="input-group-addon">
-										<span><i class='glyphicon glyphicon-phone'></i></span>
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -540,7 +569,7 @@
 					<div class="col-lg-12">
 						<div class="form-group">
 							<button class="btn btn-primary btn-lg btn-block has-spinner"
-								type="submit" onclick="return $('#dependenty').valid();"
+								type="submit" onclick="return $('#addressx').valid();"
 								data-loading-text="<span class='spinner'><i class='icon-spin glyphicon glyphicon-repeat'></i></span> Loading..">SAVE
 								AND CONTINUE</button>
 						</div>
@@ -558,21 +587,21 @@
 
 
 			<div id="addDepButton">
-				<div class="col-lg-12">
+				<div class="col-lg-4">
 					<div class="form-group">
 						<button class="btn btn-primary btn-lg btn-block" type="submit"
-							onclick="hideById('addDepButton'); showById('newDependent'); $('#dependentx')[0].reset(); ">ADD
+							onclick="hideById('addDepButton'); showById('newContact'); $('#contactx')[0].reset(); ">ADD
 							NEW CONTACTS</button>
 					</div>
 				</div>
-				<div class="col-lg-12">
+				<div class="col-lg-4">
 					<div class="form-group">
 						<button class="btn btn-primary btn-lg btn-block" type="submit"
-							onclick="hideById('addDepButton'); showById('newAddress'); $('#dependenty')[0].reset(); ">ADD
+							onclick="hideById('addDepButton'); showById('newAddress'); $('#addressx')[0].reset(); ">ADD
 							NEW ADDRESS</button>
 					</div>
 				</div>
-				<div class="col-lg-12">
+				<div class="col-lg-4">
 					<div class="form-group">
 						<button class="btn btn-default btn-lg btn-block has-spinner"
 							type="submit"
@@ -580,7 +609,7 @@
 							data-loading-text="<span class='spinner'><i class='icon-spin glyphicon glyphicon-repeat'></i></span> Loading..">DONE</button>
 					</div>
 				</div>
-			</div>
+			</div> 
 		</div>
 	</div>
 </div>
@@ -606,47 +635,60 @@
 	</div>
 </div>
 
+<c:if test="${groupClient.clientId ne null}">
 <div id="0">
 	<div class="jumbotron">
-		<h2>Client Data</h2>
+		<h2>Data for ${groupClient.clientName}</h2>
 		<div class="row">
 			<c:set var="looper" value="1" />
 			<div>
 				<div class="table-responsive">
 					<table class='table table-striped table-bordered table-condensed'>
-						<tr class="danger">
+						<tr class="info">
 							<td><b>No</b></td>
 							<td><b>Name</b></td>
 							<td><b>Type</b></td>
 						</tr>
 						<tr>
-							<td>${looper}</td>
+							<td><button class="btn btn-warning btn-sm btn-block has-spinner"
+							type="submit" onclick="hideById('0'); showById('1');"
+							data-loading-text="<span class='spinner'><i class='icon-spin glyphicon glyphicon-repeat'></i></span> Loading.."><span class="glyphicon glyphicon glyphicon-pencil" aria-hidden="true"></span>  ${looper}</button>
+					</td>
 							<td>${groupClient.clientName}</td>
 							<td>Client</td>
 						</tr>
+<c:set var="contactCountDisplay" value="20"></c:set>
 
 						<c:forEach items="${groupClient.groupClientContact}"
 							var="groupClientContacts" varStatus="ctr">
 							<c:set var="looper" value="${looper +1}"></c:set>
 							<tr>
-								<td>${looper}</td>
+								<td><button class="btn btn-warning btn-sm btn-block has-spinner"
+							type="submit" onclick="hideById('0'); showById('${contactCountDisplay}');"
+							data-loading-text="<span class='spinner'><i class='icon-spin glyphicon glyphicon-repeat'></i></span> Loading.."><span class="glyphicon glyphicon glyphicon-pencil" aria-hidden="true"></span>  ${looper}</button>
+					</td>
 								<td>${groupClientContacts.firstName} ${groupClientContacts.lastName}</td>
-								<td>Client Contact</td>
+								<td>${groupClientContacts.contactType} Contact</td>
 							</tr>
+								<c:set var="contactCountDisplay" value="${contactCountDisplay + 1}"></c:set>
 						</c:forEach>
 						<c:forEach items="${groupClient.groupAddress}" var="groupAddress"
 							varStatus="ctr">
 							<c:set var="looper" value="${looper +1}"></c:set>
 							<tr>
-								<td>${looper}</td>
+								<td><button class="btn btn-warning btn-sm btn-block has-spinner"
+							type="submit" onclick="hideById('0'); showById('${contactCountDisplay}');"
+							data-loading-text="<span class='spinner'><i class='icon-spin glyphicon glyphicon-repeat'></i></span> Loading.."><span class="glyphicon glyphicon glyphicon-pencil" aria-hidden="true"></span>  ${looper}</button>
+					</td>
 								<td>${groupAddress.streetAddress}</td>
 								<td>${groupAddress.addressType} Address</td>
 							</tr>
+							<c:set var="contactCountDisplay" value="${contactCountDisplay + 1}"></c:set>
 						</c:forEach>
 					</table>
 				</div>
 
-				<div class="col-lg-12">
+				<div class="col-lg-4">
 					<div class="form-group">
 						<button class="btn btn-primary btn-lg btn-block has-spinner"
 							type="submit" onclick="hideById('0'); showById('1');"
@@ -655,17 +697,17 @@
 				</div>
 
 				<div id="addNewItems">
-					<div class="col-lg-12">
+					<div class="col-lg-4">
 						<div class="form-group">
 							<button class="btn btn-primary btn-lg btn-block" type="submit"
-								onclick="hideById('0'); hideById('addNewItems'); showById('${contactCount}'); showById('newDependent'); $('#dependentx')[0].reset(); ">ADD
+								onclick="hideById('0'); hideById('addNewItems'); showById('${contactCount}'); showById('newContact'); $('#contactx')[0].reset();  hideById('addDepButton');">ADD
 								NEW CONTACTS</button>
 						</div>
 					</div>
-					<div class="col-lg-12">
+					<div class="col-lg-4">
 						<div class="form-group">
 							<button class="btn btn-primary btn-lg btn-block" type="submit"
-								onclick="hideById('0'); hideById('addNewItems'); showById('${contactCount}'); showById('newAddress'); $('#dependenty')[0].reset(); ">ADD
+								onclick="hideById('0'); hideById('addNewItems'); showById('${contactCount}'); showById('newAddress'); $('#addressx')[0].reset(); hideById('addDepButton');">ADD
 								NEW ADDRESS</button>
 						</div>
 					</div>
@@ -675,24 +717,25 @@
 		</div>
 	</div>
 </div>
+</c:if>
 <script type="text/javascript">
 	$(document).ready(
 			function() {
+				buildClients('clientIdSelected');
 				$('.input-group.date').datepicker({
 					format : "dd/mm/yyyy"
 				});
 
-				$("#groupMember").validate(
+				$("#groupClient").validate(
 						{
 							rules : {
-								firstName : {
+								clientName : {
 									required : true
 								},
 								lastName : {
 									required : false
 								},
-								primaryEmail : {
-									required : true,
+								email : {
 									email : true
 								},
 								mobilephone : {
@@ -734,27 +777,31 @@
 							}
 						})
 
-			});
+			
 
-	$("#dependentx").validate(
+	$("#contactx").validate(
 			{
 				rules : {
+					contactType: {
+						required: true
+					},
 					firstName : {
 						required : true
 					},
 					lastName : {
 						required : false
 					},
-					primaryEmail : {
+					email : {
 						required : false,
 						email : true
 					},
 					mobilephone : {
-						required : false
-					},
-					relationship : {
 						required : true
 					}
+				},
+				errorPlacement : function(error, element) {
+					error.appendTo(element.parent("div").parent(
+							"div"));
 				},
 				errorClass : "control-group has-error text-danger",
 				validClass : "control-group has-success",
@@ -780,7 +827,52 @@
 					}
 				}
 			});
-
+	
+	$("#addressx").validate(
+			{
+				rules : {
+					streetAddress : {
+						required : true
+					},
+					suburb : {
+						required : false
+					},
+					state : {
+						required : false,
+					},
+					addressType : {
+						required : true
+					}
+				},
+				errorPlacement : function(error, element) {
+					error.appendTo(element.parent("div").parent(
+							"div"));
+				},
+				errorClass : "control-group has-error text-danger",
+				validClass : "control-group has-success",
+				errorElement : "span",
+				highlight : function(element, errorClass, validClass) {
+					if (element.type === 'radio') {
+						this.findByName(element.name).parent("div").parent(
+								"div").removeClass(validClass).addClass(
+								errorClass);
+					} else {
+						$(element).parent("div").parent("div").removeClass(
+								validClass).addClass(errorClass);
+					}
+				},
+				unhighlight : function(element, errorClass, validClass) {
+					if (element.type === 'radio') {
+						this.findByName(element.name).parent("div").parent(
+								"div").removeClass(errorClass).addClass(
+								validClass);
+					} else {
+						$(element).parent("div").parent("div").removeClass(
+								errorClass).addClass(validClass);
+					}
+				}
+			});
+	
 	$("#dependent0").validate(
 			{
 				rules : {
@@ -790,7 +882,7 @@
 					lastName : {
 						required : false
 					},
-					primaryEmail : {
+					primaryEmails : {
 						required : false,
 						email : true
 					},
@@ -825,4 +917,12 @@
 					}
 				}
 			});
+	
+			});
+	
+	function addClientId(element){
+	    $(element).attr('href', function() {
+	        return this.href + $('select#clientIdSelected').val();
+	    });
+	}
 </script>

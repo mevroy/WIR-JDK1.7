@@ -24,6 +24,7 @@ import javax.activation.URLDataSource;
 import javax.mail.internet.MimeMessage;
 
 import java.net.URL;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -106,7 +107,7 @@ public class MailSenderUntypedActorImpl implements MailSenderUntypedActor {
 			javaMailSender.setProtocol(groupEmailAccount.getProtocol());
 			javaMailSender.setHost(groupEmailAccount.getHost());
 			javaMailSender.setUsername(groupEmailAccount.getUsername());
-			javaMailSender.setPassword(groupEmailAccount.getPassword());
+			javaMailSender.setPassword(new String(Base64.getDecoder().decode(groupEmailAccount.getPassword())));
 			javaMailSender.setPort(groupEmailAccount.getPort());
 			javaMailSender.setJavaMailProperties(props);
 
@@ -297,7 +298,7 @@ public class MailSenderUntypedActorImpl implements MailSenderUntypedActor {
 			javaMailSender.setProtocol(groupEmailAccount.getProtocol());
 			javaMailSender.setHost(groupEmailAccount.getHost());
 			javaMailSender.setUsername(groupEmailAccount.getUsername());
-			javaMailSender.setPassword(groupEmailAccount.getPassword());
+			javaMailSender.setPassword(new String(Base64.getDecoder().decode(groupEmailAccount.getPassword())));
 			javaMailSender.setPort(groupEmailAccount.getPort());
 			javaMailSender.setJavaMailProperties(props);
 

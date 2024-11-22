@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mrd.framework.data.BaseJpaServiceImpl;
 import com.mrd.yourwebproject.model.entity.GroupAddress;
+import com.mrd.yourwebproject.model.entity.enums.AddressType;
 import com.mrd.yourwebproject.model.repository.GroupAddressRepository;
 import com.mrd.yourwebproject.service.GroupAddressService;
 
@@ -36,4 +37,7 @@ public class GroupAddressServiceImpl extends BaseJpaServiceImpl<GroupAddress, St
 		return groupAddressRepository.findByGroupClient(clientId);
 	}
 
+	public List<GroupAddress> findByGroupClientAndType(String clientId, AddressType type) {
+		return groupAddressRepository.findByGroupClientAndType(clientId, type);
+	}
 }

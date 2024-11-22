@@ -5,32 +5,27 @@
 	var myData = [];
 	var lastsel;
 </script>
-<div class="tabbable">
+	<div class="span12">
+
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="#optionALL" data-toggle="tab">All
-				Clients </a></li>
+		<li class="active"><a href="#optionALL" data-toggle="tab">WIRs
+				</a></li>
 
 	</ul>
 	<div class="tab-content">
-
-		<div class="tab-pane active" id="optionALL">
-			<div class="row">
-				<div class="span12">
+		<div role="presentation" class="active" id="optionALL">
 					<!-- div class="hero-unit">  -->
 					<table id="gridALL"></table>
 					<div id="pgridALL"></div>
 					<!-- /div>  -->
-				</div>
-			</div>
 		</div>
 	</div>
+
 </div>
-
-
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		loadGrid('gridALL', 'ALL', 'All Clients');
+		loadGrid('gridALL', 'ALL', 'All WIRs');
 		var lastsel = "";
 	});
 
@@ -38,84 +33,94 @@
 		jQuery("#" + gridId)
 				.jqGrid(
 						{
-							url : 'json/viewGroupWorkInstructionRecords',
+							url : 'json/viewGroupWorkInstructionRecords<c:if test="${!editable}">Self</c:if>',
 							datatype : "json",
 							colModel : [
+//									{
+// 										label : 'Action',
+// 										name : 'myac',
+// 										width : 35,
+// 										fixed : true,
+// 										sortable : false,
+// 										resize : false,
+// 										formatter : 'actions',
+// 										formatoptions : {
+// 											keys : true,
+// 											editbutton: ${editable},
+// 											delbutton : false,
+// 										editformbutton: ${editable},
+// //  											delOptions : {
+// // 												ajaxDelOptions : {
+// // 													// url: "deleteGroupMember",
+// // 													contentType : 'application/json;charset=utf-8',
+// // 													type : 'POST',
+// // 													datatype : 'json'
+// // 												}
+// // 											},
+// 											editOptions : {
+// 												url : 'json/updateGroupWorkInstructionRecord',
+// 												height : 580,
+// 												width : 540,
+// 												top : 44,
+// 												left : 470,
+// 												dataheight : 490,
+// 												closeAfterEdit: true,
+// 												//modal : true,
+// 												reloadAfterSubmit : true,
+// 												afterSubmit : function(
+// 														response, postdata) {
+// 													var status = false;
+// 													if (response.responseText === "success")
+// 														status = true
+// 													return [ status,
+// 													         response.responseText ];
+// 												}}
+// 										}
+// 									},
 									{
-										label : 'Action',
-										name : 'myac',
-										width : 35,
-										fixed : true,
-										sortable : false,
-										resize : false,
-										formatter : 'actions',
-										formatoptions : {
-											keys : true,
-											editbutton: true,
-											delbutton : false,
-										editformbutton: true,
-//  											delOptions : {
-// 												ajaxDelOptions : {
-// 													// url: "deleteGroupMember",
-// 													contentType : 'application/json;charset=utf-8',
-// 													type : 'POST',
-// 													datatype : 'json'
-// 												}
-// 											},
-											editOptions : {
-												url : 'json/updateGroupWorkInstructionRecord',
-												height : 580,
-												width : 540,
-												top : 44,
-												left : 470,
-												dataheight : 490,
-												closeAfterEdit: true,
-												//modal : true,
-												reloadAfterSubmit : true,
-												afterSubmit : function(
-														response, postdata) {
-													var status = false;
-													if (response.responseText === "success")
-														status = true
-													return [ status,
-													         response.responseText ];
-												}}
-										}
+										label : ' ',
+										name : 'id',
+										index : 'id',
+										width : 80,
+										search : false,
+										sorttype : "string",
+										editable : false,
+										formatter: function(cellValue, options, rowObject) {
+											
+										    var id = rowObject.id;
+										    var url = "groupInstructionRecord?girId="+id ;
+										    return "<a href='"+url+"'  class='btn btn-warning btn-xs' >EDIT</a>"
+										    }
 									},
 									{
 										label : 'Job No',
 										name : 'jobNumber',
 										index : 'jobNumber',
 										sorttype : "string",
-										width : 100,
+										width : 120,
 										sorttype : "string",
-										search : true,
+										searchoptions : {
+											sopt : [ 'bw', 'eq', 'bn', 'cn',
+													'nc', 'ew', 'en' ]
+										},
 										hidden : false,
 										editable : false,
 										formatter: function(cellValue, options, rowObject) {
 											
 										    var id = rowObject.id;
 										    var url = "generateWIRPDF?id="+id ;
-										    return "<a href='#' onclick='window.open(\""+url+"\",\"printwindow\",\"toolbar=no , location=no , width=200, height=200, id=printer, top=100, left=400\");'  class='btn btn-warning btn-mini' >"+rowObject.jobNumber+"</a>"
+										    return "<a href='#' onclick='window.open(\""+url+"\",\"printwindow\",\"toolbar=no , location=no , width=200, height=200, id=printer, top=100, left=400\");'  class='btn btn-warning btn-xs' >"+rowObject.jobNumber+"</a>"
 										    }
 									},
-									{
-										label : 'Order No',
-										name : 'orderNumber',
-										index : 'orderNumber',
-										width : 100,
-										sorttype : "string",
-										search : true,
-										editable : false,
-									},
+									
 									{
 										label : 'Client',
-										name : 'clientName',
-										index : 'clientName',
+										name : 'groupClient.clientName',
+										index : 'groupClient.clientName',
 										sorttype : "string",
 										//frozen : true,
-										width : 100,
-										editable : true,
+										width : 200,
+										editable : false,
 										searchoptions : {
 											sopt : [ 'bw', 'eq', 'bn', 'cn',
 													'nc', 'ew', 'en' ]
@@ -127,16 +132,7 @@
 										name : 'quoteNumber',
 										index : 'quoteNumber',
 										width : 80,
-										editable : false,
-										search : true,
-										sorttype : "string",
-
-									},
-									{
-										label : 'Logged By',
-										name : 'createdBy',
-										index : 'createdBy',
-										width : 80,
+										hidden : true,
 										editable : false,
 										search : true,
 										sorttype : "string",
@@ -148,7 +144,7 @@
 										index : 'material',
 										sorttype : "string",
 										width : 80,
-										hidden : false,
+										hidden : true,
 										editable : true,
 
 									},
@@ -157,6 +153,20 @@
 										name : 'suitableAccess',
 										index : 'suitableAccess',
 										width : 50,
+										hidden : true,
+										sortable : true,
+										editable : true,
+										edittype : "checkbox",
+										formatter : formatBoolean,
+										editoptions : {
+											value : "Yes:No"
+										}
+									},
+									{
+										label : 'NATA Endorsed',
+										name : 'nataEndorsed',
+										index : 'nataEndorsed',
+										width : 70,
 										sortable : true,
 										editable : true,
 										edittype : "checkbox",
@@ -172,6 +182,7 @@
 										width : 50,
 										sortable : true,
 										editable : true,
+										hidden : true,
 										edittype : "checkbox",
 										formatter : formatBoolean,
 										editoptions : {
@@ -184,7 +195,7 @@
 										index : 'ewpAccessEquipment',
 										sorttype : "string",
 										width : 100,
-										hidden : false,
+										hidden : true,
 										editable : true,
 										edittype : "checkbox",
 										formatter : formatBoolean,
@@ -193,21 +204,41 @@
 										}
 									},
 									{
-										label : 'Email',
-										name : 'email',
-										index : 'email',
-										sorttype : "string",
-										width : 140,
-										editable : true,
-										editrules : {
-											email : true
-										}
+										label : 'Assigned To',
+										name : 'groupMember.serialNumber',
+										index : 'groupMember.serialNumber',
+										search : false,
+
+											sorttype : "string",
+											hidden : false,
+											width : 150,
+											formatter: function(cellValue, options, rowObject) {
+												return rowObject.groupMember!= null ? rowObject.groupMember.firstName + ' '+ rowObject.groupMember.lastName : ""
+											},
+											editable : true,
+											edittype : 'select',
+											editoptions : {
+												dataUrl : 'json/viewAllActiveGroupMembers',
+												buildSelect : function(response) {
+													var options = '<select>';
+													options += '<option value="0">Select One</option>';
+													var j = $.parseJSON(response);
+													for (var i = 0; i < j.length; i++) {
+														options += '<option value="' + j[i].serialNumber+'">'
+																+ j[i].firstName +' '+ j[i].lastName
+																+ '</option>';
+													}
+													options += '</select>';
+													return options;
+												}
+											}
 									},
 									{
 										label : 'Mobile Phone',
 										name : 'mobilePhone',
 										index : 'mobilePhone',
 										width : 80,
+										hidden : true,										
 										sortable : false,
 										sorttype : "string",
 										editable : true
@@ -215,6 +246,7 @@
 									{
 										label : 'Job Start Time',
 										name : 'jobStart',
+										search : false,
 										index : 'jobStart',
 										hidden : false,
 										editable : true,
@@ -222,13 +254,13 @@
 										editoptions : {
 											dataInit : datetimePick
 										},
-										width: 100
+										width: 180
 									},
 									{
 										label : 'Job End Time',
 										name : 'jobEnd',
 										index : 'jobEnd',
-										hidden : false,
+										hidden : true,
 										editable : true,
 										formatter : formatDateTime,
 										width : 100,
@@ -244,16 +276,29 @@
 										formatter : formatDateTime,
 										//sorttype : "date",
 										hidden : false,
-										editable : false
-									},
+										search : false,
+										editable : false,
+										width: 180
+
+ 									},
 									{
-										label : 'Created By',
+										label : 'Logged By',
 										name : 'createdBy',
 										index : 'createdBy',
+										width : 120,
+										editable : false,
+										search : true,
 										sorttype : "string",
-										hidden : true,
-										editable : false
+
 									},
+// 									{
+// 										label : 'Created By',
+// 										name : 'createdBy',
+// 										index : 'createdBy',
+// 										sorttype : "string",
+// 										hidden : true,
+// 										editable : false
+// 									},
 									{
 										label : 'ID',
 										name : 'id',
@@ -267,16 +312,16 @@
 							rowNum : 500,
 							rownumbers : true,
 							rownumWidth : 25,
-							width : 937,
+							width : '100%',
 							rowList : [ 250, 500, 1000, 2000 ],
 							pager : '#pgrid' + groupMemCatCode,
 							//sortname : 'firstName',
 							autoencode : true,
 							shrinkToFit : false,
 							viewrecords : true,
+							loadonce : true,
 							//grouping : true,
 							subGrid : true,
-							loadonce : false,
 							groupingView : {
 								groupField : [ 'memberCategoryCode' ],
 								groupColumnShow : [ false ],
@@ -324,12 +369,13 @@
 																fixed : true,
 																sortable : false,
 																resize : false,
+																hidden: true,
 																formatter : 'actions',
 																formatoptions : {
 																	keys : true,
-																	editbutton: true,
+																	editbutton: ${editable},
 																	delbutton : false,
-																editformbutton: true,
+																editformbutton: ${editable},
 																	editOptions : {
 																		url : 'json/updateGroupWorkItem',
 																		height : 580,
@@ -353,7 +399,7 @@
 															{
 																name : "testMethod",
 																index : "testMethod",
-																width : 100,
+																width : 180,
 																editable : true,
 																editrules : {
 																	required : true
@@ -377,7 +423,7 @@
 															{
 																name : "itrDocument",
 																index : "itrDocument",
-																width : 100,
+																width : 200,
 																editable : true,
 																edittype : 'select',
 																editoptions : {
@@ -401,9 +447,10 @@
 															{
 																name : "testStandard",
 																index : "testStandard",
-																width : 100,
+																width : 250,
 																editable : true,
 																edittype : 'select',
+																formatter: splitStringToLinesByCommas,
 																editoptions : {
 																	multiple : true,
 																	dataUrl : '${pageContext.request.contextPath}/loadEmailTemplate/TestMethodStandards',
@@ -423,9 +470,10 @@
 															{
 																name : "acceptanceCriteria",
 																index : "acceptanceCriteria",
-																width : 150,
+																width : 170,
 																editable : true,
 																edittype : 'select',
+																formatter: splitStringToLinesByCommas,																
 																editoptions : {
 																	multiple : true,
 																	dataUrl : '${pageContext.request.contextPath}/loadEmailTemplate/AcceptanceCriteria',
@@ -445,7 +493,7 @@
 															{
 																name : "itemProcedure",
 																index : "itemProcedure",
-																width : 100,
+																width : 120,
 																editable : true,																edittype : 'select',
 																editoptions : {
 																	multiple : true,
@@ -466,7 +514,7 @@
 															{
 																name : "nataClassTest",
 																index : "nataClassTest",
-																width : 100,
+																width : 150,
 																editable : true
 															},
 															{
@@ -488,7 +536,7 @@
 													editurl : "json/updateGroupWorkItem",
 													caption : "Work Items  <a href='generateWIRPDF?id="
 														+ parentId
-														+ "' target='_new' class='btn btn-danger btn-mini' >PRINT WIR</a>"
+														+ "' target='_new' class='btn btn-danger btn-xs' >PRINT WIR</a>"
 												});
 								// 								jQuery("#" + subgrid_table_id).jqGrid(
 								// 										'navGrid', "#" + pager_id, {
@@ -500,7 +548,9 @@
 										.jqGrid(
 												'navGrid',
 												"#" + pager_id,
-												{del:false}, //options
+												{del:false, 
+												add:false, 
+												edit:false}, //add , or edit or delete option flags
 												{
 													height : 400,
 													width : 420,
